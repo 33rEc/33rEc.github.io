@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from './Nav.astro'; import Footer from './Footer.astro';
+import { dict } from '../i18n/index.js';
+import { caseHTML } from '../lib/case.js';
+import { loc } from '../js/data.js';
+const { project: p, lang = 'es' } = Astro.props; const t = dict[lang];
+const base = lang === 'en' ? '/en/work/' : '/trabajo/';
+const alt = { es: `/trabajo/${p.slug}`, en: `/en/work/${p.slug}` };
+const draft = !p.published || p.status === 'oculto';
+---
+<Base title={`${p.client} — ${t.caseStudy.back.replace('← ', '')} | 33r`} description={loc(p, 'challenge', lang)} lang={lang} path={`${base}${p.slug}`} alt={alt} noindex={draft} skip={t.skip}>
+  <Nav t={t} />
+  <main id="main" class="page-case" set:html={caseHTML(p, t)} />
+  <Footer t={t} />
+  <script>import '../scripts/case.js';</script>
+</Base>

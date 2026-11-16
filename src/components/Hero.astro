@@ -1,0 +1,69 @@
+---
+const { t } = Astro.props; const h = t.hero;
+const frags = [
+  { k: 0, cls: 'f1', d: 22 }, { k: 1, cls: 'f2', d: -16 }, { k: 2, cls: 'f3', d: 30 },
+  { k: 3, cls: 'f4', d: -24 }, { k: 4, cls: 'f5', d: 14 }, { k: 5, cls: 'f6', d: -30 },
+];
+---
+<section class="hero" id="top" data-spot aria-labelledby="hero-h">
+  <div class="hero__frags" aria-hidden="true">
+    {frags.map((f) => (
+      <figure class={`frag ${f.cls}`} style={`--d:${f.d}`}>
+        <span class="tag">{h.frags[f.k]}</span>
+        {f.k === 0 && <div class="keys">{Array.from({ length: 9 }, (_, i) => <i class:list={[i === 4 && 'hot']}></i>)}</div>}
+        {f.k === 1 && <div class="stamps">{Array.from({ length: 10 }, (_, i) => <i class:list={[i < 7 && 'on']}></i>)}</div>}
+        {f.k === 2 && <div class="bars"><i style="--w:100%"></i><i style="--w:62%"></i><i style="--w:34%"></i><i style="--w:21%"></i></div>}
+        {f.k === 3 && <div class="steps"><b>1</b><b class="on">2</b><b>3</b></div>}
+        {f.k === 4 && <div class="msgs"><i></i><i></i></div>}
+        {f.k === 5 && <div class="cal">{Array.from({ length: 14 }, (_, i) => <i class:list={[[2, 5, 6, 10].includes(i) && 'on']}></i>)}</div>}
+      </figure>
+    ))}
+  </div>
+  <div class="hero__dim" aria-hidden="true"></div>
+  <div class="hero__halo" aria-hidden="true"></div>
+  <div class="wrap hero__inner">
+    <p class="tag tag--ecto hero__eyebrow">{h.eyebrow}</p>
+    <h1 id="hero-h"><span class="l1">{h.l1}</span> <span class="l2">{h.l2}</span></h1>
+    <p class="hero__sub">{h.sub}</p>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="#demo" data-track="demo_cta_click" data-where="hero">{h.cta1}</a>
+      <a class="btn" href="#trabajo">{h.cta2}</a>
+    </div>
+    <p class="hero__hint tag" data-hint-mouse={h.hintMouse} data-hint-touch={h.hintTouch}>{h.hintMouse}</p>
+    <button type="button" class="hero__gyro tag" hidden data-gyro data-on={h.gyroOff} data-off={h.gyro}>{h.gyro}</button>
+  </div>
+</section>
+<style>
+  .hero { --rad: clamp(190px, 28vw, 360px); --mx: 50%; --my: 42%; position: relative; min-height: 100svh; display: grid; align-items: end; overflow: hidden; isolation: isolate; touch-action: pan-y; padding: 8rem 0 clamp(3rem, 7vw, 5rem); }
+  .hero__dim { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: radial-gradient(circle var(--rad) at var(--mx) var(--my), rgba(10,10,12,0) 0%, rgba(10,10,12,.3) 45%, rgba(10,10,12,.84) 100%); }
+  .hero__halo { position: absolute; inset: 0; z-index: 3; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(circle calc(var(--rad) * .85) at var(--mx) var(--my), rgba(156,246,212,.14), rgba(169,155,255,.06) 55%, transparent 74%); }
+  .hero__inner { position: relative; z-index: 4; display: grid; gap: 1.5rem; max-width: var(--maxw); }
+  .hero__eyebrow { animation: mat .9s var(--ease) both; }
+  h1 { font-size: clamp(2.6rem, 1rem + 6.4vw, 6.6rem); line-height: .98; letter-spacing: -.035em; max-width: 16ch; }
+  h1 .l1, h1 .l2 { display: block; animation: mat 1s var(--ease) both; }
+  h1 .l2 { color: var(--ash); animation-delay: .18s; }
+  .hero__sub { font-size: var(--step-1); color: var(--bone); max-width: 38ch; opacity: .92; animation: mat 1s var(--ease) .35s both; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .5rem; animation: mat 1s var(--ease) .5s both; }
+  .hero__hint { margin-top: 1rem; }
+  .hero__gyro { justify-self: start; background: none; border: 1px solid var(--mist); border-radius: 999px; padding: .7em 1.1em; min-height: 40px; cursor: pointer; color: var(--bone); }
+  @keyframes mat { from { opacity: .0; filter: blur(9px); } to { opacity: 1; filter: blur(0); } }
+  @media (prefers-reduced-motion: reduce) { .hero__eyebrow, h1 .l1, h1 .l2, .hero__sub, .hero__cta { animation: none; } }
+
+  /* fragmentos de mecánicas flotando */
+  .hero__frags { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .frag { opacity: .72; --px: 0; --py: 0; position: absolute; margin: 0; width: clamp(130px, 16vw, 220px); padding: .9rem; border-radius: 12px; background: var(--graphite); border: 1px solid var(--mist); display: grid; gap: .7rem;
+    transform: translate3d(calc(var(--px) * var(--d) * 1px), calc(var(--py) * var(--d) * 1px), 0); }
+  .frag::before { content: ''; position: absolute; inset: -1px; border-radius: 12px; border: 1px solid var(--ecto); opacity: .22; pointer-events: none;
+    transform: translate3d(calc(var(--px) * var(--d) * -.9px), calc(var(--py) * var(--d) * -.9px), 0); transition: transform .9s var(--ease); }  /* estela (afterimage) */
+  .f1 { top: 13%; right: 5%; } .f2 { top: 47%; right: 7%; } .f3 { top: 12%; right: 26%; }
+  .f4 { top: 70%; right: 30%; } .f5 { top: 33%; right: 3%; } .f6 { top: 72%; right: 5%; }
+  @media (max-width: 760px) { .f2, .f6, .f4 { display: none; } .f1 { top: 11%; right: 4%; } .f3 { top: 11%; left: 4%; right: auto; } .f5 { top: 34%; right: 4%; } .frag { width: 124px; } }
+  .keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; } .keys i { aspect-ratio: 1.4; border-radius: 4px; background: var(--mist); } .keys i.hot { background: var(--ecto); }
+  .stamps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; } .stamps i { aspect-ratio: 1; border-radius: 50%; border: 1px dashed var(--ash); } .stamps i.on { background: var(--ecto); border: 0; }
+  .bars { display: grid; gap: 5px; } .bars i { height: 8px; width: var(--w); background: var(--mist); border-radius: 3px; } .bars i:first-child { background: var(--ecto); }
+  .steps { display: flex; gap: 6px; } .steps b { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 600 .7rem var(--f-mono); background: var(--mist); } .steps b.on { background: var(--ecto); color: var(--ink); }
+  .msgs { display: grid; gap: 5px; } .msgs i { height: 12px; border-radius: 6px; background: var(--mist); width: 80%; } .msgs i + i { background: var(--ecto); opacity: .85; width: 55%; justify-self: end; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; } .cal i { aspect-ratio: 1; border-radius: 3px; background: var(--mist); } .cal i.on { background: var(--ecto); }
+</style>

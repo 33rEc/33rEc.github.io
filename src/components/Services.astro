@@ -1,0 +1,30 @@
+---
+const { t } = Astro.props; const s = t.services;
+---
+<section class="section services" id="servicios" aria-labelledby="serv-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag tag--ecto materialize">{s.eyebrow}</p>
+      <h2 id="serv-h" class="materialize" style="--d:.1s">{s.title}</h2>
+    </div>
+    <div class="blocks">
+      {s.blocks.map(([n, h, p, ex], i) => (
+        <article class="card block materialize materialize--rise" style={`--d:${(i % 2) * 0.12}s`}>
+          <span class="tag tag--ecto">{n}</span>
+          <h3>{h}</h3>
+          <p class="muted">{p}</p>
+          <ul>{ex.map((e) => <li>{e}</li>)}</ul>
+        </article>
+      ))}
+    </div>
+    <p class="tag stack">{s.stack}</p>
+  </div>
+</section>
+<style>
+  .blocks { display: grid; gap: 1rem; } @media (min-width: 820px) { .blocks { grid-template-columns: 1fr 1fr; } }
+  .block { display: grid; gap: 1rem; align-content: start; padding: clamp(1.5rem, 3vw, 2.25rem); }
+  .block h3 { font-size: var(--step-3); }
+  .block ul { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .6rem; }
+  .block li { padding: .7rem 0 0; border-top: 1px solid var(--mist); font-size: .98rem; display: flex; gap: .7rem; } .block li::before { content: '↳'; color: var(--ecto); font-family: var(--f-mono); }
+  .stack { margin-top: 2rem; }
+</style>

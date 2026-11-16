@@ -1,0 +1,24 @@
+---
+const { t } = Astro.props; const e = t.egg;
+---
+<dialog id="egg" aria-labelledby="egg-h">
+  <div class="egg__light" aria-hidden="true"></div>
+  <div class="egg__card" role="document">
+    <p class="tag tag--ecto">33r</p>
+    <h2 id="egg-h" class="grad-text">{e.title}</h2>
+    <p>{e.text}</p>
+    <div class="egg__cta">
+      <a class="btn btn--primary" href="#demo" data-egg-close data-track="demo_cta_click" data-where="easter-egg">{e.cta}</a>
+      <button type="button" class="btn" data-egg-close>{e.close}</button>
+    </div>
+  </div>
+</dialog>
+<style>
+  #egg { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--bone); overflow: hidden; }
+  #egg::backdrop { background: transparent; }
+  .egg__light { --r: 0px; --dark: .97; position: absolute; inset: 0; background: radial-gradient(circle at var(--ex, 50%) var(--ey, 50%), rgba(10,10,12,0) 0, rgba(10,10,12,0) var(--r), rgba(10,10,12,calc(var(--dark))) calc(var(--r) + 14vmax)); }
+  .egg__light::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle calc(var(--r) * .6) at var(--ex, 50%) var(--ey, 50%), rgba(156,246,212,.12), rgba(169,155,255,.06) 60%, transparent 80%); }
+  .egg__card { position: absolute; inset: 0; margin: auto; width: min(90vw, 520px); height: fit-content; padding: 2rem; border: 1px solid var(--ecto); border-radius: 18px; background: rgba(10,10,12,.92); display: grid; gap: 1rem; opacity: 0; transform: scale(.96); transition: opacity .8s var(--ease), transform .8s var(--ease); box-shadow: 0 0 90px -20px rgba(156,246,212,.4); }
+  .egg__card.on { opacity: 1; transform: none; } .egg__card h2 { font-size: var(--step-4); } .egg__cta { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: .5rem; }
+  @media (prefers-reduced-motion: reduce) { .egg__card { transition: none; } }
+</style>

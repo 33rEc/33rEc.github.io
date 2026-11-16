@@ -22,8 +22,8 @@
   --step-1: clamp(1.25rem, 1.15rem + .5vw, 1.5rem);
   --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.2rem);
   --step-3: clamp(2.2rem, 1.7rem + 2.5vw, 3.6rem);
-  --step-4: clamp(2.8rem, 1.8rem + 5vw, 6rem);
-  --step-5: clamp(3.2rem, 1.4rem + 9vw, 9.5rem);
+  --step-4: clamp(2.3rem, 1.4rem + 3.6vw, 4.5rem);
+  --step-5: clamp(2.8rem, 1.2rem + 6vw, 6.2rem);
 
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --maxw: 1280px;
@@ -40,6 +40,7 @@ body {
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
 img, svg, video { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
 a { color: inherit; }
 ::selection { background: var(--ecto); color: var(--ink); }
 
@@ -92,3 +93,33 @@ p { margin: 0; text-wrap: pretty; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }
+
+/* ---- Utilidades de sección y "materializar" (aparece, no entra deslizando) ---- */
+.section { padding-block: clamp(4.5rem, 11vw, 9rem); position: relative; }
+.section__head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 5vw, 4rem); max-width: 56rem; }
+.section__head h2 { font-size: var(--step-4); }
+.section__head p { color: var(--ash); max-width: 52ch; }
+html.js .materialize { opacity: 0; filter: blur(10px); transition: opacity 1s var(--ease), filter 1.1s var(--ease); transition-delay: var(--d, 0s); }
+html.js .materialize.in { opacity: 1; filter: blur(0); }
+html.js .materialize--rise { transform: scale(.985); transition-property: opacity, filter, transform; }
+html.js .materialize--rise.in { transform: none; }
+@media (prefers-reduced-motion: reduce) { html.js .materialize { opacity: 1; filter: none; transform: none; } }
+.grad-text { background: var(--spectral); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.mist { position: absolute; inset: 0; pointer-events: none; }
+
+/* ---- Caso de estudio (plantilla única) ---- */
+.page-case main { padding-top: 7rem; }
+.cs { display: grid; gap: clamp(2.5rem, 7vw, 5rem); padding-bottom: 4rem; }
+.cs-hero { display: grid; gap: 1.2rem; justify-items: start; } .cs-hero h1 { font-size: var(--step-5); max-width: 16ch; }
+.cs-badges { display: flex; gap: .5rem; } .cs-star { display: grid; gap: .4rem; font-size: var(--step-1); max-width: 36ch; }
+.badge { font: 500 .64rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: .4em .7em; border-radius: 999px; background: rgba(10,10,12,.85); border: 1px solid var(--mist); }
+.badge--live { color: var(--ecto); border-color: var(--ecto); } .badge--draft { border-style: dashed; }
+.cs-grid { display: grid; gap: 2rem; } @media (min-width: 860px) { .cs-grid { grid-template-columns: 1fr 1fr; } .cs-wide { grid-column: 1 / -1; } }
+.cs-grid > div { display: grid; gap: .8rem; align-content: start; } .cs-p { font-size: var(--step-1); max-width: 40ch; } .cs-big { font: 600 var(--step-3)/1.1 var(--f-display); letter-spacing: -.02em; max-width: 26ch; }
+.cs-screens { display: grid; gap: 1rem; margin-top: 1rem; } @media (min-width: 760px) { .cs-screens { grid-template-columns: 1fr 1.5fr; } }
+.cs-screen { margin: 0; display: grid; gap: .6rem; } .cs-screen img, .cs-ph { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--mist); background: var(--graphite); }
+.cs-screen:last-child img, .cs-screen:last-child .cs-ph { aspect-ratio: 16 / 10; } .cs-ph { display: grid; place-items: center; border-style: dashed; }
+.cs-mech { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: .6rem; } .cs-mech li { padding: .6em 1em; border: 1px solid var(--mist); border-radius: 999px; background: var(--graphite); }
+.cs-metrics { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); } .cs-metrics li { display: grid; gap: .4rem; border-top: 1px solid var(--mist); padding-top: 1rem; } .cs-metrics b { font: 600 var(--step-4) var(--f-display); letter-spacing: -.03em; }
+.cs section.wrap { display: grid; gap: 1rem; justify-items: start; }
+.cs-cta { padding-block: 3rem; border-top: 1px solid var(--mist); } .cs-cta h2 { font-size: var(--step-4); max-width: 14ch; }

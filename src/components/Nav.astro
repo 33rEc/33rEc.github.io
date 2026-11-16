@@ -1,0 +1,34 @@
+---
+import Logo from './Logo.astro';
+const { t } = Astro.props;
+const switchHref = t.other;
+---
+<header class="nav" data-nav>
+  <div class="wrap nav__in">
+    <a class="nav__logo" href={t.home} aria-label={t.a11y.logo} data-egg-logo><Logo uid="nav" animated={false} sw={4.2} /></a>
+    <nav class="nav__links" aria-label="Principal">
+      {t.nav.items.map(([href, label]) => <a href={`${t.home}${href}`}>{label}</a>)}
+    </nav>
+    <div class="nav__right">
+      <a class="lang" href={switchHref} hreflang={t.lang === 'es' ? 'en' : 'es'} lang={t.lang === 'es' ? 'en' : 'es'} aria-label={t.langLabel}>
+        <span class:list={[t.lang === 'es' && 'on']}>ES</span><i>/</i><span class:list={[t.lang === 'en' && 'on']}>EN</span>
+      </a>
+      <a class="btn btn--primary nav__cta" href="#demo" data-track="demo_cta_click" data-where="nav">{t.nav.cta}</a>
+    </div>
+  </div>
+</header>
+<style>
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; background: linear-gradient(to bottom, rgba(10,10,12,.88), rgba(10,10,12,0)); transition: background .3s, backdrop-filter .3s; }
+  .nav.is-solid { background: rgba(10,10,12,.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--mist); }
+  .nav__in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
+  .nav__logo { display: block; width: 66px; padding: 10px 0; }
+  .nav__links { display: none; gap: 1.75rem; font: 500 .72rem var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .nav__links a { color: var(--ash); text-decoration: none; transition: color .2s; padding: .5rem 0; }
+  .nav__links a:hover { color: var(--bone); }
+  .nav__right { display: flex; align-items: center; gap: .9rem; }
+  .lang { font: 500 .72rem var(--f-mono); letter-spacing: .1em; text-decoration: none; color: var(--ash); padding: .6rem .3rem; display: inline-flex; gap: .3em; }
+  .lang .on { color: var(--bone); } .lang i { font-style: normal; opacity: .5; }
+  .nav__cta { min-height: 40px; padding: .6em 1.1em; font-size: .82rem; }
+  @media (min-width: 960px) { .nav__links { display: flex; } }
+  @media (max-width: 420px) { .nav__cta { padding: .55em .9em; font-size: .76rem; } }
+</style>

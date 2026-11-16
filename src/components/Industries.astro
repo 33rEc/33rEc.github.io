@@ -1,0 +1,26 @@
+---
+import { industries } from '../i18n/index.js';
+const { t } = Astro.props; const i = t.industries; const w = t.work;
+---
+<section class="section industries" id="industrias" aria-labelledby="ind-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag tag--ecto materialize">{i.eyebrow}</p>
+      <h2 id="ind-h" class="materialize" style="--d:.1s">{i.title}</h2>
+      <p class="materialize" style="--d:.2s">{i.hint}</p>
+    </div>
+    <ul class="mosaic">
+      {industries.map((k, n) => (
+        <li class="materialize" style={`--d:${n * 0.06}s`}>
+          <button type="button" data-ind={k}><b>{w.industries[k]}</b><span class="tag">{i.notes[k]}</span><i aria-hidden="true">→</i></button>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .mosaic { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+  .mosaic button { width: 100%; text-align: left; display: grid; gap: .5rem; padding: 1.4rem; border-radius: var(--radius); border: 1px solid var(--mist); background: var(--graphite); color: var(--bone); cursor: pointer; position: relative; font: inherit; transition: border-color .3s, transform .4s var(--ease); min-height: 120px; align-content: end; }
+  .mosaic button:hover { border-color: var(--ecto); transform: translateY(-3px); } .mosaic b { font: 600 var(--step-1) var(--f-display); }
+  .mosaic i { position: absolute; top: 1.1rem; right: 1.2rem; font-style: normal; color: var(--ecto); font-family: var(--f-mono); }
+</style>

@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from './Nav.astro'; import Hero from './Hero.astro'; import Manifesto from './Manifesto.astro'; import Duo from './Duo.astro';
+import Edge from './Edge.astro'; import Work from './Work.astro'; import Services from './Services.astro'; import Process from './Process.astro';
+import Industries from './Industries.astro'; import Who from './Who.astro'; import Demo from './Demo.astro'; import Footer from './Footer.astro'; import Egg from './Egg.astro';
+import { dict } from '../i18n/index.js';
+const { lang = 'es' } = Astro.props; const t = dict[lang];
+---
+<Base title={t.meta.title} description={t.meta.description} ogTitle={t.meta.og} lang={lang} path={t.home} alt={{ es: '/', en: '/en/' }} skip={t.skip}>
+  <Nav t={t} />
+  <main id="main">
+    <Hero t={t} /><Manifesto t={t} /><Duo t={t} /><Edge t={t} /><Work t={t} /><Services t={t} /><Process t={t} /><Industries t={t} /><Who t={t} /><Demo t={t} />
+  </main>
+  <Footer t={t} />
+  <Egg t={t} />
+  <script>import '../scripts/home.js';</script>
+</Base>

@@ -1,0 +1,193 @@
+/* Titulares evaluados (ver CONTEXTO-CLAUDE.md):
+   V1 "Una pantalla que vende. Otra que controla."   ← ELEGIDO: es la idea central, se entiende en 2 s y es memorable.
+   V2 "Primero lo ves funcionando. Después decides." — fuerte, pero habla del proceso, no de lo que entregamos.
+   V3 "Detrás de cada negocio que crece hay un sistema que no se ve." — el más misterioso, pero abstracto en el primer pantallazo. */
+
+export const industries = ['gastronomia', 'eventos', 'retail', 'salud', 'gobierno_tech', 'marca_propia'];
+export const types = ['landing', 'panel', 'fidelizacion', 'ecommerce', 'minijuego', 'a_medida'];
+
+const es = {
+  lang: 'es', locale: 'es_EC', home: '/', other: '/en/', workBase: '/trabajo/', adminLabel: 'Panel',
+  meta: {
+    title: '33r — Webs que venden y sistemas que controlan | Estudio digital en Ambato, Ecuador',
+    description: 'Desarrollo de landing pages en Ecuador, sistemas de fidelización para restaurantes y CRM para negocios pequeños. Primero ves tu demo funcionando en tu celular; si no te convence, no pagas.',
+    og: '33r — Una pantalla que vende. Otra que controla.',
+  },
+  skip: 'Saltar al contenido', langLabel: 'Idioma',
+  nav: { items: [['#sistema', 'Sistema'], ['#trabajo', 'Trabajo'], ['#servicios', 'Servicios'], ['#proceso', 'Cómo trabajamos'], ['#quienes', 'Quiénes']], cta: 'Pide tu demo gratis', menu: 'Menú' },
+  hero: {
+    eyebrow: 'Estudio digital · Ambato, Ecuador · LatAm',
+    l1: 'Una pantalla que vende.', l2: 'Otra que controla.',
+    sub: 'Tu cliente ve una experiencia que lo hace comprar. Tú ves exactamente qué pasa en tu negocio. Antes de pagar, ves tu demo funcionando en tu celular.',
+    cta1: 'Pide tu demo gratis', cta2: 'Ver trabajo',
+    hintMouse: 'Mueve el cursor. Hay algo en la oscuridad.', hintTouch: 'Desliza el dedo. Hay algo en la oscuridad.',
+    gyro: 'Activar linterna con movimiento', gyroOff: 'Desactivar movimiento',
+    frags: ['Pedido en 3 toques', 'Pasaporte · 7 de 10 sellos', 'Embudo de hoy', 'Arma tu fiesta', 'Campaña por WhatsApp', 'Disponibilidad'],
+    fragNote: 'Mecánicas que construimos · ilustrativo',
+  },
+  manifesto: {
+    label: 'Manifiesto',
+    lines: ['No hacemos páginas web.', 'Construimos sistemas con dos caras.', 'Una hace que tu cliente compre.', 'La otra te dice, al minuto, qué está pasando.'],
+    sign: 'Tú ves el resultado. Nosotros casi no nos vemos.',
+  },
+  duo: {
+    eyebrow: 'Demostración en 10 segundos', title: 'Toca el celular. Mira el panel.',
+    intro: 'Agrega algo al pedido y pulsa «Pedir». El panel del dueño reacciona en vivo. Así de directo es lo que construimos.',
+    phoneLabel: 'Lo que ve tu cliente', panelLabel: 'Lo que ves tú', demoNote: 'Demo interactiva · datos simulados',
+    shop: 'Casa Demo', shopSub: 'Pide en 3 toques', add: 'Agregar', remove: 'Quitar', order: 'Pedir', empty: 'Tu pedido está vacío', total: 'Total', thanks: '¡Pedido enviado!', again: 'Hacer otro',
+    items: [['Pizza de la casa', 9.5], ['Cerveza artesanal', 4], ['Nachos con queso', 6.5], ['Postre del día', 3.5]],
+    kpis: { sales: 'Ventas de hoy', orders: 'Pedidos', ticket: 'Ticket promedio' },
+    funnel: 'Embudo de hoy', funnelSteps: ['Visitas', 'Agregan al carrito', 'Inician pedido', 'Pagan'],
+    live: 'En vivo', feed: 'Últimos pedidos', order_word: 'Pedido', newCustomer: 'Cliente nuevo', returning: 'Recurrente',
+    currency: 'USD', locale: 'es-EC',
+  },
+  edge: {
+    eyebrow: 'Por qué 33r', title: 'Velocidad de estudio pequeño. Nivel de agencia grande.',
+    items: [
+      ['Primero lo ves funcionando', 'Antes de pagar construimos una demo real de tu negocio, con tu marca y tu caso. La pruebas en tu celular. Si no te convence, no pagas.'],
+      ['Diseñado para cómo compra tu cliente', 'Estudiamos el comportamiento de tu consumidor antes de diseñar. Una licorería, un restaurante de autor y una clínica no se venden igual.'],
+      ['Datos desde el día uno', 'Cada sistema mide embudos, recurrencia y ticket. Sabes qué funciona y qué no, sin adivinar.'],
+      ['Días, no semanas', 'Usamos IA en el proceso para entregar en días lo que antes tomaba semanas, sin recortar en criterio ni en calidad.'],
+    ],
+  },
+  work: {
+    eyebrow: 'Trabajo', title: 'Sistemas en funcionamiento',
+    intro: 'Landings, paneles y experiencias hechos a la medida de cómo compra cada cliente.',
+    fIndustry: 'Industria', fType: 'Tipo de solución', all: 'Todas', allM: 'Todos', clear: 'Quitar filtros',
+    industries: { gastronomia: 'Gastronomía', eventos: 'Eventos', retail: 'Retail', salud: 'Salud y bienestar', gobierno_tech: 'Gobierno / Tech', marca_propia: 'Marca propia' },
+    types: { landing: 'Landing', panel: 'Panel / CRM', fidelizacion: 'Fidelización', ecommerce: 'E-commerce', minijuego: 'Minijuego', a_medida: 'A medida' },
+    live: 'En vivo', study: 'Caso de estudio', visit: 'Ver sitio', open: 'Ver caso', star: 'Mecánica estrella', result: 'Resultado',
+    emptyTitle: 'Estamos preparando los primeros casos.', emptyText: 'Cada proyecto se publica con permiso del cliente. Mientras tanto, la mejor prueba es tu propia demo.', emptyCta: 'Pide tu demo gratis',
+    noMatch: 'Ningún proyecto coincide con ese filtro.', loading: 'Cargando proyectos…', draft: 'Borrador', demo: 'captura pendiente',
+  },
+  caseStudy: {
+    back: '← Todo el trabajo', challenge: 'El reto', target: 'Cliente objetivo', idea: 'La idea', screens: 'Las dos pantallas', sell: 'La pantalla que vende', control: 'La pantalla que controla', mechanics: 'Mecánicas', results: 'Resultados', live: 'Ver en vivo', pending: 'Resultados en medición.', cta: '¿Tu negocio es el siguiente?', ctaBtn: 'Pide tu demo gratis', notFound: 'No encontramos ese proyecto.', draftNote: 'Borrador · no público',
+  },
+  services: {
+    eyebrow: 'Servicios', title: 'Qué construimos',
+    blocks: [
+      ['01', 'Webs que venden', 'Landings de alta conversión con una mecánica pensada para cómo compra tu cliente.', ['Configurador «arma tu fiesta» con cotización automática', 'Pedidos en 3 toques con grilla tipo teclado', 'Menús digitales y catálogos con pedido directo']],
+      ['02', 'Sistemas que controlan', 'Paneles internos a medida: sabes qué pasa sin preguntarle a nadie.', ['CRM de clientes con segmentación y campañas por WhatsApp', 'Cotizaciones, calendario y disponibilidad', 'Finanzas con roles (cocina, contabilidad, marketing) y dashboards']],
+      ['03', 'Experiencias que fidelizan', 'Mecánicas que hacen volver y dejan datos de quién vuelve.', ['Tarjeta de fidelización tipo pasaporte', 'Minijuegos que captan registros', 'Suscripciones y recompra programada']],
+      ['04', 'Tecnología a medida', 'Cuando la plantilla no alcanza, lo construimos.', ['Monitoreo de infraestructura y datos en tiempo real, incluso con conectividad satelital', 'Automatización de prospección', 'Plantillas por nicho: dental, gastronomía, eventos, retail y bienestar, con IA donde aporta']],
+    ],
+    stack: 'Stack: GitHub · Supabase (SQL) · PWA · despliegue rápido',
+  },
+  process: {
+    eyebrow: 'Cómo trabajamos', title: 'De tu idea a tu demo, en días.',
+    steps: [['Nos cuentas tu negocio', '15 minutos. Quién te compra, cómo y por qué.'], ['Construimos tu demo real', 'En días, con tu marca y tu caso. No una plantilla genérica.'], ['La pruebas en tu celular', 'La usas como la usaría tu cliente.'], ['Ajustamos y lanzamos', 'Afinamos contigo y salimos al aire.'], ['Medimos y mejoramos', 'Embudos, recurrencia y ticket para decidir con datos.']],
+    promise: 'Si la demo no te convence, no pagas.',
+  },
+  industries: {
+    eyebrow: 'Industrias', title: 'Nichos donde ya construimos', hint: 'Toca uno y filtramos el trabajo.',
+    notes: { gastronomia: 'Pedidos, fidelización, menús', eventos: 'Configuradores y cotizaciones', retail: 'Catálogo y recompra', salud: 'Citas y confianza', gobierno_tech: 'Monitoreo y datos', marca_propia: 'Nuestras propias marcas' },
+  },
+  who: {
+    title: 'Somos dos. Casi no nos verás.', text: 'Los protagonistas son los negocios de nuestros clientes y sus resultados. Nosotros estamos detrás de cada sistema.', hint: 'Acerca el cursor o el dedo.',
+  },
+  demo: {
+    eyebrow: 'Pide tu demo', title: 'Primero lo ves funcionando.', intro: 'Cuéntanos de tu negocio. Construimos tu demo real y la pruebas en tu celular. Si no te convence, no pagas.',
+    fields: { name: 'Tu nombre', business: 'Tu negocio', link: 'Instagram o web (opcional)', linkPh: '@tunegocio o https://…', goal: '¿Qué quieres lograr?', country: 'País', whatsapp: 'WhatsApp' },
+    goals: [['vender', 'Vender más online'], ['fidelizar', 'Fidelizar clientes'], ['ordenar', 'Ordenar mi operación'], ['medida', 'Algo a medida']],
+    choose: 'Elige una opción', submit: 'Pedir mi demo gratis', sending: 'Enviando…', or: 'o escríbenos directo', wa: 'Escribir por WhatsApp', waMsg: 'Hola 33r, quiero mi demo gratis.',
+    okTitle: 'Recibido. Gracias.', okText: 'Siguiente paso: te escribimos por WhatsApp para una charla de 15 minutos sobre tu negocio. Con eso construimos tu demo.', okNote: 'Revisa tu WhatsApp.',
+    err: 'No pudimos enviar tu solicitud ahora mismo. Inténtalo de nuevo o escríbenos directo.', errRequired: 'Completa este campo.', noteSecure: 'Usamos tus datos solo para contactarte sobre tu demo.',
+  },
+  footer: { tag: 'Estudio de soluciones digitales de marketing y tecnología.', location: 'Ambato, Ecuador — trabajamos en todo LatAm', rights: 'Todos los derechos reservados.', nav: 'Navegación' },
+  egg: { title: 'Sabías dónde mirar.', text: 'A los que nos encuentran en la oscuridad, la demo les sale por nuestra cuenta.', cta: 'Reclamar mi demo', close: 'Cerrar', hint: 'Pista: escribe «33r» o toca el logo tres veces.' },
+  a11y: { logo: '33r — inicio', lang: { es: 'Español', en: 'English' } },
+};
+
+const en = {
+  lang: 'en', locale: 'en_US', home: '/en/', other: '/', workBase: '/en/work/', adminLabel: 'Admin',
+  meta: {
+    title: '33r — Websites that sell, systems that control | Digital studio, Ecuador & LatAm',
+    description: 'High-conversion landing pages, loyalty systems for restaurants and custom CRMs for small businesses. See your demo working on your phone first; if it doesn’t convince you, you don’t pay.',
+    og: '33r — One screen that sells. Another that controls.',
+  },
+  skip: 'Skip to content', langLabel: 'Language',
+  nav: { items: [['#sistema', 'System'], ['#trabajo', 'Work'], ['#servicios', 'Services'], ['#proceso', 'How we work'], ['#quienes', 'Who']], cta: 'Get your free demo', menu: 'Menu' },
+  hero: {
+    eyebrow: 'Digital studio · Ambato, Ecuador · LatAm',
+    l1: 'One screen that sells.', l2: 'Another that controls.',
+    sub: 'Your customer sees an experience that makes them buy. You see exactly what is happening in your business. Before you pay, you see your demo working on your phone.',
+    cta1: 'Get your free demo', cta2: 'See work',
+    hintMouse: 'Move your cursor. Something is in the dark.', hintTouch: 'Swipe your finger. Something is in the dark.',
+    gyro: 'Enable motion flashlight', gyroOff: 'Disable motion',
+    frags: ['3-tap ordering', 'Passport · 7 of 10 stamps', 'Today’s funnel', 'Build your party', 'WhatsApp campaign', 'Availability'],
+    fragNote: 'Mechanics we build · illustrative',
+  },
+  manifesto: {
+    label: 'Manifesto',
+    lines: ['We don’t make websites.', 'We build systems with two faces.', 'One makes your customer buy.', 'The other tells you, minute by minute, what is happening.'],
+    sign: 'You see the result. You barely see us.',
+  },
+  duo: {
+    eyebrow: '10-second demo', title: 'Tap the phone. Watch the dashboard.',
+    intro: 'Add something to the order and press “Order”. The owner’s dashboard reacts live. That is how direct what we build is.',
+    phoneLabel: 'What your customer sees', panelLabel: 'What you see', demoNote: 'Interactive demo · simulated data',
+    shop: 'Demo House', shopSub: 'Order in 3 taps', add: 'Add', remove: 'Remove', order: 'Order', empty: 'Your order is empty', total: 'Total', thanks: 'Order sent!', again: 'Order again',
+    items: [['House pizza', 9.5], ['Craft beer', 4], ['Nachos with cheese', 6.5], ['Dessert of the day', 3.5]],
+    kpis: { sales: 'Sales today', orders: 'Orders', ticket: 'Average ticket' },
+    funnel: 'Today’s funnel', funnelSteps: ['Visits', 'Add to cart', 'Start checkout', 'Pay'],
+    live: 'Live', feed: 'Latest orders', order_word: 'Order', newCustomer: 'New customer', returning: 'Returning',
+    currency: 'USD', locale: 'en-US',
+  },
+  edge: {
+    eyebrow: 'Why 33r', title: 'Small-studio speed. Big-agency level.',
+    items: [
+      ['You see it working first', 'Before you pay we build a real demo of your business, with your brand and your case. You try it on your phone. If it doesn’t convince you, you don’t pay.'],
+      ['Designed for how your customer buys', 'We study your consumer’s behavior before designing. A liquor store, a fine-dining restaurant and a clinic are not sold the same way.'],
+      ['Data from day one', 'Every system measures funnels, recurrence and ticket. You know what works and what doesn’t, without guessing.'],
+      ['Days, not weeks', 'We use AI in the process to deliver in days what used to take weeks, without cutting corners on judgment or quality.'],
+    ],
+  },
+  work: {
+    eyebrow: 'Work', title: 'Systems in production',
+    intro: 'Landings, dashboards and experiences tailored to how each customer buys.',
+    fIndustry: 'Industry', fType: 'Solution type', all: 'All', allM: 'All', clear: 'Clear filters',
+    industries: { gastronomia: 'Food & beverage', eventos: 'Events', retail: 'Retail', salud: 'Health & wellness', gobierno_tech: 'Government / Tech', marca_propia: 'Own brand' },
+    types: { landing: 'Landing', panel: 'Dashboard / CRM', fidelizacion: 'Loyalty', ecommerce: 'E-commerce', minijuego: 'Mini-game', a_medida: 'Custom' },
+    live: 'Live', study: 'Case study', visit: 'Visit site', open: 'View case', star: 'Star mechanic', result: 'Result',
+    emptyTitle: 'We are preparing the first cases.', emptyText: 'Every project is published with the client’s permission. Meanwhile, the best proof is your own demo.', emptyCta: 'Get your free demo',
+    noMatch: 'No project matches that filter.', loading: 'Loading projects…', draft: 'Draft', demo: 'screenshot pending',
+  },
+  caseStudy: {
+    back: '← All work', challenge: 'The challenge', target: 'Target customer', idea: 'The idea', screens: 'The two screens', sell: 'The screen that sells', control: 'The screen that controls', mechanics: 'Mechanics', results: 'Results', live: 'View live', pending: 'Results being measured.', cta: 'Is your business next?', ctaBtn: 'Get your free demo', notFound: 'We could not find that project.', draftNote: 'Draft · not public',
+  },
+  services: {
+    eyebrow: 'Services', title: 'What we build',
+    blocks: [
+      ['01', 'Websites that sell', 'High-conversion landings with a mechanic designed for how your customer buys.', ['“Build your party” configurator with automatic quote', '3-tap ordering with a keypad-style grid', 'Digital menus and catalogs with direct ordering']],
+      ['02', 'Systems that control', 'Custom internal dashboards: know what’s happening without asking anyone.', ['Customer CRM with segmentation and WhatsApp campaigns', 'Quotes, calendar and availability', 'Finance with roles (kitchen, accounting, marketing) and dashboards']],
+      ['03', 'Experiences that retain', 'Mechanics that bring people back and tell you who returns.', ['Passport-style loyalty card', 'Mini-games that capture sign-ups', 'Subscriptions and scheduled reorders']],
+      ['04', 'Custom technology', 'When a template isn’t enough, we build it.', ['Infrastructure monitoring and real-time data, even over satellite connectivity', 'Prospecting automation', 'Niche templates: dental, food, events, retail and wellness, with AI where it helps']],
+    ],
+    stack: 'Stack: GitHub · Supabase (SQL) · PWA · fast deployment',
+  },
+  process: {
+    eyebrow: 'How we work', title: 'From your idea to your demo, in days.',
+    steps: [['You tell us about your business', '15 minutes. Who buys from you, how and why.'], ['We build your real demo', 'In days, with your brand and your case. Not a generic template.'], ['You try it on your phone', 'Use it the way your customer would.'], ['We adjust and launch', 'We fine-tune with you and go live.'], ['We measure and improve', 'Funnels, recurrence and ticket to decide with data.']],
+    promise: 'If the demo doesn’t convince you, you don’t pay.',
+  },
+  industries: {
+    eyebrow: 'Industries', title: 'Niches where we already build', hint: 'Tap one and we filter the work.',
+    notes: { gastronomia: 'Orders, loyalty, menus', eventos: 'Configurators and quotes', retail: 'Catalog and repurchase', salud: 'Appointments and trust', gobierno_tech: 'Monitoring and data', marca_propia: 'Our own brands' },
+  },
+  who: {
+    title: 'There are two of us. You’ll barely see us.', text: 'The protagonists are our clients’ businesses and their results. We stand behind every system.', hint: 'Bring your cursor or finger closer.',
+  },
+  demo: {
+    eyebrow: 'Get your demo', title: 'See it working first.', intro: 'Tell us about your business. We build your real demo and you try it on your phone. If it doesn’t convince you, you don’t pay.',
+    fields: { name: 'Your name', business: 'Your business', link: 'Instagram or website (optional)', linkPh: '@yourbusiness or https://…', goal: 'What do you want to achieve?', country: 'Country', whatsapp: 'WhatsApp' },
+    goals: [['vender', 'Sell more online'], ['fidelizar', 'Retain customers'], ['ordenar', 'Organize my operation'], ['medida', 'Something custom']],
+    choose: 'Choose one', submit: 'Get my free demo', sending: 'Sending…', or: 'or message us directly', wa: 'Message on WhatsApp', waMsg: 'Hi 33r, I want my free demo.',
+    okTitle: 'Received. Thank you.', okText: 'Next step: we message you on WhatsApp for a 15-minute chat about your business. That’s what we build your demo from.', okNote: 'Check your WhatsApp.',
+    err: 'We couldn’t send your request right now. Try again or message us directly.', errRequired: 'Please fill in this field.', noteSecure: 'We only use your data to contact you about your demo.',
+  },
+  footer: { tag: 'Digital marketing and technology solutions studio.', location: 'Ambato, Ecuador — working across LatAm', rights: 'All rights reserved.', nav: 'Navigation' },
+  egg: { title: 'You knew where to look.', text: 'For those who find us in the dark, the demo is on us.', cta: 'Claim my demo', close: 'Close', hint: 'Hint: type “33r” or tap the logo three times.' },
+  a11y: { logo: '33r — home', lang: { es: 'Español', en: 'English' } },
+};
+
+export const dict = { es, en };

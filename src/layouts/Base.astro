@@ -1,7 +1,21 @@
 ---
 import '../styles/global.css';
-const { title, description = '', noindex = false, lang = 'es' } = Astro.props;
+import { site } from '../config/site.js';
+const { title, description = '', noindex = false, lang = 'es', path = '', alt = null, ogTitle = title, jsonLd = true, skip = 'Saltar al contenido' } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const abs = (p) => `${site.url}${p}`;
+const canonical = abs(path || Astro.url.pathname);
+const org = {
+  '@context': 'https://schema.org', '@type': 'Organization', name: '33r', url: site.url,
+  logo: abs('/brand/app-icon-512.png'),
+  description: 'Estudio de soluciones digitales de marketing y tecnología: webs que venden, sistemas que controlan, experiencias que fidelizan y tecnología a medida.',
+  address: { '@type': 'PostalAddress', addressLocality: 'Ambato', addressCountry: 'EC' },
+  areaServed: ['EC', 'LATAM'],
+  founder: site.founders.map((f) => ({ '@type': 'Person', name: f.name })),
+  sameAs: [site.contact.instagram, site.contact.linkedin].filter(Boolean),
+  knowsAbout: ['Landing pages', 'CRM', 'Sistemas de fidelización', 'Marketing digital', 'Automatización'],
+};
+const analytics = site.analytics;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -10,14 +24,38 @@ const base = import.meta.env.BASE_URL;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow, max-image-preview:large" />}
+    {alt && !noindex && <>
+      <link rel="alternate" hreflang="es" href={abs(alt.es)} />
+      <link rel="alternate" hreflang="en" href={abs(alt.en)} />
+      <link rel="alternate" hreflang="x-default" href={abs(alt.es)} />
+    </>}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="33r" />
+    <meta property="og:title" content={ogTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={abs('/og.png')} />
+    <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_EC'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:image" content={abs('/og.png')} />
     <meta name="theme-color" content="#0A0A0C" />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={`${base}brand/apple-touch-icon.png`} />
+    <link rel="manifest" href={`${base}manifest.webmanifest`} />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(org)} />}
+    {analytics.provider === 'plausible' && <script defer data-domain={analytics.id} src={analytics.src || 'https://plausible.io/js/script.js'}></script>}
+    {analytics.provider === 'umami' && <script defer data-website-id={analytics.id} src={analytics.src}></script>}
+    {analytics.provider === 'ga4' && <><script async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.id}`}></script>
+      <script is:inline define:vars={{ id: analytics.id }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',id);</script></>}
     <slot name="head" />
   </head>
   <body>
-    <a class="skip" href="#main">Saltar al contenido</a>
+    <a class="skip" href="#main">{skip}</a>
     <slot />
   </body>
 </html>

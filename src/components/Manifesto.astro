@@ -1,0 +1,19 @@
+---
+const { t } = Astro.props; const m = t.manifesto;
+---
+<section class="section manifesto" id="manifiesto" aria-label={m.label}>
+  <div class="wrap" data-manifesto>
+    <p class="tag materialize">{m.label}</p>
+    <div class="lines">
+      {m.lines.map((l, i) => <p class:list={['m-line', i === 3 && 'last']}>{l}</p>)}
+    </div>
+    <p class="sign materialize tag tag--ecto">{m.sign}</p>
+  </div>
+</section>
+<style>
+  .manifesto { padding-block: clamp(6rem, 16vw, 13rem); }
+  .lines { display: grid; gap: clamp(.4rem, 1.5vw, 1rem); margin: 2rem 0 2.5rem; }
+  .m-line { font: 600 var(--step-4)/1.02 var(--f-display); letter-spacing: -.03em; max-width: 18ch; text-wrap: balance; }
+  .m-line.last { color: #B5B2AB; }
+  @media (min-width: 900px) { .m-line { max-width: 24ch; } }
+</style>

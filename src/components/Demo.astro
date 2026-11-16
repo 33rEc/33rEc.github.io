@@ -1,0 +1,61 @@
+---
+import { site } from '../config/site.js';
+const { t } = Astro.props; const d = t.demo; const f = d.fields;
+const wa = site.contact.whatsapp;
+const waHref = wa ? `https://wa.me/${wa}?text=${encodeURIComponent(d.waMsg)}` : '';
+---
+<section class="section demo" id="demo" data-spot aria-labelledby="demo-h">
+  <div class="demo__glow" aria-hidden="true"></div>
+  <div class="wrap demo__in">
+    <div class="demo__text">
+      <p class="tag tag--ecto materialize">{d.eyebrow}</p>
+      <h2 id="demo-h" class="materialize" style="--d:.1s">{d.title}</h2>
+      <p class="muted materialize" style="--d:.2s">{d.intro}</p>
+      <p class="promise tag materialize" style="--d:.3s">{t.process.promise}</p>
+      {waHref && <p class="or tag materialize" style="--d:.4s">{d.or}</p>}
+      {waHref && <a class="btn" href={waHref} target="_blank" rel="noopener" data-track="whatsapp_click" data-where="demo">{d.wa}</a>}
+    </div>
+
+    <div class="card formcard materialize materialize--rise">
+      <form novalidate data-demo-form data-lang={t.lang} data-wa={waHref}
+        data-msg={JSON.stringify({ sending: d.sending, err: d.err, req: d.errRequired, submit: d.submit })}>
+        <label>{f.name}<input name="name" autocomplete="name" required maxlength="120" /></label>
+        <label>{f.business}<input name="business" autocomplete="organization" required maxlength="160" /></label>
+        <label>{f.link}<input name="link" inputmode="url" autocomplete="off" placeholder={f.linkPh} maxlength="300" /></label>
+        <label>{f.goal}
+          <select name="goal" required>
+            <option value="">{d.choose}</option>
+            {d.goals.map(([v, l]) => <option value={v}>{l}</option>)}
+          </select>
+        </label>
+        <div class="two">
+          <label>{f.country}<input name="country" autocomplete="country-name" required maxlength="80" /></label>
+          <label>{f.whatsapp}<input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+593 …" maxlength="30" /></label>
+        </div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p class="err" role="alert" data-err hidden></p>
+        <button class="btn btn--primary" type="submit" data-track="demo_cta_click" data-where="form">{d.submit}</button>
+        <p class="tag note">{d.noteSecure}</p>
+      </form>
+      <div class="ok" data-ok hidden role="status" tabindex="-1">
+        <span class="check" aria-hidden="true">✓</span>
+        <h3>{d.okTitle}</h3><p>{d.okText}</p><p class="tag tag--ecto">{d.okNote}</p>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .demo { --rad: 420px; --mx: 70%; --my: 40%; overflow: hidden; border-top: 1px solid var(--mist); }
+  .demo__glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle var(--rad) at var(--mx) var(--my), rgba(156,246,212,.07), transparent 70%); }
+  .demo__in { position: relative; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+  @media (min-width: 960px) { .demo__in { grid-template-columns: 1fr 1fr; } }
+  .demo__text { display: grid; gap: 1.25rem; justify-items: start; } .demo__text h2 { font-size: var(--step-4); }
+  .promise { color: var(--ecto); } .or { margin-top: .5rem; }
+  .formcard { padding: clamp(1.25rem, 3vw, 2rem); }
+  form { display: grid; gap: 1rem; } label { display: grid; gap: .45rem; font: 500 .74rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ash); }
+  input, select { font: 400 1rem var(--f-text); letter-spacing: 0; text-transform: none; color: var(--bone); background: var(--ink); border: 1px solid var(--mist); border-radius: 10px; padding: .9rem 1rem; min-height: 50px; width: 100%; }
+  input:focus, select:focus { outline: 2px solid var(--ecto); outline-offset: 2px; border-color: var(--ecto); } input[aria-invalid='true'], select[aria-invalid='true'] { border-color: #ff8a8a; }
+  .two { display: grid; gap: 1rem; } @media (min-width: 520px) { .two { grid-template-columns: 1fr 1fr; } }
+  .hp { position: absolute; left: -9999px; height: 0; opacity: 0; } .err { color: #ff9a9a; font-size: .92rem; } .note { text-transform: none; letter-spacing: 0; font-family: var(--f-text); }
+  .ok { display: grid; gap: .9rem; justify-items: start; padding: 1rem 0; } .ok h3 { font-size: var(--step-3); } .ok .check { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--ecto); color: var(--ink); font-size: 1.6rem; font-weight: 700; }
+</style>

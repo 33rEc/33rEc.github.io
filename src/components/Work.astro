@@ -1,0 +1,55 @@
+---
+import { industries, types } from '../i18n/index.js';
+const { t } = Astro.props; const w = t.work;
+---
+<section class="section work" id="trabajo" aria-labelledby="work-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag tag--ecto materialize">{w.eyebrow}</p>
+      <h2 id="work-h" class="materialize" style="--d:.1s">{w.title}</h2>
+      <p class="materialize" style="--d:.2s">{w.intro}</p>
+    </div>
+
+    <div data-work data-base={t.workBase} data-lang={t.lang}
+      data-labels={JSON.stringify({ live: w.live, study: w.study, visit: w.visit, open: w.open, star: w.star, result: w.result, noMatch: w.noMatch, draft: w.draft, demo: w.demo, industries: w.industries, types: w.types })}>
+      <div class="filters">
+        <div class="filters__row" role="group" aria-label={w.fIndustry}>
+          <span class="tag">{w.fIndustry}</span>
+          <button type="button" class="chip" data-industry="" aria-pressed="true">{w.all}</button>
+          {industries.map((k) => <button type="button" class="chip" data-industry={k} aria-pressed="false">{w.industries[k]}</button>)}
+        </div>
+        <div class="filters__row" role="group" aria-label={w.fType}>
+          <span class="tag">{w.fType}</span>
+          <button type="button" class="chip" data-type="" aria-pressed="true">{w.allM}</button>
+          {types.map((k) => <button type="button" class="chip" data-type={k} aria-pressed="false">{w.types[k]}</button>)}
+        </div>
+      </div>
+      <p class="tag" data-status aria-live="polite">{w.loading}</p>
+      <div class="grid" data-grid></div>
+      <div class="empty card" data-empty hidden>
+        <h3>{w.emptyTitle}</h3><p class="muted">{w.emptyText}</p>
+        <a class="btn btn--primary" href="#demo" data-track="demo_cta_click" data-where="work-empty">{w.emptyCta}</a>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .filters { display: grid; gap: .8rem; margin-bottom: 2rem; }
+  .filters__row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; } .filters__row .tag { min-width: 8.5rem; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+  .empty { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.5rem, 4vw, 3rem); max-width: 44rem; }
+  :global(.pcard) { display: grid; gap: .8rem; padding: 0; overflow: hidden; align-content: start; transition: border-color .3s, transform .4s var(--ease); }
+  :global(.pcard:hover) { border-color: var(--ecto); transform: translateY(-3px); }
+  :global(.pcard__shot) { position: relative; aspect-ratio: 16 / 10; background: var(--ink); border-bottom: 1px solid var(--mist); overflow: hidden; display: grid; place-items: center; }
+  :global(.pcard__shot img), :global(.pcard__shot video) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  :global(.pcard__shot video) { opacity: 0; transition: opacity .4s; } :global(.pcard:hover .pcard__shot video.on) { opacity: 1; }
+  :global(.pcard__ph) { font: 700 5rem var(--f-display); color: var(--mist); letter-spacing: -.05em; }
+  :global(.pcard__badges) { position: absolute; left: .7rem; top: .7rem; display: flex; gap: .4rem; z-index: 2; }
+  :global(.badge) { font: 500 .64rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: .4em .7em; border-radius: 999px; background: rgba(10,10,12,.85); border: 1px solid var(--mist); }
+  :global(.badge--live) { color: var(--ecto); border-color: var(--ecto); } :global(.badge--draft) { color: var(--bone); border-style: dashed; }
+  :global(.pcard__body) { padding: 0 1.2rem 1.2rem; display: grid; gap: .6rem; }
+  :global(.pcard__body h3) { font-size: var(--step-1); }
+  :global(.pcard__meta) { display: flex; flex-wrap: wrap; gap: .35rem .9rem; }
+  :global(.pcard__star), :global(.pcard__res) { font-size: .92rem; color: var(--ash); } :global(.pcard__star b), :global(.pcard__res b) { color: var(--bone); font-weight: 500; }
+  :global(.pcard__foot) { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .4rem; } :global(.pcard__foot .btn) { min-height: 42px; padding: .6em 1.1em; font-size: .85rem; }
+</style>

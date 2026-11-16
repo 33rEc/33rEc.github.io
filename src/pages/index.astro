@@ -1,21 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
-import Logo from '../components/Logo.astro';
+import Home from '../components/Home.astro';
 ---
-<Base title="33r — Una pantalla que vende. Otra que controla." description="Estudio de soluciones digitales de marketing y tecnología. Ambato, Ecuador — trabajamos en todo LatAm.">
-  <main id="main" class="soon">
-    <Logo uid="home" class="soon__logo" />
-    <h1 class="sr-only">33r</h1>
-    <p class="tag">Una pantalla que vende. Otra que controla.</p>
-    <p class="tag muted">Sitio en construcción · <a href="/logo-lab">logo lab</a></p>
-  </main>
-</Base>
-<script>
-  import { bindLogoReplay } from '../scripts/logo-replay.js';
-  bindLogoReplay();
-</script>
-<style>
-  .soon { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 1.5rem; padding: 2rem; text-align: center; }
-  .soon__logo { width: min(70vw, 340px); }
-  .soon a { color: var(--ecto); }
-</style>
+<Home lang="es" />

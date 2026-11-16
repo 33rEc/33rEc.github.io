@@ -1,0 +1,24 @@
+---
+const { t } = Astro.props; const p = t.process;
+---
+<section class="section process" id="proceso" aria-labelledby="proc-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag tag--ecto materialize">{p.eyebrow}</p>
+      <h2 id="proc-h" class="materialize" style="--d:.1s">{p.title}</h2>
+    </div>
+    <ol class="steps">
+      {p.steps.map(([h, d], i) => (
+        <li class="materialize" style={`--d:${i * 0.08}s`}><span class="num">{String(i + 1).padStart(2, '0')}</span><h3>{h}</h3><p class="muted">{d}</p></li>
+      ))}
+    </ol>
+    <p class="promise materialize"><span class="grad-text">{p.promise}</span></p>
+  </div>
+</section>
+<style>
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; border-top: 1px solid var(--mist); }
+  .steps li { display: grid; gap: .4rem .5rem; padding: 1.6rem 0; border-bottom: 1px solid var(--mist); grid-template-columns: 3.2rem 1fr; }
+  .num { font: 500 .8rem var(--f-mono); color: var(--ecto); grid-row: 1 / 3; padding-top: .5rem; } .steps h3 { font-size: var(--step-2); } .steps p { grid-column: 2; }
+  @media (min-width: 900px) { .steps li { grid-template-columns: 4rem 1fr 1fr; align-items: baseline; } .num { grid-row: auto; } .steps p { grid-column: 3; } }
+  .promise { font: 600 var(--step-4)/1.05 var(--f-display); letter-spacing: -.03em; margin-top: clamp(2.5rem, 6vw, 4.5rem); max-width: 16ch; }
+</style>

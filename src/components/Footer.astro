@@ -1,0 +1,28 @@
+---
+import Logo from './Logo.astro';
+import { site } from '../config/site.js';
+const { t } = Astro.props; const c = site.contact;
+const links = [
+  c.email && [`mailto:${c.email}`, c.email], c.whatsapp && [`https://wa.me/${c.whatsapp}`, 'WhatsApp'],
+  c.instagram && [c.instagram, 'Instagram'], c.linkedin && [c.linkedin, 'LinkedIn'],
+].filter(Boolean);
+---
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <div class="foot__logo"><Logo uid="foot" tone="dark" animated={false} sw={4} /></div>
+      <p class="muted">{t.footer.tag}</p>
+    </div>
+    <nav aria-label={t.footer.nav} class="foot__nav">
+      {t.nav.items.map(([h, l]) => <a href={`${t.home}${h}`}>{l}</a>)}
+    </nav>
+    {links.length > 0 && <ul class="foot__links">{links.map(([h, l]) => <li><a href={h} target={h.startsWith('http') ? '_blank' : undefined} rel="noopener" data-track={l === 'WhatsApp' ? 'whatsapp_click' : undefined} data-where="footer">{l}</a></li>)}</ul>}
+    <p class="tag foot__meta">{t.footer.location} · © {site.year} 33r. {t.footer.rights}</p>
+  </div>
+</footer>
+<style>
+  .foot { border-top: 1px solid var(--mist); padding-block: 3rem 2.5rem; }
+  .foot__in { display: grid; gap: 1.8rem; } @media (min-width: 860px) { .foot__in { grid-template-columns: 1.2fr 1fr 1fr; align-items: start; } .foot__meta { grid-column: 1 / -1; } }
+  .foot__logo { width: 84px; margin-bottom: 1rem; } .foot__brand { display: grid; max-width: 34ch; }
+  .foot__nav, .foot__links { display: grid; gap: .3rem; list-style: none; margin: 0; padding: 0; } .foot a { text-decoration: none; padding: .35rem 0; display: inline-block; } .foot a:hover { color: var(--ecto); }
+</style>

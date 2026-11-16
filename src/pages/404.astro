@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro'; import Footer from '../components/Footer.astro';
+import { dict } from '../i18n/index.js';
+const t = dict.es;
+---
+<Base title="33r" noindex jsonLd={false}>
+  <Nav t={t} />
+  <main id="main" class="page-case"><section class="wrap" style="padding-block:6rem;display:grid;gap:1rem;justify-items:start">
+    <p class="tag tag--ecto">404</p><h1 style="font-size:var(--step-4)">Aquí no hay nada.</h1><p class="muted">Casi no nos ves, pero esta página tampoco existe.</p>
+    <a class="btn btn--primary" href="/">Volver al inicio</a></section></main>
+  <Footer t={t} />
+  <script>
+    // Casos creados en /admin después del build: GitHub Pages sirve 404.html → se renderiza el caso desde la capa de datos.
+    import { dict } from '../i18n/index.js';
+    import { caseHTML } from '../lib/case.js';
+    import { getProject } from '../js/data.js';
+    import '../scripts/case.js';
+    const m = location.pathname.match(/^\/(en\/work|trabajo)\/([a-z0-9-]+)\/?$/);
+    if (m) {
+      const lang = m[1] === 'trabajo' ? 'es' : 'en', t = dict[lang];
+      getProject(m[2], { drafts: new URLSearchParams(location.search).has('preview') }).then((p) => {
+        if (!p) return; document.documentElement.lang = lang; document.title = `${p.client} | 33r`;
+        document.querySelector('#main').innerHTML = caseHTML(p, t);
+      }).catch(() => {});
+    }
+  </script>
+</Base>
