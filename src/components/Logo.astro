@@ -1,0 +1,94 @@
+---
+import { G3, R, SPARK, VIEWBOX } from '../lib/logo.js';
+// concept: 'a' Reflejo · 'b' Trazo de luz · 'c' Eco
+// tone: 'dark' = blanco sobre oscuro · 'light' = oscuro sobre claro
+const { concept = 'a', tone = 'dark', animated = true, uid = 'l', sw = 3.4, label = '33r', class: cls = '' } = Astro.props;
+const stroke = tone === 'dark' ? '#EDEAE3' : '#0A0A0C';
+const spark = tone === 'dark' ? '#9CF6D4' : '#0A0A0C';
+---
+<svg class={`logo logo--${concept} ${animated ? 'is-anim' : ''} ${cls}`} viewBox={VIEWBOX} role="img" aria-label={label}
+  fill="none" stroke-linecap="round" stroke-linejoin="round" style={`--sw:${sw};--stroke:${stroke};--spark:${spark}`}>
+  <defs>
+    <linearGradient id={`${uid}-g`} x1="0" y1="0" x2="80" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9CF6D4" /><stop offset="1" stop-color="#A99BFF" />
+    </linearGradient>
+    <filter id={`${uid}-blur`} x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.4" /></filter>
+    {concept === 'c' && (
+      <g id={`${uid}-wm`}>
+        <path d={G3} /><path d={G3} transform="translate(28 0)" /><path d={R} />
+      </g>
+    )}
+  </defs>
+
+  {concept === 'a' && (
+    <g class="a-root">
+      <g class="a-halo" stroke={`url(#${uid}-g)`}>
+        <path d={G3} class="a-flip" /><path d={G3} transform="translate(28 0)" />
+      </g>
+      <g class="a-base" stroke="var(--stroke)">
+        <path d={G3} class="a-flip" /><path d={G3} transform="translate(28 0)" />
+        <path d={R} />
+      </g>
+      <circle class="spark" cx={SPARK.cx} cy={SPARK.cy} r={SPARK.r} fill="var(--spark)" stroke="none" />
+    </g>
+  )}
+
+  {concept === 'b' && (
+    <g class="b-root">
+      {[[G3, 0], [G3, 28], [R, 0]].map(([d, x], i) => (
+        <g transform={`translate(${x} 0)`} style={`--i:${i}`}>
+          <path class="b-glow" d={d} pathLength="100" stroke={`url(#${uid}-g)`} filter={`url(#${uid}-blur)`} />
+          <path class="b-line" d={d} pathLength="100" stroke="var(--stroke)" />
+        </g>
+      ))}
+      <circle class="spark" cx={SPARK.cx} cy={SPARK.cy} r={SPARK.r} fill="var(--spark)" stroke="none" />
+    </g>
+  )}
+
+  {concept === 'c' && (
+    <g class="c-root">
+      <g class="c-ghost-wrap"><g class="c-ghost"><use href={`#${uid}-wm`} stroke={`url(#${uid}-g)`} /></g></g>
+      <use href={`#${uid}-wm`} stroke="var(--stroke)" />
+      <circle class="spark" cx={SPARK.cx} cy={SPARK.cy} r={SPARK.r} fill="var(--spark)" stroke="none" />
+    </g>
+  )}
+</svg>
+
+<style is:global>
+  .logo { overflow: visible; width: 100%; height: auto; }
+  .logo path, .logo use { stroke-width: var(--sw, 3.4); }
+  .logo .spark { transform-box: fill-box; transform-origin: center; }
+
+  /* A · Reflejo: el primer 3 gira en Y, se revela la simetría Ɛ3 y vuelve */
+  .a-flip { transform-box: fill-box; transform-origin: center; }
+  .a-halo { opacity: 0; }
+  .is-anim .a-flip { animation: a-flip 6s var(--ease, ease-in-out) infinite; }
+  .is-anim .a-halo { animation: a-halo 6s ease-in-out infinite; }
+  .is-anim.logo--a .spark { animation: spark 6s ease-in-out infinite; }
+  @keyframes a-flip { 0%, 22% { transform: scaleX(1); } 40%, 66% { transform: scaleX(-1); } 84%, 100% { transform: scaleX(1); } }
+  @keyframes a-halo { 0%, 34% { opacity: 0; } 46%, 62% { opacity: 1; } 78%, 100% { opacity: 0; } }
+  @keyframes spark { 0%, 40% { opacity: 1; transform: scale(1); } 52% { opacity: 1; transform: scale(2.2); } 64%, 100% { opacity: 1; transform: scale(1); } }
+
+  /* B · Trazo de luz: una presencia escribe 3 · 3 · r; queda resplandor residual */
+  .b-line, .b-glow { stroke-dasharray: 100 130; stroke-dashoffset: 0; }
+  .b-glow { opacity: .3; }
+  .is-anim .b-line, .is-anim .b-glow { animation: b-draw 7s cubic-bezier(.5, 0, .3, 1) infinite; animation-delay: calc(var(--i) * 1.1s); }
+  .is-anim .b-glow { animation-name: b-draw, b-glow; }
+  .is-anim.logo--b .spark { animation: b-spark 7s ease-in-out 3.3s infinite backwards; }
+  @keyframes b-draw { 0% { stroke-dashoffset: 101; } 24%, 82% { stroke-dashoffset: 0; } 92%, 100% { stroke-dashoffset: -101; } }
+  @keyframes b-glow { 0%, 10% { opacity: 0; } 24% { opacity: .95; } 55%, 82% { opacity: .3; } 92%, 100% { opacity: 0; } }
+  @keyframes b-spark { 0% { opacity: 0; transform: scale(.2); } 8% { opacity: 1; transform: scale(2.6); } 22%, 80% { opacity: 1; transform: scale(1); } 92%, 100% { opacity: 0; } }
+
+  /* C · Eco: fantasma desplazado que se separa y vuelve (y sigue al cursor vía --dx/--dy) */
+  .c-ghost-wrap { transform: translate(calc(var(--dx, 0) * 1px), calc(var(--dy, 0) * 1px)); transition: transform .35s var(--ease, ease-out); }
+  .c-ghost { opacity: .45; transform: translate(2.2px, 1.6px); }
+  .c-ghost use { stroke-width: var(--sw, 3.4); }
+  .is-anim .c-ghost { animation: c-eco 5.5s ease-in-out infinite; }
+  @keyframes c-eco { 0%, 100% { transform: translate(2.2px, 1.6px); opacity: .45; } 30% { transform: translate(11px, 5px); opacity: .6; } 55% { transform: translate(-7px, 3px); opacity: .5; } 80% { transform: translate(2.2px, 1.6px); opacity: .45; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Versión estática igual de elegante: A muestra la simetría, B trazo completo, C eco fijo */
+    .is-anim .a-flip, .is-anim .a-halo, .is-anim .b-line, .is-anim .b-glow, .is-anim .spark, .is-anim .c-ghost { animation: none !important; }
+    .a-halo { opacity: .0; } .b-glow { opacity: .3; }
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import { COLORS as C } from '../lib/logo.js';
+
+// Contraste WCAG calculado en build
+const lum = (hex) => { const n = parseInt(hex.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]
+  .map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }).reduce((a, v, i) => a + v * [.2126, .7152, .0722][i], 0); };
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + .05) / (y + .05); };
+const pairs = [
+  ['Hueso', C.bone, 'Tinta', C.ink, 'Texto principal', 4.5],
+  ['Hueso', C.bone, 'Grafito', C.graphite, 'Texto en tarjetas', 4.5],
+  ['Ceniza', C.ash, 'Tinta', C.ink, 'Texto secundario', 4.5],
+  ['Ceniza', C.ash, 'Grafito', C.graphite, 'Secundario en tarjetas', 4.5],
+  ['Tinta', C.ink, 'Ectoplasma', C.ecto, 'Botón primario', 4.5],
+  ['Ectoplasma', C.ecto, 'Tinta', C.ink, 'Enlaces / etiquetas', 4.5],
+  ['Aura', C.aura, 'Tinta', C.ink, 'Solo decorativo (degradado)', 3],
+  ['Niebla', C.mist, 'Tinta', C.ink, 'Bordes (decorativo)', 1.5],
+].map(([an, a, bn, b, use, min]) => ({ an, a, bn, b, use, min, r: ratio(a, b) }));
+
+const concepts = [
+  { k: 'a', name: 'A · Reflejo', desc: 'El primer 3 gira sobre su eje Y y revela Ɛ3: dos presencias que se miran, simetría de mariposa / portal. La r lleva una chispa.' },
+  { k: 'b', name: 'B · Trazo de luz', desc: 'Una presencia invisible escribe 3 · 3 · r en un solo gesto de luz (cada trazo se dibuja con stroke-dasharray) y deja un resplandor residual espectral.' },
+  { k: 'c', name: 'C · Eco', desc: 'El wordmark tiene un fantasma de sí mismo que se separa y vuelve a unirse. Mueve el cursor sobre el logo: el eco te sigue.' },
+];
+---
+<Base title="Logo Lab — 33r" noindex>
+  <main id="main" class="wrap lab">
+    <header class="lab__head">
+      <p class="tag tag--ecto">/logo-lab · 3 conceptos</p>
+      <h1>Elige la presencia.</h1>
+      <p class="muted">Cada concepto va en blanco sobre oscuro, oscuro sobre claro y a 16&nbsp;px de alto. Reduced-motion muestra una versión estática.</p>
+    </header>
+
+    {concepts.map((c) => (
+      <section class="concept" data-concept={c.k} aria-labelledby={`h-${c.k}`}>
+        <div class="concept__info">
+          <p class="tag">Concepto {c.k.toUpperCase()}</p>
+          <h2 id={`h-${c.k}`}>{c.name.slice(4)}</h2>
+          <p class="muted">{c.desc}</p>
+        </div>
+        <div class="stage stage--dark"><Logo concept={c.k} uid={`${c.k}1`} class="big" /></div>
+        <div class="stage stage--light"><Logo concept={c.k} tone="light" uid={`${c.k}2`} class="big" /></div>
+        <div class="stage stage--small">
+          <span class="tag">16 px</span>
+          <span class="s16 s16--d"><Logo concept={c.k} animated={false} uid={`${c.k}3`} sw={4.6} /></span>
+          <span class="s16 s16--l"><Logo concept={c.k} tone="light" animated={false} uid={`${c.k}4`} sw={4.6} /></span>
+        </div>
+      </section>
+    ))}
+
+    <section class="kit" aria-labelledby="kit-h">
+      <h2 id="kit-h">Entregables</h2>
+      <p class="muted">Se generan para el concepto elegido: SVG estático · SVG animado · favicon · ícono de app · foto de perfil Instagram. Vista previa (marca compacta Ɛ3):</p>
+      <div class="kit__row">
+        <figure><img src="/favicon.svg" width="16" height="16" alt="Favicon 16 px" /><figcaption class="tag">favicon 16</figcaption></figure>
+        <figure><img src="/favicon.svg" width="32" height="32" alt="Favicon 32 px" /><figcaption class="tag">32</figcaption></figure>
+        <figure><img src="/brand/app-icon.svg" width="96" height="96" alt="Ícono de app" /><figcaption class="tag">app</figcaption></figure>
+        <figure><img class="round" src="/brand/instagram-profile.svg" width="96" height="96" alt="Perfil Instagram" /><figcaption class="tag">instagram</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="palette" aria-labelledby="pal-h">
+      <h2 id="pal-h">Paleta aplicada</h2>
+      <ul class="swatches">
+        {[['Tinta', C.ink, 'Fondo'], ['Grafito', C.graphite, 'Superficies'], ['Niebla', C.mist, 'Bordes'], ['Hueso', C.bone, 'Texto'], ['Ceniza', C.ash, 'Texto 2º'], ['Ectoplasma', C.ecto, 'Acento · CTA'], ['Aura', C.aura, 'Solo degradado']].map(([n, h, u]) => (
+          <li class="sw" style={`--c:${h}`}><i></i><b>{n}</b><span class="tag">{h}</span><span class="tag">{u}</span></li>
+        ))}
+      </ul>
+
+      <div class="samples">
+        <article class="card proj">
+          <div class="proj__shot"><span class="tag">captura · demo</span></div>
+          <p class="tag tag--ecto">Gastronomía · Fidelización</p>
+          <h3>Nombre del proyecto</h3>
+          <p class="muted">Mecánica estrella en una línea. Métrica o resultado cuando exista.</p>
+          <div class="proj__foot"><span class="chip">Caso de estudio</span><a class="btn" href="#">Abrir caso</a></div>
+        </article>
+        <article class="card cta">
+          <p class="tag">Pide tu demo</p>
+          <h3>Si la demo no te convence, no pagas.</h3>
+          <div class="cta__row"><a class="btn btn--primary" href="#">Pide tu demo gratis</a><a class="btn" href="#">Ver trabajo</a></div>
+          <div class="cta__chips"><button class="chip" aria-pressed="true">Gastronomía</button><button class="chip" aria-pressed="false">Eventos</button><button class="chip" aria-pressed="false">Salud</button></div>
+          <p class="aura-line" aria-hidden="true"></p>
+        </article>
+      </div>
+
+      <table class="contrast">
+        <caption class="tag">Contraste WCAG (calculado en el build)</caption>
+        <thead><tr><th>Texto</th><th>Fondo</th><th>Uso</th><th>Ratio</th><th>AA</th></tr></thead>
+        <tbody>
+          {pairs.map((p) => (
+            <tr><td><i style={`background:${p.a}`}></i>{p.an}</td><td><i style={`background:${p.b}`}></i>{p.bn}</td><td>{p.use}</td>
+              <td class="mono">{p.r.toFixed(2)}:1</td><td class={p.r >= p.min ? 'ok' : 'bad'}>{p.r >= p.min ? 'cumple' : 'NO cumple'}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // Concepto C: el eco sigue el cursor (solo si no hay reduced-motion)
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<SVGElement>('.logo--c').forEach((svg) => {
+      svg.addEventListener('pointermove', (e) => {
+        const r = svg.getBoundingClientRect();
+        svg.style.setProperty('--dx', String(((e.clientX - r.left) / r.width - .5) * -16));
+        svg.style.setProperty('--dy', String(((e.clientY - r.top) / r.height - .5) * -10));
+      });
+      svg.addEventListener('pointerleave', () => { svg.style.setProperty('--dx', '0'); svg.style.setProperty('--dy', '0'); });
+    });
+  }
+</script>
+
+<style>
+  .lab { padding-block: 4rem 6rem; display: grid; gap: 4rem; }
+  .lab__head { display: grid; gap: 1rem; max-width: 60ch; }
+  .lab__head h1 { font-size: var(--step-4); }
+  .concept { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  .concept__info { display: grid; gap: .6rem; align-content: start; }
+  .concept__info h2 { font-size: var(--step-3); }
+  .stage { border: 1px solid var(--mist); border-radius: var(--radius); display: grid; place-items: center; padding: clamp(1.5rem, 5vw, 3rem); min-height: 200px; }
+  .stage--dark { background: var(--graphite); }
+  .stage--light { background: var(--bone); border-color: var(--bone); }
+  .stage--small { grid-auto-flow: column; justify-content: start; gap: 1.5rem; min-height: 0; padding: 1rem 1.25rem; background: var(--ink); }
+  .big { width: min(100%, 360px); }
+  .s16 { height: 16px; width: 29px; display: inline-block; padding: 0; }
+  .s16 :global(svg) { height: 16px; width: 29px; }
+  .s16--l { background: var(--bone); padding: 6px 8px; height: 28px; width: 45px; border-radius: 4px; box-sizing: border-box; }
+  .s16--d { }
+  @media (min-width: 900px) {
+    .concept { grid-template-columns: 1fr 1.2fr 1.2fr; }
+    .concept__info { grid-row: span 2; }
+    .stage--small { grid-column: 2 / 4; }
+  }
+  .kit { display: grid; gap: 1rem; }
+  .kit__row { display: flex; gap: 2rem; align-items: end; flex-wrap: wrap; }
+  figure { margin: 0; display: grid; gap: .5rem; justify-items: center; }
+  .round { border-radius: 50%; }
+  .swatches { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .sw { display: grid; gap: .35rem; padding: .75rem; border: 1px solid var(--mist); border-radius: 10px; background: var(--graphite); }
+  .sw i { height: 56px; border-radius: 6px; background: var(--c); border: 1px solid var(--mist); }
+  .samples { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 2rem; }
+  .proj { display: grid; gap: .75rem; }
+  .proj__shot { aspect-ratio: 16 / 10; border-radius: 10px; background: var(--ink); border: 1px dashed var(--mist); display: grid; place-items: center; }
+  .proj__foot { display: flex; justify-content: space-between; align-items: center; margin-top: .5rem; }
+  .cta { display: grid; gap: 1rem; align-content: start; }
+  .cta__row, .cta__chips { display: flex; gap: .6rem; flex-wrap: wrap; }
+  .aura-line { height: 2px; border-radius: 2px; background: var(--spectral); }
+  .contrast { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+  .contrast caption { text-align: left; padding-bottom: .75rem; }
+  .contrast th, .contrast td { text-align: left; padding: .6rem .5rem; border-bottom: 1px solid var(--mist); }
+  .contrast th { font: 500 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ash); }
+  .contrast i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: .5rem; border: 1px solid var(--mist); vertical-align: -1px; }
+  .mono { font-family: var(--f-mono); }
+  .ok { color: var(--ecto); } .bad { color: #ff8a8a; }
+</style>

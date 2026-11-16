@@ -1,0 +1,23 @@
+---
+import '../styles/global.css';
+const { title, description = '', noindex = false, lang = 'es' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#0A0A0C" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={`${base}brand/apple-touch-icon.png`} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>

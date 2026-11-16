@@ -1,0 +1,94 @@
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+:root {
+  /* Paleta — ver CONTEXTO-CLAUDE.md para el razonamiento */
+  --ink: #0A0A0C;
+  --graphite: #141418;
+  --mist: #2A2A31;
+  --bone: #EDEAE3;
+  --ash: #8E8C88;
+  --ecto: #9CF6D4;
+  --aura: #A99BFF;
+  --spectral: linear-gradient(110deg, var(--ecto), var(--aura));
+
+  --f-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --f-text: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --f-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  --step--1: clamp(.78rem, .76rem + .1vw, .85rem);
+  --step-0: clamp(1rem, .96rem + .2vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.15rem + .5vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.2rem);
+  --step-3: clamp(2.2rem, 1.7rem + 2.5vw, 3.6rem);
+  --step-4: clamp(2.8rem, 1.8rem + 5vw, 6rem);
+  --step-5: clamp(3.2rem, 1.4rem + 9vw, 9.5rem);
+
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --maxw: 1280px;
+  --radius: 14px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--ink); color: var(--bone);
+  font: 400 var(--step-0)/1.6 var(--f-text);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; }
+a { color: inherit; }
+::selection { background: var(--ecto); color: var(--ink); }
+
+h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1.02; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+h1 { font-size: var(--step-5); }
+h2 { font-size: var(--step-4); }
+h3 { font-size: var(--step-2); }
+p { margin: 0; text-wrap: pretty; }
+.muted { color: var(--ash); }
+
+/* Etiqueta técnica: mono, mayúsculas pequeñas */
+.tag {
+  font: 500 .72rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ash);
+}
+.tag--ecto { color: var(--ecto); }
+
+.wrap { width: min(100% - var(--gutter) * 2, var(--maxw)); margin-inline: auto; }
+
+/* Botones — texto ink sobre ecto = contraste 14:1 */
+.btn {
+  --bg: transparent; --fg: var(--bone); --bd: var(--mist);
+  display: inline-flex; align-items: center; justify-content: center; gap: .6em;
+  min-height: 48px; padding: .85em 1.5em; border-radius: 999px;
+  font: 600 .95rem/1 var(--f-text); text-decoration: none; cursor: pointer;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--bd);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+}
+.btn:hover { transform: translateY(-2px); border-color: var(--bone); }
+.btn--primary { --bg: var(--ecto); --fg: var(--ink); --bd: var(--ecto); }
+.btn--primary:hover { border-color: var(--ecto); box-shadow: 0 8px 40px -8px rgba(156, 246, 212, .55); }
+
+.chip {
+  display: inline-flex; align-items: center; min-height: 36px; padding: .4em 1em; border-radius: 999px;
+  border: 1px solid var(--mist); background: var(--graphite); color: var(--bone);
+  font: 500 .72rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+  transition: border-color .25s, background .25s, color .25s;
+}
+.chip:hover, .chip[aria-pressed='true'] { border-color: var(--ecto); color: var(--ecto); }
+
+.card {
+  background: var(--graphite); border: 1px solid var(--mist); border-radius: var(--radius); padding: 1.5rem;
+}
+
+:focus-visible { outline: 2px solid var(--ecto); outline-offset: 3px; border-radius: 4px; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--ecto); color: var(--ink); padding: .75rem 1rem; z-index: 100; }
+.skip:focus { left: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
