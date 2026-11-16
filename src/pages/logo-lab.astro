@@ -32,6 +32,21 @@ const concepts = [
       <p class="muted">Cada concepto va en blanco sobre oscuro, oscuro sobre claro y a 16&nbsp;px de alto. Reduced-motion muestra una versión estática.</p>
     </header>
 
+    <section class="chosen" aria-labelledby="chosen-h">
+      <p class="tag tag--ecto">Logo elegido · mezcla A + B, sobrio</p>
+      <h2 id="chosen-h">33r</h2>
+      <p class="muted">Reposo limpio y quieto. Entra dibujándose con luz (B), el primer 3 refleja Ɛ3 una sola vez (A) y vuelve. Pasa el cursor o toca el logo para repetir el reflejo.</p>
+      <div class="concept">
+        <div class="stage stage--dark"><Logo uid="m1" class="big" /></div>
+        <div class="stage stage--light"><Logo concept="m" tone="light" uid="m2" class="big" /></div>
+        <div class="stage stage--small">
+          <span class="tag">16 px</span>
+          <span class="s16 s16--d"><Logo animated={false} uid="m3" sw={4.6} /></span>
+          <span class="s16 s16--l"><Logo tone="light" animated={false} uid="m4" sw={4.6} /></span>
+        </div>
+      </div>
+    </section>
+    <p class="tag">Exploración original</p>
     {concepts.map((c) => (
       <section class="concept" data-concept={c.k} aria-labelledby={`h-${c.k}`}>
         <div class="concept__info">
@@ -100,6 +115,8 @@ const concepts = [
 </Base>
 
 <script>
+  import { bindLogoReplay } from '../scripts/logo-replay.js';
+  bindLogoReplay();
   // Concepto C: el eco sigue el cursor (solo si no hay reduced-motion)
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll<SVGElement>('.logo--c').forEach((svg) => {
@@ -116,6 +133,10 @@ const concepts = [
 <style>
   .lab { padding-block: 4rem 6rem; display: grid; gap: 4rem; }
   .lab__head { display: grid; gap: 1rem; max-width: 60ch; }
+  .chosen { display: grid; gap: 1rem; }
+  .chosen h2 { font-size: var(--step-3); }
+  .chosen .concept { grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .chosen .concept { grid-template-columns: 1fr 1fr; } .chosen .stage--small { grid-column: 1 / 3; } }
   .lab__head h1 { font-size: var(--step-4); }
   .concept { display: grid; gap: 1rem; grid-template-columns: 1fr; }
   .concept__info { display: grid; gap: .6rem; align-content: start; }
