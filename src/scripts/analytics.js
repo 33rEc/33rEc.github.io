@@ -1,5 +1,5 @@
 // Eventos clave, listos para conectar. Cambia el proveedor en src/config/site.js (analytics.provider).
-// Eventos: demo_cta_click, lead_submit, whatsapp_click, case_open, filter_change, easter_egg
+// Eventos: demo_cta_click, lead_submit, whatsapp_click, case_open, filter_change, live_site_click, easter_egg
 export function track(event, props = {}) {
   try {
     window.dataLayer?.push({ event, ...props });

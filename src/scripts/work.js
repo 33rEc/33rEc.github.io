@@ -12,7 +12,7 @@ export async function initWork() {
   try { all = await getProjects({ drafts: preview }); } catch (e) { console.warn('[work]', e); }
 
   const card = (p) => {
-    const live = p.status === 'en_vivo';
+    const live = p.status === 'en_vivo', demo = p.kind === 'demo';
     const name = esc(p.client), href = `${base}${esc(p.slug)}${preview ? '?preview=1' : ''}`;
     const cover = p.cover_url ? `<img src="${esc(p.cover_url)}" alt="${name}" loading="lazy" decoding="async">` : `<span class="pcard__ph" aria-hidden="true">${esc(p.client[0])}</span>`;
     const vid = p.video_url ? `<video muted loop playsinline preload="none" data-src="${esc(p.video_url)}" aria-hidden="true"></video>` : '';
@@ -20,14 +20,14 @@ export async function initWork() {
     const types = (p.solution_types || []).map((k) => L.types[k]).filter(Boolean).join(' · ');
     return `<article class="card pcard" data-slug="${esc(p.slug)}">
       <div class="pcard__shot">${cover}${vid}
-        <div class="pcard__badges"><span class="badge ${live ? 'badge--live' : ''}">${live ? L.live : L.study}</span>${p.published ? '' : `<span class="badge badge--draft">${L.draft}</span>`}</div>
+        <div class="pcard__badges"><span class="badge ${live ? 'badge--live' : ''}">${live ? L.live : L.study}</span>${demo ? `<span class="badge">${L.demoKind}</span>` : ''}${p.published ? '' : `<span class="badge badge--draft">${L.draft}</span>`}</div>
       </div>
       <div class="pcard__body">
         <div class="pcard__meta"><span class="tag tag--ecto">${esc(L.industries[p.industry] || '')}</span><span class="tag">${esc(types)}</span></div>
         <h3>${name}</h3>
         <p class="pcard__star"><b>${L.star}:</b> ${esc(loc(p, 'star_mechanic', lang))}</p>
         ${res ? `<p class="pcard__res"><b>${L.result}:</b> ${res}</p>` : ''}
-        <div class="pcard__foot"><a class="btn" href="${href}" data-case="${esc(p.slug)}">${L.open}</a>${live && p.live_url ? `<a class="btn btn--primary" href="${esc(p.live_url)}" target="_blank" rel="noopener">${L.visit} ↗</a>` : ''}</div>
+        <div class="pcard__foot"><a class="btn" href="${href}" data-case="${esc(p.slug)}">${L.open}</a>${p.live_url ? `<a class="btn btn--primary" href="${esc(p.live_url)}" target="_blank" rel="noopener" data-track="live_site_click">${demo ? L.visitDemo : L.visit} ↗</a>` : ''}</div>
       </div></article>`;
   };
 

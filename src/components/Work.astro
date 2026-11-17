@@ -11,7 +11,7 @@ const { t } = Astro.props; const w = t.work;
     </div>
 
     <div data-work data-base={t.workBase} data-lang={t.lang}
-      data-labels={JSON.stringify({ live: w.live, study: w.study, visit: w.visit, open: w.open, star: w.star, result: w.result, noMatch: w.noMatch, draft: w.draft, demo: w.demo, industries: w.industries, types: w.types })}>
+      data-labels={JSON.stringify({ live: w.live, study: w.study, demoKind: w.demoKind, visitDemo: w.visitDemo, visit: w.visit, open: w.open, star: w.star, result: w.result, noMatch: w.noMatch, draft: w.draft, demo: w.demo, industries: w.industries, types: w.types })}>
       <div class="filters">
         <div class="filters__row" role="group" aria-label={w.fIndustry}>
           <span class="tag">{w.fIndustry}</span>

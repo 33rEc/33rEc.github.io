@@ -56,12 +56,12 @@ const es = {
     fIndustry: 'Industria', fType: 'Tipo de solución', all: 'Todas', allM: 'Todos', clear: 'Quitar filtros',
     industries: { gastronomia: 'Gastronomía', eventos: 'Eventos', retail: 'Retail', salud: 'Salud y bienestar', gobierno_tech: 'Gobierno / Tech', marca_propia: 'Marca propia' },
     types: { landing: 'Landing', panel: 'Panel / CRM', fidelizacion: 'Fidelización', ecommerce: 'E-commerce', minijuego: 'Minijuego', a_medida: 'A medida' },
-    live: 'En vivo', study: 'Caso de estudio', visit: 'Ver sitio', open: 'Ver caso', star: 'Mecánica estrella', result: 'Resultado',
+    live: 'En vivo', study: 'Caso de estudio', demoKind: 'Demo funcional', visit: 'Ver sitio', visitDemo: 'Ver demo', open: 'Ver caso', star: 'Mecánica estrella', result: 'Resultado',
     emptyTitle: 'Estamos preparando los primeros casos.', emptyText: 'Cada proyecto se publica con permiso del cliente. Mientras tanto, la mejor prueba es tu propia demo.', emptyCta: 'Pide tu demo gratis',
     noMatch: 'Ningún proyecto coincide con ese filtro.', loading: 'Cargando proyectos…', draft: 'Borrador', demo: 'captura pendiente',
   },
   caseStudy: {
-    back: '← Todo el trabajo', challenge: 'El reto', target: 'Cliente objetivo', idea: 'La idea', screens: 'Las dos pantallas', sell: 'La pantalla que vende', control: 'La pantalla que controla', mechanics: 'Mecánicas', results: 'Resultados', live: 'Ver en vivo', pending: 'Resultados en medición.', cta: '¿Tu negocio es el siguiente?', ctaBtn: 'Pide tu demo gratis', notFound: 'No encontramos ese proyecto.', draftNote: 'Borrador · no público',
+    back: '← Todo el trabajo', challenge: 'El reto', target: 'Cliente objetivo', idea: 'La idea', screens: 'Las dos pantallas', sell: 'La pantalla que vende', control: 'La pantalla que controla', mechanics: 'Mecánicas', results: 'Resultados', live: 'Ver en vivo', demoNote: 'Demo funcional construida para este negocio: así se ve y se usa en el celular.', pending: 'Resultados en medición.', cta: '¿Tu negocio es el siguiente?', ctaBtn: 'Pide tu demo gratis', notFound: 'No encontramos ese proyecto.', draftNote: 'Borrador · no público',
   },
   services: {
     eyebrow: 'Servicios', title: 'Qué construimos',
@@ -148,12 +148,12 @@ const en = {
     fIndustry: 'Industry', fType: 'Solution type', all: 'All', allM: 'All', clear: 'Clear filters',
     industries: { gastronomia: 'Food & beverage', eventos: 'Events', retail: 'Retail', salud: 'Health & wellness', gobierno_tech: 'Government / Tech', marca_propia: 'Own brand' },
     types: { landing: 'Landing', panel: 'Dashboard / CRM', fidelizacion: 'Loyalty', ecommerce: 'E-commerce', minijuego: 'Mini-game', a_medida: 'Custom' },
-    live: 'Live', study: 'Case study', visit: 'Visit site', open: 'View case', star: 'Star mechanic', result: 'Result',
+    live: 'Live', study: 'Case study', demoKind: 'Working demo', visit: 'Visit site', visitDemo: 'View demo', open: 'View case', star: 'Star mechanic', result: 'Result',
     emptyTitle: 'We are preparing the first cases.', emptyText: 'Every project is published with the client’s permission. Meanwhile, the best proof is your own demo.', emptyCta: 'Get your free demo',
     noMatch: 'No project matches that filter.', loading: 'Loading projects…', draft: 'Draft', demo: 'screenshot pending',
   },
   caseStudy: {
-    back: '← All work', challenge: 'The challenge', target: 'Target customer', idea: 'The idea', screens: 'The two screens', sell: 'The screen that sells', control: 'The screen that controls', mechanics: 'Mechanics', results: 'Results', live: 'View live', pending: 'Results being measured.', cta: 'Is your business next?', ctaBtn: 'Get your free demo', notFound: 'We could not find that project.', draftNote: 'Draft · not public',
+    back: '← All work', challenge: 'The challenge', target: 'Target customer', idea: 'The idea', screens: 'The two screens', sell: 'The screen that sells', control: 'The screen that controls', mechanics: 'Mechanics', results: 'Results', live: 'View live', demoNote: 'Working demo built for this business: this is how it looks and works on a phone.', pending: 'Results being measured.', cta: 'Is your business next?', ctaBtn: 'Get your free demo', notFound: 'We could not find that project.', draftNote: 'Draft · not public',
   },
   services: {
     eyebrow: 'Services', title: 'What we build',

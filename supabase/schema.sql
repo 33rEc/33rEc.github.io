@@ -18,6 +18,7 @@ create table if not exists projects (
   country text, city text, year int,
   status text not null default 'caso_de_estudio' check (status in ('en_vivo','caso_de_estudio','oculto')),
   published boolean not null default false,          -- false = borrador
+  kind text not null default 'cliente' check (kind in ('cliente','demo','propio')),  -- demo = demo funcional (aún no cliente confirmado)
   live_url text, cover_url text, video_url text,
   star_mechanic text, target_client text, challenge text, solution text, results text,
   mechanics text[] not null default '{}',

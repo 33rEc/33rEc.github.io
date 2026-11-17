@@ -62,7 +62,11 @@ Campos de un proyecto: `slug, client, industry, solution_types[], country, city,
 
 - **Borradores**: `published: false`. NO aparecen en la web, ni se generan como página, ni entran al sitemap. Para revisarlos: `/?preview=1`.
 - Industrias: `gastronomia, eventos, retail, salud, gobierno_tech, marca_propia`. Tipos: `landing, panel, fidelizacion, ecommerce, minijuego, a_medida`.
-- Los 4 proyectos semilla (Mockaworld, Ficoa Beer Garden, plantilla dental, Nutribites) están como **borrador**. Sus textos de mecánica/reto son **propuestas mías a partir de tu descripción general: confírmalos**. No hay métricas inventadas. No se presenta como «cliente» a nadie que no haya contratado.
+- **Proyectos publicados (leídos de sus sitios reales el 17-nov-2026):** MockaBox (Mocka), Core Studio, Ficoa Beer Garden y Gorila Burgers. Capturas en `public/work/` (portada de escritorio + captura móvil). Los textos describen solo lo que cada sitio hace; no hay métricas inventadas.
+- **Campo `kind`:** `cliente` · `demo` · `propio`. Los 4 están como **`demo`** («Demo funcional») porque sus propios sitios dicen «modo demo», «cifra de ejemplo de la demo» o «falta la dirección antes de publicar». No se presentan como clientes contratados. Cuando confirmes que uno ya es cliente, cambia `kind` a `cliente` (en `/admin` → Relación) y, si el negocio lo autoriza, `status` a `en_vivo`.
+- Siguen como **borrador** (no públicos): `plantilla-dental` y `nutribites`.
+- Falta la captura de «la pantalla que controla» (panel) de cada uno: hoy se muestra un recuadro «captura pendiente».
+- Los datos de contacto de esos negocios (WhatsApp, correo) **no** se copiaron a esta web.
 
 ### Agregar un proyecto en menos de 2 minutos
 **Con Supabase (recomendado):** `/admin` → «+ Nuevo proyecto» → llena nombre, industria, tipo, mecánica estrella → sube la captura → marca «Publicado» → Guardar. Aparece en la web al instante (la página del caso se renderiza desde la base).

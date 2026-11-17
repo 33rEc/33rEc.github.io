@@ -108,16 +108,17 @@ html.js .materialize--rise.in { transform: none; }
 .mist { position: absolute; inset: 0; pointer-events: none; }
 
 /* ---- Caso de estudio (plantilla única) ---- */
-.page-case main { padding-top: 7rem; }
+main.page-case { padding-top: 7rem; }
 .cs { display: grid; gap: clamp(2.5rem, 7vw, 5rem); padding-bottom: 4rem; }
 .cs-hero { display: grid; gap: 1.2rem; justify-items: start; } .cs-hero h1 { font-size: var(--step-5); max-width: 16ch; }
 .cs-badges { display: flex; gap: .5rem; } .cs-star { display: grid; gap: .4rem; font-size: var(--step-1); max-width: 36ch; }
 .badge { font: 500 .64rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: .4em .7em; border-radius: 999px; background: rgba(10,10,12,.85); border: 1px solid var(--mist); }
 .badge--live { color: var(--ecto); border-color: var(--ecto); } .badge--draft { border-style: dashed; }
-.cs-grid { display: grid; gap: 2rem; } @media (min-width: 860px) { .cs-grid { grid-template-columns: 1fr 1fr; } .cs-wide { grid-column: 1 / -1; } }
+.cs-grid { display: grid; gap: 2.5rem; } @media (min-width: 860px) { .cs-grid { grid-template-columns: 1fr 1fr; } .cs-wide { grid-column: 1 / -1; } }
 .cs-grid > div { display: grid; gap: .8rem; align-content: start; } .cs-p { font-size: var(--step-1); max-width: 40ch; } .cs-big { font: 600 var(--step-3)/1.1 var(--f-display); letter-spacing: -.02em; max-width: 26ch; }
 .cs-screens { display: grid; gap: 1rem; margin-top: 1rem; } @media (min-width: 760px) { .cs-screens { grid-template-columns: 1fr 1.5fr; } }
 .cs-screen { margin: 0; display: grid; gap: .6rem; } .cs-screen img, .cs-ph { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--mist); background: var(--graphite); }
+.cs-screen img { object-position: top; }
 .cs-screen:last-child img, .cs-screen:last-child .cs-ph { aspect-ratio: 16 / 10; } .cs-ph { display: grid; place-items: center; border-style: dashed; }
 .cs-mech { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: .6rem; } .cs-mech li { padding: .6em 1em; border: 1px solid var(--mist); border-radius: 999px; background: var(--graphite); }
 .cs-metrics { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); } .cs-metrics li { display: grid; gap: .4rem; border-top: 1px solid var(--mist); padding-top: 1rem; } .cs-metrics b { font: 600 var(--step-4) var(--f-display); letter-spacing: -.03em; }

@@ -7,7 +7,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: { inlineStylesheets: 'auto' },
   integrations: [sitemap({
-    filter: (page) => !/(logo-lab|admin|404)/.test(page) && !/(trabajo|work)\/(mockaworld|ficoa-beer-garden|plantilla-dental|nutribites)/.test(page),
+    filter: (page) => !/(logo-lab|admin|404)/.test(page),
     i18n: { defaultLocale: 'es', locales: { es: 'es-EC', en: 'en-US' } },
   })],
 });

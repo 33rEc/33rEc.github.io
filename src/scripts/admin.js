@@ -70,6 +70,7 @@ function editor(p) {
     <label>Cliente / nombre<input name="client" required value="${esc(v.client)}"></label>
     <label>Slug (URL)<input name="slug" pattern="[a-z0-9-]+" value="${esc(v.slug)}" placeholder="se genera del nombre"></label>
     <label>Industria<select name="industry">${industries.map((k) => `<option value="${k}" ${v.industry === k ? 'selected' : ''}>${W.industries[k]}</option>`).join('')}</select></label>
+    <label>Relación<select name="kind">${[['cliente', 'Cliente'], ['demo', 'Demo funcional'], ['propio', 'Marca propia']].map(([k, l]) => `<option value="${k}" ${(v.kind || 'cliente') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
     <label>Estado<select name="status">${[['en_vivo', 'En vivo'], ['caso_de_estudio', 'Caso de estudio'], ['oculto', 'Oculto']].map(([k, l]) => `<option value="${k}" ${v.status === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
     <fieldset class="full"><legend>Tipos de solución</legend>${types.map((k) => `<label class="chk"><input type="checkbox" name="st" value="${k}" ${v.solution_types?.includes(k) ? 'checked' : ''}>${W.types[k]}</label>`).join('')}</fieldset>
     <label>País<input name="country" value="${esc(v.country)}"></label><label>Ciudad<input name="city" value="${esc(v.city)}"></label>
@@ -97,7 +98,7 @@ function editor(p) {
   f.onsubmit = async (e) => {
     e.preventDefault(); const g = (n) => f.elements[n].value.trim(); const lines = (n) => g(n).split('\n').map((s) => s.trim()).filter(Boolean);
     const row = {
-      ...(p ? { id: p.id } : {}), client: g('client'), slug: g('slug') || slugify(g('client')), industry: g('industry'), status: g('status'),
+      ...(p ? { id: p.id } : {}), client: g('client'), slug: g('slug') || slugify(g('client')), industry: g('industry'), status: g('status'), kind: g('kind'),
       solution_types: [...f.querySelectorAll('[name=st]:checked')].map((x) => x.value), country: g('country'), city: g('city'), year: Number(g('year')) || null, live_url: g('live_url'),
       cover_url: g('cover_url'), video_url: g('video_url'), screens: { sell: g('screen_sell'), control: g('screen_control') },
       star_mechanic: g('star_mechanic'), target_client: g('target_client'), challenge: g('challenge'), solution: g('solution'), results: g('results'),
