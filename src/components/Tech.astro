@@ -1,0 +1,65 @@
+---
+const { t } = Astro.props; const k = t.tech;
+const viz = {
+  rt: '<svg viewBox="0 0 120 44" aria-hidden="true"><polyline class="v-line" points="0,32 14,28 28,30 42,18 56,22 70,10 84,16 98,6 120,12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle class="v-pulse" cx="120" cy="12" r="3" fill="currentColor"/></svg>',
+  gps: '<svg viewBox="0 0 120 44" aria-hidden="true"><g transform="translate(60 22)" fill="none" stroke="currentColor" stroke-width="1.5"><circle class="v-ring r1" r="6"/><circle class="v-ring r2" r="6"/><circle class="v-ring r3" r="6"/></g><circle cx="60" cy="22" r="3.2" fill="currentColor"/></svg>',
+  sat: '<svg viewBox="0 0 120 44" aria-hidden="true"><ellipse cx="60" cy="24" rx="46" ry="14" fill="none" stroke="currentColor" stroke-width="1" opacity=".35"/><circle cx="60" cy="24" r="5" fill="currentColor" opacity=".5"/><g class="v-orbit"><circle cx="106" cy="24" r="3.2" fill="currentColor"/></g></svg>',
+};
+---
+<section class="section tech" id="tecnologia" aria-labelledby="tech-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag tag--ecto materialize">{k.eyebrow}</p>
+      <h2 id="tech-h" class="materialize" style="--d:.1s">{k.title}</h2>
+      <p class="materialize" style="--d:.2s">{k.intro}</p>
+    </div>
+
+    <h3 class="tech__sub tag materialize">{k.capsTitle}</h3>
+    <ul class="caps">
+      {k.caps.map(([id, title, text, seen], i) => (
+        <li class:list={['cap', 'materialize', 'materialize--rise', id === 'rt' && 'cap--wide', id === '3d' && 'cap--full']} style={`--d:${(i % 3) * 0.08}s`}>
+          {viz[id] ? <div class="cap__viz" set:html={viz[id]} /> : <span class="tag tag--ecto cap__n">{String(i + 1).padStart(2, '0')}</span>}
+          <h4>{title}</h4>
+          <p class="muted">{text}</p>
+          <p class="cap__seen tag">{k.seen}: {seen.join(' · ')}</p>
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="tech__sub tag materialize">{k.stackTitle}</h3>
+    <div class="stack">
+      {k.groups.map(([name, items], i) => (
+        <div class="stack__g materialize" style={`--d:${(i % 3) * 0.08}s`}>
+          <p class="tag tag--ecto">{name}</p>
+          <ul>{items.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .tech__sub { margin: 3rem 0 1.2rem; }
+  .tech__sub:first-of-type { margin-top: 0; }
+  .caps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .cap { background: var(--graphite); border: 1px solid var(--mist); border-radius: var(--radius); padding: 1.4rem; display: grid; gap: .7rem; align-content: start; position: relative; overflow: hidden; transition: border-color .4s, transform .5s var(--ease); }
+  .cap:hover { border-color: var(--ecto); transform: translateY(-3px); }
+  .cap--full { grid-column: 1 / -1; } .cap--wide { grid-column: 1 / -1; } @media (min-width: 900px) { .cap--wide { grid-column: span 2; } }
+  .cap h4 { font: 600 var(--step-1) var(--f-display); letter-spacing: -.01em; }
+  .cap__viz { height: 56px; width: 140px; color: var(--ecto); } .cap__viz :global(svg) { width: 100%; height: 100%; overflow: visible; }
+  .cap__n { height: 28px; display: flex; align-items: center; }
+  .cap__seen { margin-top: .3rem; text-transform: none; letter-spacing: .04em; font-size: .7rem; }
+  /* microanimaciones */
+  .cap :global(.v-line) { stroke-dasharray: 220; animation: draw 4s ease-in-out infinite; } .cap :global(.v-pulse) { animation: blink 1.4s infinite; transform-origin: 120px 12px; }
+  .cap :global(.v-ring) { transform-box: fill-box; transform-origin: center; animation: ping 2.6s ease-out infinite; opacity: 0; } .cap :global(.r2) { animation-delay: .85s; } .cap :global(.r3) { animation-delay: 1.7s; }
+  .cap :global(.v-orbit) { transform-origin: 60px 24px; animation: orbit 9s linear infinite; }
+  @keyframes draw { 0% { stroke-dashoffset: 220; } 55%, 100% { stroke-dashoffset: 0; } }
+  @keyframes blink { 50% { opacity: .2; transform: scale(1.6); } }
+  @keyframes ping { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(6); opacity: 0; } }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .cap :global(.v-line), .cap :global(.v-pulse), .cap :global(.v-ring), .cap :global(.v-orbit) { animation: none; opacity: 1; stroke-dashoffset: 0; } .cap :global(.v-ring) { opacity: .35; transform: scale(3); } }
+  .stack { display: grid; gap: 1px; background: var(--mist); border: 1px solid var(--mist); border-radius: var(--radius); overflow: hidden; }
+  @media (min-width: 760px) { .stack { grid-template-columns: repeat(2, 1fr); } } @media (min-width: 1100px) { .stack { grid-template-columns: repeat(3, 1fr); } }
+  .stack__g { background: var(--ink); padding: 1.4rem; display: grid; gap: .9rem; align-content: start; }
+  .stack__g ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem; }
+  .stack__g li { padding: .4em .85em; border: 1px solid var(--mist); border-radius: 999px; background: var(--graphite); font: 500 .8rem var(--f-mono); letter-spacing: .02em; }
+</style>

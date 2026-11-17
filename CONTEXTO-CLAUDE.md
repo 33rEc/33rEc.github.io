@@ -62,7 +62,7 @@ Campos de un proyecto: `slug, client, industry, solution_types[], country, city,
 
 - **Borradores**: `published: false`. NO aparecen en la web, ni se generan como página, ni entran al sitemap. Para revisarlos: `/?preview=1`.
 - Industrias: `gastronomia, eventos, retail, salud, gobierno_tech, marca_propia`. Tipos: `landing, panel, fidelizacion, ecommerce, minijuego, a_medida`.
-- **Proyectos publicados (leídos de sus sitios reales):** MockaBox (Mocka), Core Studio, Ficoa Beer Garden, Gorila Burgers, Luna Dental, Dogo y DIP. Capturas en `public/work/`. Los textos describen solo lo que cada sitio hace; no hay métricas inventadas. Todos son `kind: cliente`, `status: en_vivo`.
+- **Proyectos publicados (leídos de sus sitios reales):** MockaBox (Mocka), Core Studio, Ficoa Beer Garden, Gorila Burgers, Luna Dental, Dogo, DIP y **Geriam / SAT Embalses Tungurahua** (alerta temprana de embalses del Gobierno Provincial de Tungurahua: sensores, LoRaWAN, Starlink, panel y app de campo con GPS; confirmar con el cliente que autoriza nombrarlo). Capturas en `public/work/`. Los textos describen solo lo que cada sitio hace; no hay métricas inventadas. Todos son `kind: cliente`, `status: en_vivo`.
 - **«Hecho a medida» (personalización visible):** cada proyecto tiene `signature` (título), `signature_text` y `accent` (color de marca del cliente). Se muestra en la tarjeta (chip con el color del cliente), en la sección **«Cada negocio, su propia pieza»** de la portada (lista editorial, se llena sola desde los datos) y en el caso de estudio. Rasgos: Mockabox → tarjeta Mocka (saldo propio y QR); Core Studio → Core Card con estrellas; Ficoa → Beer Club; Gorila → jeep del Gorila; Luna Dental → odontograma de primer nivel; Dogo → panel del dueño; DIP → juego 3D completo.
 - **Dogo — panel:** está detrás de login; su contenido se leyó del código de `panel.html` (resumen, pedidos, compras con pronóstico de demanda, precios y márgenes, marketing con ROAS, clientes, equipo con roles dueño/equipo). Falta captura.
 - **Luna Dental — odontograma:** NO es visible en el sitio público (no hay ruta ni código). Se publica según lo indicado por Daniel, sin detalles inventados. Falta captura o link.
@@ -74,6 +74,9 @@ Campos de un proyecto: `slug, client, industry, solution_types[], country, city,
 ### Agregar un proyecto en menos de 2 minutos
 **Con Supabase (recomendado):** `/admin` → «+ Nuevo proyecto» → llena nombre, industria, tipo, mecánica estrella → sube la captura → marca «Publicado» → Guardar. Aparece en la web al instante (la página del caso se renderiza desde la base).
 **Sin Supabase:** agrega un objeto a `src/data/projects.seed.json` (copia uno), pon `"published": true`, sube la imagen a `public/work/` y haz push.
+
+### Stack y capacidades destacados (sección «Tecnología» + cinta bajo el hero)
+Solo se listan tecnologías **verificadas** en el código de los proyectos publicados: Supabase (Dogo, Core Studio, MockaBox, Ficoa), GSAP (MockaBox, Luna Dental, Ficoa), Three.js (DIP), PWA/manifest y service worker (Geriam, MockaBox), Next.js + Vercel + Mapbox (Geriam), LoRaWAN/Starlink/sensores/cámaras IP/GPS en reportes de campo (Geriam). Texto en `src/i18n/index.js` → `tech` y `ticker` (ES y EN). Cada capacidad indica «Visto en» qué proyecto la respalda. Si agregas una tecnología, que esté en un proyecto real.
 
 ## 9. Conectar Supabase (pendiente de las claves)
 1. Crear proyecto en supabase.com. En **SQL Editor** pegar y ejecutar `supabase/schema.sql` (tablas `projects`, `project_media`, `leads`, `admins`, RLS y bucket `project-media`).

@@ -1,5 +1,54 @@
 [
   {
+    "slug": "geriam",
+    "client": "SAT Embalses Tungurahua",
+    "industry": "gobierno_tech",
+    "country": "Ecuador",
+    "city": "Tungurahua",
+    "year": 2026,
+    "status": "en_vivo",
+    "published": true,
+    "kind": "cliente",
+    "solution_types": [
+      "panel",
+      "a_medida"
+    ],
+    "accent": "#29D3F0",
+    "live_url": "https://geriam.vercel.app/",
+    "cover_url": "/work/geriam-cover.webp",
+    "screens": {
+      "sell": "/work/geriam-mobile.webp",
+      "control": ""
+    },
+    "video_url": "",
+    "results": "",
+    "metrics": [],
+    "featured": true,
+    "sort_order": 0,
+    "star_mechanic": "Estado en vivo de cada embalse, con niveles de alerta y tiempo estimado de llegada de la crecida a cada comunidad",
+    "target_client": "Sala de operaciones, técnicos de campo y directores de juntas aguas abajo, y la ciudadanía a través de una vista pública resumida.",
+    "challenge": "Vigilar día y noche presas ubicadas en el páramo —sin cobertura celular— y lograr que, ante un riesgo, cada persona sepa en segundos qué hacer.",
+    "solution": "Sensores de nivel, lluvia, caudal, piezómetros, asentamiento e inclinación en cada presa, enlazados por LoRaWAN a un gateway y por Starlink a la nube. Reglas de alerta, histórico, simulacros y bitácora inmutable; un panel para la sala de operaciones y una app para técnicos y juntas, en tiempo real.",
+    "mechanics": [
+      "Sensores IoT en las presas (nivel, lluvia, caudal, estructura)",
+      "LoRaWAN, gateway y enlace satelital Starlink",
+      "Niveles de alerta con acciones por rol",
+      "Tiempo estimado de llegada de la crecida a cada comunidad",
+      "App de campo: «en camino» / «en sitio» y reportes con foto y GPS",
+      "Bitácora inmutable y simulacros"
+    ],
+    "signature": "Del sensor en el páramo al teléfono del técnico, en segundos",
+    "signature_text": "Tecnología a medida de punta a punta: sensores, radio de largo alcance, satélite donde no hay cobertura celular, reglas de alerta, panel de operaciones y app de campo con GPS.",
+    "en": {
+      "star_mechanic": "Live status of every reservoir, with alert levels and the estimated time for a flood wave to reach each community",
+      "target_client": "The operations room, field technicians and community board directors downstream, plus the public through a summary view.",
+      "challenge": "Watch dams in the high moorland —with no cell coverage— day and night, and make sure that, when there is a risk, everyone knows in seconds what to do.",
+      "solution": "Level, rain, flow, piezometer, settlement and tilt sensors at every dam, linked by LoRaWAN to a gateway and by Starlink to the cloud. Alert rules, history, drills and an immutable log; a dashboard for the operations room and an app for technicians and boards, in real time.",
+      "signature": "From the sensor on the moor to the technician’s phone, in seconds",
+      "signature_text": "Custom technology end to end: sensors, long-range radio, satellite where there is no cell coverage, alert rules, an operations dashboard and a field app with GPS."
+    }
+  },
+  {
     "industry": "salud",
     "country": "Ecuador",
     "city": "Baños de Agua Santa",
