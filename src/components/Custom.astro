@@ -1,0 +1,26 @@
+---
+const { t } = Astro.props; const c = t.custom;
+---
+<section class="section custom" id="a-medida" aria-labelledby="custom-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag tag--ecto materialize">{c.eyebrow}</p>
+      <h2 id="custom-h" class="materialize" style="--d:.1s">{c.title}</h2>
+      <p class="materialize" style="--d:.2s">{c.intro}</p>
+    </div>
+    <ol class="sig" data-signatures data-base={t.workBase} data-lang={t.lang} data-open={c.open}></ol>
+  </div>
+</section>
+<style>
+  .sig { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--mist); }
+  :global(.sig__row) { --accent: var(--ecto); display: grid; gap: .5rem 2rem; padding: 1.6rem 0 1.6rem 1.2rem; border-bottom: 1px solid var(--mist); position: relative; text-decoration: none; color: inherit; align-items: baseline;
+    transition: background .5s var(--ease), padding .5s var(--ease); }
+  :global(.sig__row::before) { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(.25); transform-origin: top; transition: transform .5s var(--ease); }
+  :global(.sig__row:hover), :global(.sig__row:focus-visible) { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 11%, transparent), transparent 70%); padding-left: 1.8rem; }
+  :global(.sig__row:hover::before), :global(.sig__row:focus-visible::before) { transform: scaleY(1); }
+  :global(.sig__who) { display: grid; gap: .35rem; } :global(.sig__who b) { font: 600 var(--step-1) var(--f-display); letter-spacing: -.01em; }
+  :global(.sig__what) { font: 600 var(--step-2)/1.08 var(--f-display); letter-spacing: -.02em; max-width: 22ch; color: var(--accent); }
+  :global(.sig__txt) { color: var(--ash); max-width: 46ch; font-size: .98rem; } :global(.sig__go) { font: 500 .72rem var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); opacity: 0; transition: opacity .3s; }
+  :global(.sig__row:hover .sig__go), :global(.sig__row:focus-visible .sig__go) { opacity: 1; }
+  @media (min-width: 980px) { :global(.sig__row) { grid-template-columns: 17rem 1.2fr 1.4fr auto; } }
+</style>

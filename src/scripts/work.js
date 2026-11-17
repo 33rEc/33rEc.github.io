@@ -18,8 +18,10 @@ export async function initWork() {
     const vid = p.video_url ? `<video muted loop playsinline preload="none" data-src="${esc(p.video_url)}" aria-hidden="true"></video>` : '';
     const res = (p.metrics?.[0] ? `${esc(p.metrics[0].value)} ${esc(p.metrics[0].label)}` : '') || esc(loc(p, 'results', lang));
     const types = (p.solution_types || []).map((k) => L.types[k]).filter(Boolean).join(' · ');
-    return `<article class="card pcard" data-slug="${esc(p.slug)}">
+    const sig = loc(p, 'signature', lang);
+    return `<article class="card pcard" data-slug="${esc(p.slug)}" style="--accent:${esc(p.accent || '')}">
       <div class="pcard__shot">${cover}${vid}
+        ${sig ? `<div class="pcard__sig"><i aria-hidden="true">✦</i><span><b>${esc(sig)}</b></span></div>` : ''}
         <div class="pcard__badges"><span class="badge ${live ? 'badge--live' : ''}">${live ? L.live : L.study}</span>${demo ? `<span class="badge">${L.demoKind}</span>` : ''}${p.published ? '' : `<span class="badge badge--draft">${L.draft}</span>`}</div>
       </div>
       <div class="pcard__body">
@@ -54,4 +56,15 @@ export async function initWork() {
   grid.addEventListener('pointerleave', (e) => { const v = e.target.querySelector?.('video.on'); if (v) { v.pause(); v.classList.remove('on'); } }, true);
   if (window.__pf !== undefined) { f.industry = window.__pf; window.__pf = undefined; }
   render();
+
+  // Sección «Hecho a medida»: el rasgo único de cada proyecto (mismos datos que el portafolio)
+  const sigRoot = document.querySelector('[data-signatures]');
+  if (sigRoot) {
+    const base2 = sigRoot.dataset.base, open = sigRoot.dataset.open;
+    sigRoot.innerHTML = all.filter((p) => loc(p, 'signature', lang)).map((p) => `<li><a class="sig__row" style="--accent:${esc(p.accent || '')}" href="${base2}${esc(p.slug)}${preview ? '?preview=1' : ''}" data-case="${esc(p.slug)}">
+      <span class="sig__who"><b>${esc(p.client)}</b><span class="tag">${esc(L.industries[p.industry] || '')}</span></span>
+      <span class="sig__what">${esc(loc(p, 'signature', lang))}</span><span class="sig__txt">${esc(loc(p, 'signature_text', lang))}</span><span class="sig__go">${esc(open)} →</span></a></li>`).join('');
+    sigRoot.closest('section').hidden = !sigRoot.children.length;
+    sigRoot.addEventListener('click', (e) => { const c = e.target.closest('[data-case]'); if (c) track('case_open', { slug: c.dataset.case, from: 'a-medida' }); });
+  }
 }

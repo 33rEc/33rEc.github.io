@@ -77,6 +77,9 @@ function editor(p) {
     <label>Año<input name="year" type="number" value="${esc(v.year)}"></label><label>Link en vivo<input name="live_url" type="url" value="${esc(v.live_url)}" placeholder="https://…"></label>
     ${up('cover_url', 'Captura de portada', v.cover_url)}${up('video_url', 'Video corto (opcional, mp4 comprimido)', v.video_url)}
     ${up('screen_sell', 'Pantalla que vende (caso de estudio)', v.screens?.sell)}${up('screen_control', 'Pantalla que controla (caso de estudio)', v.screens?.control)}
+    <label>Color de marca (hex)<input name="accent" value="${esc(v.accent)}" placeholder="#FFD400" pattern="#[0-9a-fA-F]{6}"></label><span></span>
+    <label class="full">Hecho a medida · título (lo único que hicimos para este cliente)<input name="signature" value="${esc(v.signature)}"></label>
+    <label class="full">Hecho a medida · descripción<textarea name="signature_text">${esc(v.signature_text)}</textarea></label>
     <label class="full">Mecánica estrella<input name="star_mechanic" value="${esc(v.star_mechanic)}"></label>
     <label class="full">Cliente objetivo<textarea name="target_client">${esc(v.target_client)}</textarea></label>
     <label class="full">Reto<textarea name="challenge">${esc(v.challenge)}</textarea></label>
@@ -85,7 +88,7 @@ function editor(p) {
     <label class="full">Métricas (una por línea: «Etiqueta | Valor»)<textarea name="metrics">${esc((v.metrics || []).map((m) => `${m.label} | ${m.value}`).join('\n'))}</textarea></label>
     <label class="full">Resultados (texto)<textarea name="results">${esc(v.results)}</textarea></label>
     <p class="tag full">Traducción al inglés (opcional)</p>
-    ${['star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => `<label class="full">EN · ${k}<textarea name="en_${k}">${esc(en[k])}</textarea></label>`).join('')}
+    ${['signature', 'signature_text', 'star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => `<label class="full">EN · ${k}<textarea name="en_${k}">${esc(en[k])}</textarea></label>`).join('')}
     <label>Orden<input name="sort_order" type="number" value="${esc(v.sort_order)}"></label>
     <div class="row full"><label class="chk"><input type="checkbox" name="published" ${v.published ? 'checked' : ''}>Publicado (visible en la web)</label><label class="chk"><input type="checkbox" name="featured" ${v.featured ? 'checked' : ''}>Destacado</label></div>
     </div><p class="msg" id="pmsg" role="alert"></p><div class="row"><button class="btn btn--primary" type="submit">Guardar</button></div></form>`;
@@ -101,9 +104,9 @@ function editor(p) {
       ...(p ? { id: p.id } : {}), client: g('client'), slug: g('slug') || slugify(g('client')), industry: g('industry'), status: g('status'), kind: g('kind'),
       solution_types: [...f.querySelectorAll('[name=st]:checked')].map((x) => x.value), country: g('country'), city: g('city'), year: Number(g('year')) || null, live_url: g('live_url'),
       cover_url: g('cover_url'), video_url: g('video_url'), screens: { sell: g('screen_sell'), control: g('screen_control') },
-      star_mechanic: g('star_mechanic'), target_client: g('target_client'), challenge: g('challenge'), solution: g('solution'), results: g('results'),
+      accent: g('accent'), signature: g('signature'), signature_text: g('signature_text'), star_mechanic: g('star_mechanic'), target_client: g('target_client'), challenge: g('challenge'), solution: g('solution'), results: g('results'),
       mechanics: lines('mechanics'), metrics: lines('metrics').map((l) => { const [label, ...r] = l.split('|'); return { label: label.trim(), value: r.join('|').trim() }; }),
-      en: Object.fromEntries(['star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => [k, g('en_' + k)]).filter(([, x]) => x)),
+      en: Object.fromEntries(['signature', 'signature_text', 'star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => [k, g('en_' + k)]).filter(([, x]) => x)),
       sort_order: Number(g('sort_order')) || 100, published: f.elements.published.checked, featured: f.elements.featured.checked,
     };
     try { await D.saveProject(row); dlg.close(); dash(); } catch (er) { msg.className = 'msg'; msg.textContent = 'Error: ' + er.message; }

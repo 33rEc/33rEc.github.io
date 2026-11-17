@@ -3,7 +3,7 @@
    V2 "Primero lo ves funcionando. Después decides." — fuerte, pero habla del proceso, no de lo que entregamos.
    V3 "Detrás de cada negocio que crece hay un sistema que no se ve." — el más misterioso, pero abstracto en el primer pantallazo. */
 
-export const industries = ['gastronomia', 'eventos', 'retail', 'salud', 'gobierno_tech', 'marca_propia'];
+export const industries = ['gastronomia', 'eventos', 'retail', 'salud', 'entretenimiento', 'gobierno_tech', 'marca_propia'];
 export const types = ['landing', 'panel', 'fidelizacion', 'ecommerce', 'minijuego', 'a_medida'];
 
 const es = {
@@ -41,6 +41,7 @@ const es = {
     live: 'En vivo', feed: 'Últimos pedidos', order_word: 'Pedido', newCustomer: 'Cliente nuevo', returning: 'Recurrente',
     currency: 'USD', locale: 'es-EC',
   },
+  custom: { eyebrow: 'Hecho a medida', title: 'Cada negocio, su propia pieza.', intro: 'Lo que construimos solo para ellos, y que ninguna plantilla trae: una tarjeta propia, un club, un odontograma, un panel, un juego.', open: 'Ver caso' },
   edge: {
     eyebrow: 'Por qué 33r', title: 'Velocidad de estudio pequeño. Nivel de agencia grande.',
     items: [
@@ -54,13 +55,14 @@ const es = {
     eyebrow: 'Trabajo', title: 'Sistemas en funcionamiento',
     intro: 'Landings, paneles y experiencias hechos a la medida de cómo compra cada cliente.',
     fIndustry: 'Industria', fType: 'Tipo de solución', all: 'Todas', allM: 'Todos', clear: 'Quitar filtros',
-    industries: { gastronomia: 'Gastronomía', eventos: 'Eventos', retail: 'Retail', salud: 'Salud y bienestar', gobierno_tech: 'Gobierno / Tech', marca_propia: 'Marca propia' },
+    industries: { gastronomia: 'Gastronomía', eventos: 'Eventos', retail: 'Retail', salud: 'Salud y bienestar', entretenimiento: 'Entretenimiento', gobierno_tech: 'Gobierno / Tech', marca_propia: 'Marca propia' },
     types: { landing: 'Landing', panel: 'Panel / CRM', fidelizacion: 'Fidelización', ecommerce: 'E-commerce', minijuego: 'Minijuego', a_medida: 'A medida' },
-    live: 'En vivo', study: 'Caso de estudio', demoKind: 'Demo funcional', visit: 'Ver sitio', visitDemo: 'Ver demo', open: 'Ver caso', star: 'Mecánica estrella', result: 'Resultado',
+    signature: 'Hecho a medida', live: 'En vivo', study: 'Caso de estudio', demoKind: 'Demo funcional', visit: 'Ver sitio', visitDemo: 'Ver demo', open: 'Ver caso', star: 'Mecánica estrella', result: 'Resultado',
     emptyTitle: 'Estamos preparando los primeros casos.', emptyText: 'Cada proyecto se publica con permiso del cliente. Mientras tanto, la mejor prueba es tu propia demo.', emptyCta: 'Pide tu demo gratis',
     noMatch: 'Ningún proyecto coincide con ese filtro.', loading: 'Cargando proyectos…', draft: 'Borrador', demo: 'captura pendiente',
   },
   caseStudy: {
+    signature: 'Hecho a medida para este negocio', gallery: 'En acción',
     back: '← Todo el trabajo', challenge: 'El reto', target: 'Cliente objetivo', idea: 'La idea', screens: 'Las dos pantallas', sell: 'La pantalla que vende', control: 'La pantalla que controla', mechanics: 'Mecánicas', results: 'Resultados', live: 'Ver en vivo', demoNote: 'Demo funcional construida para este negocio: así se ve y se usa en el celular.', pending: 'Resultados en medición.', cta: '¿Tu negocio es el siguiente?', ctaBtn: 'Pide tu demo gratis', notFound: 'No encontramos ese proyecto.', draftNote: 'Borrador · no público',
   },
   services: {
@@ -80,7 +82,7 @@ const es = {
   },
   industries: {
     eyebrow: 'Industrias', title: 'Nichos donde ya construimos', hint: 'Toca uno y filtramos el trabajo.',
-    notes: { gastronomia: 'Pedidos, fidelización, menús', eventos: 'Configuradores y cotizaciones', retail: 'Catálogo y recompra', salud: 'Citas y confianza', gobierno_tech: 'Monitoreo y datos', marca_propia: 'Nuestras propias marcas' },
+    notes: { gastronomia: 'Pedidos, fidelización, menús', eventos: 'Configuradores y cotizaciones', retail: 'Catálogo, pedidos y panel', salud: 'Citas y confianza', entretenimiento: 'Juegos y experiencias', gobierno_tech: 'Monitoreo y datos', marca_propia: 'Nuestras propias marcas' },
   },
   who: {
     title: 'Somos dos. Casi no nos verás.', text: 'Los protagonistas son los negocios de nuestros clientes y sus resultados. Nosotros estamos detrás de cada sistema.', hint: 'Acerca el cursor o el dedo.',
@@ -133,6 +135,7 @@ const en = {
     live: 'Live', feed: 'Latest orders', order_word: 'Order', newCustomer: 'New customer', returning: 'Returning',
     currency: 'USD', locale: 'en-US',
   },
+  custom: { eyebrow: 'Built to measure', title: 'Every business, its own piece.', intro: 'What we build only for them, and no template ships with: its own card, a club, an odontogram, a dashboard, a game.', open: 'View case' },
   edge: {
     eyebrow: 'Why 33r', title: 'Small-studio speed. Big-agency level.',
     items: [
@@ -146,13 +149,14 @@ const en = {
     eyebrow: 'Work', title: 'Systems in production',
     intro: 'Landings, dashboards and experiences tailored to how each customer buys.',
     fIndustry: 'Industry', fType: 'Solution type', all: 'All', allM: 'All', clear: 'Clear filters',
-    industries: { gastronomia: 'Food & beverage', eventos: 'Events', retail: 'Retail', salud: 'Health & wellness', gobierno_tech: 'Government / Tech', marca_propia: 'Own brand' },
+    industries: { gastronomia: 'Food & beverage', eventos: 'Events', retail: 'Retail', salud: 'Health & wellness', entretenimiento: 'Entertainment', gobierno_tech: 'Government / Tech', marca_propia: 'Own brand' },
     types: { landing: 'Landing', panel: 'Dashboard / CRM', fidelizacion: 'Loyalty', ecommerce: 'E-commerce', minijuego: 'Mini-game', a_medida: 'Custom' },
-    live: 'Live', study: 'Case study', demoKind: 'Working demo', visit: 'Visit site', visitDemo: 'View demo', open: 'View case', star: 'Star mechanic', result: 'Result',
+    signature: 'Built to measure', live: 'Live', study: 'Case study', demoKind: 'Working demo', visit: 'Visit site', visitDemo: 'View demo', open: 'View case', star: 'Star mechanic', result: 'Result',
     emptyTitle: 'We are preparing the first cases.', emptyText: 'Every project is published with the client’s permission. Meanwhile, the best proof is your own demo.', emptyCta: 'Get your free demo',
     noMatch: 'No project matches that filter.', loading: 'Loading projects…', draft: 'Draft', demo: 'screenshot pending',
   },
   caseStudy: {
+    signature: 'Built to measure for this business', gallery: 'In action',
     back: '← All work', challenge: 'The challenge', target: 'Target customer', idea: 'The idea', screens: 'The two screens', sell: 'The screen that sells', control: 'The screen that controls', mechanics: 'Mechanics', results: 'Results', live: 'View live', demoNote: 'Working demo built for this business: this is how it looks and works on a phone.', pending: 'Results being measured.', cta: 'Is your business next?', ctaBtn: 'Get your free demo', notFound: 'We could not find that project.', draftNote: 'Draft · not public',
   },
   services: {
@@ -172,7 +176,7 @@ const en = {
   },
   industries: {
     eyebrow: 'Industries', title: 'Niches where we already build', hint: 'Tap one and we filter the work.',
-    notes: { gastronomia: 'Orders, loyalty, menus', eventos: 'Configurators and quotes', retail: 'Catalog and repurchase', salud: 'Appointments and trust', gobierno_tech: 'Monitoring and data', marca_propia: 'Our own brands' },
+    notes: { gastronomia: 'Orders, loyalty, menus', eventos: 'Configurators and quotes', retail: 'Catalog, orders and dashboard', salud: 'Appointments and trust', entretenimiento: 'Games and experiences', gobierno_tech: 'Monitoring and data', marca_propia: 'Our own brands' },
   },
   who: {
     title: 'There are two of us. You’ll barely see us.', text: 'The protagonists are our clients’ businesses and their results. We stand behind every system.', hint: 'Bring your cursor or finger closer.',

@@ -1,5 +1,153 @@
 [
   {
+    "industry": "salud",
+    "country": "Ecuador",
+    "city": "Baños de Agua Santa",
+    "year": 2026,
+    "status": "en_vivo",
+    "published": true,
+    "kind": "cliente",
+    "video_url": "",
+    "results": "",
+    "metrics": [],
+    "featured": true,
+    "slug": "luna-dental",
+    "client": "Luna Dental",
+    "solution_types": [
+      "landing",
+      "a_medida"
+    ],
+    "accent": "#D4AF5F",
+    "live_url": "https://lunadentalce.github.io/",
+    "cover_url": "/work/luna-dental-cover.webp",
+    "screens": {
+      "sell": "/work/luna-dental-mobile.webp",
+      "control": ""
+    },
+    "star_mechanic": "Agenda de citas en 3 pasos con confirmación por WhatsApp",
+    "target_client": "Familias y adultos de Baños de Agua Santa que buscan un centro de especialidades odontológicas y deciden por confianza y por lo fácil que sea agendar.",
+    "challenge": "Un centro con seis especialidades necesitaba transmitir confianza clínica y convertir visitas en citas sin llamadas ni idas y vueltas.",
+    "solution": "Una web con la presencia de la doctora y las seis especialidades al frente, y una agenda en tres pasos —día, horario y datos— que llega a WhatsApp ya con el motivo, el día y el horario para confirmar la cita por el mismo chat.",
+    "mechanics": [
+      "Agenda en 3 pasos (día, horario, datos)",
+      "Cita por especialidad",
+      "Confirmación por WhatsApp con la cita ya armada",
+      "Odontograma de primer nivel"
+    ],
+    "sort_order": 5,
+    "signature": "Odontograma de primer nivel",
+    "signature_text": "Más allá de la web: una herramienta clínica hecha a la medida del consultorio, con un odontograma pensado para el trabajo diario de la doctora.",
+    "en": {
+      "star_mechanic": "3-step appointment booking with WhatsApp confirmation",
+      "target_client": "Families and adults in Baños de Agua Santa looking for a dental specialty center, who choose by trust and by how easy it is to book.",
+      "challenge": "A center with six specialties needed to convey clinical trust and turn visits into appointments without phone calls or back and forth.",
+      "solution": "A site that puts the doctor and the six specialties up front, and a three-step booking —day, time and details— that reaches WhatsApp with the reason, day and time already filled in, so the appointment is confirmed in the same chat.",
+      "signature": "A first-class odontogram",
+      "signature_text": "Beyond the website: a clinical tool built to the practice’s measure, with an odontogram designed for the doctor’s daily work."
+    }
+  },
+  {
+    "industry": "retail",
+    "country": "Ecuador",
+    "city": "Quito",
+    "year": 2026,
+    "status": "en_vivo",
+    "published": true,
+    "kind": "cliente",
+    "video_url": "",
+    "results": "",
+    "metrics": [],
+    "featured": true,
+    "slug": "dogo",
+    "client": "Dogo",
+    "solution_types": [
+      "ecommerce",
+      "panel",
+      "a_medida"
+    ],
+    "accent": "#C6E05A",
+    "live_url": "https://dogoec.github.io/",
+    "cover_url": "/work/dogo-cover.webp",
+    "screens": {
+      "sell": "/work/dogo-mobile.webp",
+      "control": ""
+    },
+    "star_mechanic": "Pedido armado en la tienda y enviado ya escrito por WhatsApp, con combinaciones por tamaño de perro",
+    "target_client": "Dueños de perros en Quito, los valles y Ambato que quieren saber exactamente qué le dan a su mascota.",
+    "challenge": "Vender snacks de un solo ingrediente desde la confianza y la claridad, y que el dueño del negocio decida con números, no a ojo.",
+    "solution": "Una tienda que recomienda la combinación según el peso del perro, muestra el total al instante y manda el pedido ya escrito por WhatsApp. Detrás, un panel del dueño que controla ventas, utilidad, compras, precios y marketing.",
+    "mechanics": [
+      "Combinaciones recomendadas por tamaño de perro",
+      "Pedido con total al instante y envío por WhatsApp",
+      "Panel del dueño con roles (dueño y equipo)",
+      "Pronóstico de demanda y lista de compra",
+      "Simulador de precio y margen por línea",
+      "Retorno por canal de marketing (ROAS)"
+    ],
+    "sort_order": 6,
+    "signature": "Panel del dueño muy acertado",
+    "signature_text": "Ventas y utilidad por día, pedidos con estados, pronóstico de demanda y lista de compra, simulador de precios, embudo y retorno por canal. El dueño ve costos y márgenes; el equipo, solo lo que necesita.",
+    "en": {
+      "star_mechanic": "Order built in the store and sent pre-written via WhatsApp, with combos by dog size",
+      "target_client": "Dog owners in Quito, the valleys and Ambato who want to know exactly what they feed their pet.",
+      "challenge": "Sell single-ingredient treats through trust and clarity, and let the owner decide with numbers, not guesswork.",
+      "solution": "A store that recommends a combination by the dog’s weight, shows the total instantly and sends the order pre-written via WhatsApp. Behind it, an owner’s dashboard that controls sales, profit, purchasing, pricing and marketing.",
+      "signature": "A remarkably sharp owner’s dashboard",
+      "signature_text": "Daily sales and profit, orders with statuses, demand forecast and shopping list, price simulator, funnel and return per channel. The owner sees costs and margins; the team sees only what it needs."
+    }
+  },
+  {
+    "industry": "entretenimiento",
+    "country": "Ecuador",
+    "city": "",
+    "year": 2026,
+    "status": "en_vivo",
+    "published": true,
+    "kind": "cliente",
+    "video_url": "",
+    "results": "",
+    "metrics": [],
+    "featured": true,
+    "slug": "dipers",
+    "client": "DIP — El último recuerdo del universo",
+    "solution_types": [
+      "minijuego",
+      "a_medida"
+    ],
+    "accent": "#C9B6FF",
+    "live_url": "https://dipersec.github.io/",
+    "cover_url": "/work/dipers-cover.webp",
+    "screens": {
+      "sell": "/work/dipers-mobile.webp",
+      "control": ""
+    },
+    "gallery": [
+      "/work/dipers-play.webp"
+    ],
+    "star_mechanic": "Plataformas 3D por mundos, con progreso guardado y modo contrarreloj",
+    "target_client": "Jugadores que quieren una experiencia corta, bonita y rejugable en el navegador, en computador o celular.",
+    "challenge": "Demostrar que una web puede ser una experiencia envolvente de verdad: un juego completo que carga en el navegador, sin instalar nada.",
+    "solution": "Un plataformas 3D en corredor ambientado en Nácar, el planeta de la caída: mundos que se desbloquean al terminar el anterior, mecánicas de saltar, girar y recordar, puntos de control, progreso guardado, ajustes de sonido y efectos, controles táctiles y modo contrarreloj.",
+    "mechanics": [
+      "Plataformas 3D por mundos desbloqueables",
+      "Saltar, girar y recordar",
+      "Puntos de control y progreso guardado",
+      "Modo contrarreloj",
+      "Controles de teclado y táctiles"
+    ],
+    "sort_order": 7,
+    "signature": "Un juego 3D completo, en el navegador",
+    "signature_text": "Personaje, mundos, música y progreso propios: la prueba de que podemos crear experiencias que atrapan, no solo páginas que informan.",
+    "en": {
+      "star_mechanic": "3D platformer by worlds, with saved progress and a time-attack mode",
+      "target_client": "Players who want a short, beautiful, replayable experience in the browser, on desktop or phone.",
+      "challenge": "Prove that a website can be a truly immersive experience: a complete game that loads in the browser, with nothing to install.",
+      "solution": "A corridor 3D platformer set on Nácar, the planet of the fall: worlds that unlock as you finish the previous one, jump, spin and remember mechanics, checkpoints, saved progress, sound and effects settings, touch controls and a time-attack mode.",
+      "signature": "A complete 3D game, in the browser",
+      "signature_text": "Our own character, worlds, music and progress: proof that we can build experiences that hook people, not just pages that inform."
+    }
+  },
+  {
     "industry": "gastronomia",
     "country": "Ecuador",
     "city": "Ambato",
@@ -39,8 +187,13 @@
       "star_mechanic": "“Angel or Devil” mini-game with a daily prize",
       "target_client": "Café and brunch customers who scan the QR at the table, and those who already top up the Mocka card.",
       "challenge": "Give customers something to do while they wait, and make that wait end in a sign-up and more spending.",
-      "solution": "A landing with its own identity: the customer picks a side (angel or devil), plays and registers their score by WhatsApp; the best of the day wins a prize. The same screen leads to the menu, builds the takeaway or delivery order and sends it pre-written by WhatsApp, and connects the Mocka card to pay with balance by showing a QR."
-    }
+      "solution": "A landing with its own identity: the customer picks a side (angel or devil), plays and registers their score by WhatsApp; the best of the day wins a prize. The same screen leads to the menu, builds the takeaway or delivery order and sends it pre-written by WhatsApp, and connects the Mocka card to pay with balance by showing a QR.",
+      "signature": "Mocka card: its own balance and QR payments",
+      "signature_text": "An in-house purchase card: customers top it up, pay by showing their QR at the counter and check their balance. It also works when ordering by WhatsApp."
+    },
+    "accent": "#FFD400",
+    "signature": "Tarjeta Mocka: saldo propio y pago por QR",
+    "signature_text": "Una tarjeta de compra interna: el cliente la recarga, paga mostrando su QR en caja y consulta su saldo. También se puede usar al pedir por WhatsApp."
   },
   {
     "industry": "salud",
@@ -82,8 +235,13 @@
       "star_mechanic": "Class booking with live availability and membership subscriptions",
       "target_client": "Current and future members of a Pilates + Strength studio who value close follow-up.",
       "challenge": "Fill 12-spot classes without relying on messages, and turn the first class into a recurring membership.",
-      "solution": "A studio website that shows the schedule by location with spots left in real time, lets members book, join a waitlist and change class from their Core Card, and sells 1, 3, 6 or 12-month plans. Every class, event and friend brought earns stars that never expire."
-    }
+      "solution": "A studio website that shows the schedule by location with spots left in real time, lets members book, join a waitlist and change class from their Core Card, and sells 1, 3, 6 or 12-month plans. Every class, event and friend brought earns stars that never expire.",
+      "signature": "Core Card: your consistency earns stars",
+      "signature_text": "Every class, event and friend brought earns stars on the member’s card. They never expire and can be redeemed for benefits and merch."
+    },
+    "accent": "#D9C8B0",
+    "signature": "Core Card: tu constancia suma estrellas",
+    "signature_text": "Cada clase, evento y amiga que traes suma estrellas a la tarjeta de la alumna. No vencen, y se canjean por beneficios y merch."
   },
   {
     "industry": "gastronomia",
@@ -126,8 +284,13 @@
       "star_mechanic": "“Catch the Foam”: a 30-second mini-game with a coupon to redeem at the counter",
       "target_client": "Ficoa’s night-out crowd: groups looking for wings, craft beer and live music, who book or order from their phone.",
       "challenge": "A venue with a different schedule every week needed booking, ordering and finding events to be one tap away, and to give customers a reason to come back.",
-      "solution": "A phone-first site: weekly agenda, menu, table booking and dish-by-dish delivery orders —both with the WhatsApp message already written—, a mini-game that hands out a coupon and a points-based Beer Club."
-    }
+      "solution": "A phone-first site: weekly agenda, menu, table booking and dish-by-dish delivery orders —both with the WhatsApp message already written—, a mini-game that hands out a coupon and a points-based Beer Club.",
+      "signature": "Beer Club: points to come back",
+      "signature_text": "A club of its own with points for returning customers, alongside a mini-game that hands out coupons and a weekly agenda that changes with the venue."
+    },
+    "accent": "#7FB069",
+    "signature": "Beer Club: puntos para volver",
+    "signature_text": "Un club propio con puntos para quien vuelve, junto a un minijuego que entrega cupones y una agenda semanal que cambia con el local."
   },
   {
     "industry": "gastronomia",
@@ -169,45 +332,13 @@
       "star_mechanic": "Order built on the site and sent ready via WhatsApp, plus a mini-game for the wait",
       "target_client": "Locals ordering burgers for pickup or delivery, and organizers of concerts, fairs and parties who hire the food truck.",
       "challenge": "A strong-character brand running two businesses in one (venue and event food truck), and customers who want to order in a minute.",
-      "solution": "A site with the brand’s identity: burger carousel, menu, an order built on the page and sent ready via WhatsApp (pickup or delivery), a jeep mini-game for the wait and a section to quote the food truck per event."
-    }
-  },
-  {
-    "slug": "plantilla-dental",
-    "client": "Plantilla nicho dental",
-    "industry": "salud",
-    "solution_types": [
-      "landing",
-      "panel"
-    ],
-    "country": "Ecuador",
-    "city": "",
-    "year": 2026,
-    "status": "caso_de_estudio",
-    "published": false,
-    "live_url": "",
-    "cover_url": "",
-    "video_url": "",
-    "star_mechanic": "Agenda de citas con confianza clínica",
-    "target_client": "Pacientes que comparan clínicas y deciden por confianza y facilidad para agendar.",
-    "challenge": "Que una clínica convierta visitas en citas sin sonar a catálogo.",
-    "solution": "Plantilla de nicho: landing que da confianza y agenda en pocos pasos, con panel de citas y seguimiento.",
-    "mechanics": [
-      "Agenda en pocos pasos",
-      "Recordatorios",
-      "Panel de citas"
-    ],
-    "results": "",
-    "metrics": [],
-    "sort_order": 5,
-    "featured": false,
-    "en": {
-      "star_mechanic": "Booking with clinical trust",
-      "target_client": "Patients comparing clinics who choose by trust and ease of booking.",
-      "challenge": "Help a clinic turn visits into appointments without sounding like a catalog.",
-      "solution": "A niche template: a landing that builds trust and books in a few steps, with an appointments dashboard and follow-up."
+      "solution": "A site with the brand’s identity: burger carousel, menu, an order built on the page and sent ready via WhatsApp (pickup or delivery), a jeep mini-game for the wait and a section to quote the food truck per event.",
+      "signature": "The Gorilla’s jeep",
+      "signature_text": "While you wait for your order you drive the Gorilla’s jeep with the food truck in tow: every cartoon pedestrian you hit scores points."
     },
-    "kind": "demo"
+    "accent": "#E0A06A",
+    "signature": "El jeep del Gorila",
+    "signature_text": "Mientras esperas tu pedido, manejas el jeep del Gorila con el food truck a cuestas: cada peatón de caricatura que choques suma puntos."
   },
   {
     "slug": "nutribites",
@@ -236,7 +367,7 @@
     ],
     "results": "",
     "metrics": [],
-    "sort_order": 6,
+    "sort_order": 9,
     "featured": false,
     "en": {
       "star_mechanic": "Catalog and replenishment for institutional clients",

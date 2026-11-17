@@ -13,13 +13,16 @@ create table if not exists projects (
   id uuid primary key default gen_random_uuid(),
   slug text unique not null check (slug ~ '^[a-z0-9-]+$'),
   client text not null,
-  industry text not null check (industry in ('gastronomia','eventos','retail','salud','gobierno_tech','marca_propia')),
+  industry text not null check (industry in ('gastronomia','eventos','retail','salud','entretenimiento','gobierno_tech','marca_propia')),
   solution_types text[] not null default '{}',
   country text, city text, year int,
   status text not null default 'caso_de_estudio' check (status in ('en_vivo','caso_de_estudio','oculto')),
   published boolean not null default false,          -- false = borrador
   kind text not null default 'cliente' check (kind in ('cliente','demo','propio')),  -- demo = demo funcional (aún no cliente confirmado)
   live_url text, cover_url text, video_url text,
+  accent text,                                        -- color de marca del cliente (hex), p. ej. #FFD400
+  signature text, signature_text text,                -- «hecho a medida»: el rasgo único de este proyecto
+  gallery jsonb not null default '[]',                -- URLs extra («En acción»)
   star_mechanic text, target_client text, challenge text, solution text, results text,
   mechanics text[] not null default '{}',
   metrics jsonb not null default '[]',                -- [{"label":"Pedidos/mes","value":"+120"}]

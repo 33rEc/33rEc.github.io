@@ -62,10 +62,13 @@ Campos de un proyecto: `slug, client, industry, solution_types[], country, city,
 
 - **Borradores**: `published: false`. NO aparecen en la web, ni se generan como página, ni entran al sitemap. Para revisarlos: `/?preview=1`.
 - Industrias: `gastronomia, eventos, retail, salud, gobierno_tech, marca_propia`. Tipos: `landing, panel, fidelizacion, ecommerce, minijuego, a_medida`.
-- **Proyectos publicados (leídos de sus sitios reales el 17-nov-2026):** MockaBox (Mocka), Core Studio, Ficoa Beer Garden y Gorila Burgers. Capturas en `public/work/` (portada de escritorio + captura móvil). Los textos describen solo lo que cada sitio hace; no hay métricas inventadas.
-- **Campo `kind`:** `cliente` · `demo` · `propio` (`demo` muestra la etiqueta «Demo funcional»). Daniel confirmó el 17-nov-2026 que MockaBox, Core Studio, Ficoa Beer Garden y Gorila Burgers **son clientes**: están como `kind: cliente`, `status: en_vivo`, con botón «Ver sitio».
-- Siguen como **borrador** (no públicos): `plantilla-dental` y `nutribites`.
-- Falta la captura de «la pantalla que controla» (panel) de cada uno: hoy se muestra un recuadro «captura pendiente».
+- **Proyectos publicados (leídos de sus sitios reales):** MockaBox (Mocka), Core Studio, Ficoa Beer Garden, Gorila Burgers, Luna Dental, Dogo y DIP. Capturas en `public/work/`. Los textos describen solo lo que cada sitio hace; no hay métricas inventadas. Todos son `kind: cliente`, `status: en_vivo`.
+- **«Hecho a medida» (personalización visible):** cada proyecto tiene `signature` (título), `signature_text` y `accent` (color de marca del cliente). Se muestra en la tarjeta (chip con el color del cliente), en la sección **«Cada negocio, su propia pieza»** de la portada (lista editorial, se llena sola desde los datos) y en el caso de estudio. Rasgos: Mockabox → tarjeta Mocka (saldo propio y QR); Core Studio → Core Card con estrellas; Ficoa → Beer Club; Gorila → jeep del Gorila; Luna Dental → odontograma de primer nivel; Dogo → panel del dueño; DIP → juego 3D completo.
+- **Dogo — panel:** está detrás de login; su contenido se leyó del código de `panel.html` (resumen, pedidos, compras con pronóstico de demanda, precios y márgenes, marketing con ROAS, clientes, equipo con roles dueño/equipo). Falta captura.
+- **Luna Dental — odontograma:** NO es visible en el sitio público (no hay ruta ni código). Se publica según lo indicado por Daniel, sin detalles inventados. Falta captura o link.
+- Nueva industria: `entretenimiento` (para DIP). El campo `gallery` admite imágenes extra («En acción»).
+- Sigue como **borrador** (no público): `nutribites`. (La «plantilla dental» se reemplazó por Luna Dental.)
+- Falta la captura de «la pantalla que controla» de cada uno: hoy se muestra un recuadro «captura pendiente».
 - Los datos de contacto de esos negocios (WhatsApp, correo) **no** se copiaron a esta web.
 
 ### Agregar un proyecto en menos de 2 minutos

@@ -10,8 +10,9 @@ export function caseHTML(p, t) {
   const metrics = (p.metrics || []).filter((m) => m?.value);
   const results = loc(p, 'results', lang);
   const live = p.status === 'en_vivo' && p.live_url, demo = p.kind === 'demo';
+  const sig = loc(p, 'signature', lang), sigTxt = loc(p, 'signature_text', lang), gal = (p.gallery || []).filter(Boolean);
   return `
-  <article class="cs">
+  <article class="cs" style="--accent:${esc(p.accent || '')}">
     <header class="cs-hero wrap">
       <a class="tag cs-back" href="${t.home}#trabajo">${esc(c.back)}</a>
       <div class="cs-badges"><span class="badge ${live ? 'badge--live' : ''}">${live ? esc(w.live) : esc(w.study)}</span>${demo ? `<span class="badge">${esc(w.demoKind)}</span>` : ''}${p.published ? '' : `<span class="badge badge--draft">${esc(c.draftNote)}</span>`}</div>
@@ -19,6 +20,7 @@ export function caseHTML(p, t) {
       <p class="cs-meta tag"><span class="tag--ecto">${esc(w.industries[p.industry] || '')}</span> · ${esc(types.join(' · '))}${p.city || p.country ? ` · ${esc([p.city, p.country].filter(Boolean).join(', '))}` : ''}${p.year ? ` · ${esc(p.year)}` : ''}</p>
       <p class="cs-star"><span class="tag">${esc(w.star)}</span>${esc(loc(p, 'star_mechanic', lang))}</p>
     </header>
+    ${sig ? `<section class="wrap cs-sig"><p class="tag">${esc(c.signature)}</p><p class="cs-sig__t">${esc(sig)}</p>${sigTxt ? `<p class="cs-p">${esc(sigTxt)}</p>` : ''}</section>` : ''}
     <section class="wrap cs-grid">
       <div><p class="tag tag--ecto">${esc(c.challenge)}</p><p class="cs-p">${esc(loc(p, 'challenge', lang))}</p></div>
       <div><p class="tag tag--ecto">${esc(c.target)}</p><p class="cs-p">${esc(loc(p, 'target_client', lang))}</p></div>
@@ -28,6 +30,7 @@ export function caseHTML(p, t) {
       <p class="tag tag--ecto">${esc(c.screens)}</p>
       <div class="cs-screens">${screen(p.screens?.sell || p.cover_url, c.sell)}${screen(p.screens?.control, c.control)}</div>
     </section>
+    ${gal.length ? `<section class="wrap"><p class="tag tag--ecto">${esc(c.gallery)}</p><div class="cs-gal">${gal.map((u) => `<img src="${esc(u)}" alt="${esc(p.client)}" loading="lazy" decoding="async">`).join('')}</div></section>` : ''}
     ${(p.mechanics || []).length ? `<section class="wrap"><p class="tag tag--ecto">${esc(c.mechanics)}</p><ul class="cs-mech">${p.mechanics.map((m) => `<li>${esc(m)}</li>`).join('')}</ul></section>` : ''}
     <section class="wrap"><p class="tag tag--ecto">${esc(c.results)}</p>
       ${metrics.length ? `<ul class="cs-metrics">${metrics.map((m) => `<li><b>${esc(m.value)}</b><span class="tag">${esc(m.label)}</span></li>`).join('')}</ul>` : ''}

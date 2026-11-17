@@ -11,7 +11,7 @@ const { t } = Astro.props; const w = t.work;
     </div>
 
     <div data-work data-base={t.workBase} data-lang={t.lang}
-      data-labels={JSON.stringify({ live: w.live, study: w.study, demoKind: w.demoKind, visitDemo: w.visitDemo, visit: w.visit, open: w.open, star: w.star, result: w.result, noMatch: w.noMatch, draft: w.draft, demo: w.demo, industries: w.industries, types: w.types })}>
+      data-labels={JSON.stringify({ signature: w.signature, live: w.live, study: w.study, demoKind: w.demoKind, visitDemo: w.visitDemo, visit: w.visit, open: w.open, star: w.star, result: w.result, noMatch: w.noMatch, draft: w.draft, demo: w.demo, industries: w.industries, types: w.types })}>
       <div class="filters">
         <div class="filters__row" role="group" aria-label={w.fIndustry}>
           <span class="tag">{w.fIndustry}</span>
@@ -38,12 +38,16 @@ const { t } = Astro.props; const w = t.work;
   .filters__row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; } .filters__row .tag { min-width: 8.5rem; }
   .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
   .empty { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.5rem, 4vw, 3rem); max-width: 44rem; }
-  :global(.pcard) { display: grid; gap: .8rem; padding: 0; overflow: hidden; align-content: start; transition: border-color .3s, transform .4s var(--ease); }
-  :global(.pcard:hover) { border-color: var(--ecto); transform: translateY(-3px); }
+  :global(.pcard) { --accent: var(--ecto); position: relative; display: grid; gap: .8rem; padding: 0; overflow: hidden; align-content: start; transition: border-color .4s, transform .5s var(--ease), box-shadow .5s var(--ease); }
+  :global(.pcard::before) { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--accent); z-index: 3; transform: scaleX(.18); transform-origin: left; transition: transform .6s var(--ease); }
+  :global(.pcard:hover) { border-color: color-mix(in srgb, var(--accent) 70%, var(--mist)); transform: translateY(-4px); box-shadow: 0 28px 70px -34px var(--accent); }
+  :global(.pcard:hover::before) { transform: scaleX(1); }
   :global(.pcard__shot) { position: relative; aspect-ratio: 16 / 10; background: var(--ink); border-bottom: 1px solid var(--mist); overflow: hidden; display: grid; place-items: center; }
   :global(.pcard__shot img), :global(.pcard__shot video) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   :global(.pcard__shot video) { opacity: 0; transition: opacity .4s; } :global(.pcard:hover .pcard__shot video.on) { opacity: 1; }
   :global(.pcard__ph) { font: 700 5rem var(--f-display); color: var(--mist); letter-spacing: -.05em; }
+  :global(.pcard__sig) { position: absolute; left: .7rem; right: .7rem; bottom: .7rem; z-index: 2; display: flex; align-items: center; gap: .5rem; padding: .55rem .8rem; border-radius: 10px; background: rgba(10,10,12,.86); backdrop-filter: blur(6px); border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); font-size: .82rem; line-height: 1.25; }
+  :global(.pcard__sig i) { font-style: normal; color: var(--accent); } :global(.pcard__sig b) { font-weight: 600; color: var(--bone); }
   :global(.pcard__badges) { position: absolute; left: .7rem; top: .7rem; display: flex; gap: .4rem; z-index: 2; }
   :global(.badge) { font: 500 .64rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: .4em .7em; border-radius: 999px; background: rgba(10,10,12,.85); border: 1px solid var(--mist); }
   :global(.badge--live) { color: var(--ecto); border-color: var(--ecto); } :global(.badge--draft) { color: var(--bone); border-style: dashed; }
