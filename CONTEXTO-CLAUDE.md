@@ -63,7 +63,7 @@ Campos de un proyecto: `slug, client, industry, solution_types[], country, city,
 - **Borradores**: `published: false`. NO aparecen en la web, ni se generan como página, ni entran al sitemap. Para revisarlos: `/?preview=1`.
 - Industrias: `gastronomia, eventos, retail, salud, gobierno_tech, marca_propia`. Tipos: `landing, panel, fidelizacion, ecommerce, minijuego, a_medida`.
 - **Proyectos publicados (leídos de sus sitios reales el 17-nov-2026):** MockaBox (Mocka), Core Studio, Ficoa Beer Garden y Gorila Burgers. Capturas en `public/work/` (portada de escritorio + captura móvil). Los textos describen solo lo que cada sitio hace; no hay métricas inventadas.
-- **Campo `kind`:** `cliente` · `demo` · `propio`. Los 4 están como **`demo`** («Demo funcional») porque sus propios sitios dicen «modo demo», «cifra de ejemplo de la demo» o «falta la dirección antes de publicar». No se presentan como clientes contratados. Cuando confirmes que uno ya es cliente, cambia `kind` a `cliente` (en `/admin` → Relación) y, si el negocio lo autoriza, `status` a `en_vivo`.
+- **Campo `kind`:** `cliente` · `demo` · `propio` (`demo` muestra la etiqueta «Demo funcional»). Daniel confirmó el 17-nov-2026 que MockaBox, Core Studio, Ficoa Beer Garden y Gorila Burgers **son clientes**: están como `kind: cliente`, `status: en_vivo`, con botón «Ver sitio».
 - Siguen como **borrador** (no públicos): `plantilla-dental` y `nutribites`.
 - Falta la captura de «la pantalla que controla» (panel) de cada uno: hoy se muestra un recuadro «captura pendiente».
 - Los datos de contacto de esos negocios (WhatsApp, correo) **no** se copiaron a esta web.
