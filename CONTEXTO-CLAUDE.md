@@ -75,6 +75,10 @@ Campos de un proyecto: `slug, client, industry, solution_types[], country, city,
 **Con Supabase (recomendado):** `/admin` → «+ Nuevo proyecto» → llena nombre, industria, tipo, mecánica estrella → sube la captura → marca «Publicado» → Guardar. Aparece en la web al instante (la página del caso se renderiza desde la base).
 **Sin Supabase:** agrega un objeto a `src/data/projects.seed.json` (copia uno), pon `"published": true`, sube la imagen a `public/work/` y haz push.
 
+### «Conectamos tecnologías con soluciones a medida» (selector interactivo en `/#tecnologia`)
+Componente `src/components/Connect.astro`: el visitante elige una necesidad (operar en campo, vigilar en tiempo real, vender y cobrar, hacer volver, decidir con datos, captar con una experiencia) y ve la **cadena** necesidad → tecnologías → resultado, con su proyecto de respaldo. Textos en `src/i18n/index.js → connect` (ES/EN). Accesible (tabs con flechas/Home/End), sin JS muestra la primera cadena.
+- **App para empresa eléctrica (en desarrollo):** stack indicado por Daniel (Preact + Vite + Dexie + Leaflet con markercluster, pdf.js, Chart.js y service worker con vite-plugin-pwa; Preact ~4 KB por rendir en Android de gama baja; dos roles). **No es verificable en un sitio público**; se muestra como «En desarrollo», sin nombre del cliente. No se afirma funcionamiento sin conexión hasta que Daniel lo confirme.
+
 ### Stack y capacidades destacados (sección «Tecnología» + cinta bajo el hero)
 Solo se listan tecnologías **verificadas** en el código de los proyectos publicados: Supabase (Dogo, Core Studio, MockaBox, Ficoa), GSAP (MockaBox, Luna Dental, Ficoa), Three.js (DIP), PWA/manifest y service worker (Geriam, MockaBox), Next.js + Vercel + Mapbox (Geriam), LoRaWAN/Starlink/sensores/cámaras IP/GPS en reportes de campo (Geriam). Texto en `src/i18n/index.js` → `tech` y `ticker` (ES y EN). Cada capacidad indica «Visto en» qué proyecto la respalda. Si agregas una tecnología, que esté en un proyecto real.
 

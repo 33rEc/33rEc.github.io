@@ -1,0 +1,79 @@
+---
+const { t } = Astro.props; const c = t.connect;
+---
+<div class="connect materialize" data-connect>
+  <h3 class="connect__title">{c.title}</h3>
+  <p class="muted connect__intro">{c.intro}</p>
+  <div class="connect__grid">
+    <div class="tabs" role="tablist" aria-label={c.tabsLabel} aria-orientation="vertical">
+      {c.needs.map(([id, label, , , , , wip], i) => (
+        <button type="button" role="tab" id={`tab-${id}`} aria-controls={`pan-${id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab={id}>
+          <span class="tag tag--ecto">{String(i + 1).padStart(2, '0')}</span><b>{label}</b>{wip && <i class="wip">{c.wip}</i>}
+        </button>
+      ))}
+    </div>
+    <div class="panels">
+      {c.needs.map(([id, , chain, title, text, seen, wip], i) => (
+        <div class="panel" role="tabpanel" id={`pan-${id}`} aria-labelledby={`tab-${id}`} hidden={i !== 0} tabindex="0">
+          <ol class="chain" aria-label={chain.join(' → ')}>
+            {chain.map((n, k) => (
+              <li class:list={['node', k === 0 && 'node--src', k === chain.length - 1 && 'node--out']} style={`--i:${k}`}>{n}</li>
+            ))}
+          </ol>
+          <div class="sol">
+            <p class="tag tag--ecto">{c.solution}{wip ? ` · ${c.wip}` : ''}</p>
+            <h4>{title}</h4>
+            <p>{text}</p>
+            <p class="tag sol__seen">{c.seen}: {seen.join(' · ')}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+<script>
+  const root = document.querySelector('[data-connect]');
+  if (root) {
+    const tabs = [...root.querySelectorAll('[role=tab]')], panels = [...root.querySelectorAll('[role=tabpanel]')];
+    const show = (i, focus = false) => {
+      tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+      panels.forEach((p, k) => { p.hidden = k !== i; if (k === i) { p.classList.remove('replay'); void p.offsetWidth; p.classList.add('replay'); } });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => show(i));
+      t.addEventListener('keydown', (e) => {
+        const n = tabs.length; let j = -1;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') j = (i + 1) % n;
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') j = (i - 1 + n) % n;
+        if (e.key === 'Home') j = 0; if (e.key === 'End') j = n - 1;
+        if (j >= 0) { e.preventDefault(); show(j, true); }
+      });
+    });
+    show(0);
+  }
+</script>
+<style>
+  .connect { margin-bottom: clamp(3rem, 7vw, 5.5rem); display: grid; gap: 1rem; }
+  .connect__title { font: 600 var(--step-3)/1.05 var(--f-display); letter-spacing: -.02em; max-width: 20ch; }
+  .connect__intro { max-width: 60ch; }
+  .connect__grid { display: grid; gap: 1.2rem; margin-top: 1rem; } @media (min-width: 960px) { .connect__grid { grid-template-columns: 300px 1fr; gap: 2rem; } }
+  .tabs { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .4rem; scrollbar-width: thin; } @media (min-width: 960px) { .tabs { flex-direction: column; overflow: visible; } }
+  .tabs button { text-align: left; display: grid; grid-template-columns: auto 1fr; gap: .2rem .8rem; align-items: center; padding: .95rem 1.1rem; border-radius: 12px; border: 1px solid var(--mist); background: var(--graphite); color: var(--bone); cursor: pointer; font: inherit; flex: 0 0 auto; min-width: 12.5rem; transition: border-color .3s, background .3s; }
+  .tabs button b { font: 600 .98rem var(--f-display); } .tabs button:hover { border-color: var(--ash); }
+  .tabs button[aria-selected='true'] { border-color: var(--ecto); background: linear-gradient(90deg, rgba(156,246,212,.09), var(--graphite)); }
+  .wip { grid-column: 2; font: 500 .62rem var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--aura); font-style: normal; }
+  .panels { min-width: 0; }
+  .panel { display: grid; gap: 1.5rem; padding: clamp(1.1rem, 3vw, 2rem); border: 1px solid var(--mist); border-radius: var(--radius); background: var(--graphite); }
+  .chain { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem 2.1rem; }
+  .node { position: relative; padding: .7rem 1rem; border: 1px solid var(--mist); border-radius: 10px; background: var(--ink); font: 500 .8rem var(--f-mono); letter-spacing: .02em; margin: 0; display: flex; align-items: center; }
+  .node:not(:last-child)::after { content: ''; position: absolute; left: 100%; top: 50%; width: 2.1rem; height: 2px; transform: translateY(-50%);
+    background: repeating-linear-gradient(90deg, var(--ecto) 0 5px, transparent 5px 10px); background-size: 20px 2px; animation: flow 1s linear infinite; opacity: .8; }
+  .node:nth-child(3n)::after { display: none; } .node--src { border-color: var(--ash); color: var(--ash); } .node--out { background: var(--ecto); color: var(--ink); border-color: var(--ecto); font-weight: 600; }
+  .panel.replay .node { animation: appear .55s var(--ease) both; animation-delay: calc(var(--i) * .11s); }
+  @keyframes appear { from { opacity: 0; filter: blur(7px); transform: translateY(6px); } } @keyframes flow { to { background-position: 20px 0; } }
+  @media (max-width: 640px) { .chain { grid-template-columns: 1fr; gap: 2rem; } .node { margin: 0; } .node:nth-child(3n)::after { display: block; } .node:last-child::after { display: none; } .node:not(:last-child)::after { left: 1.4rem; top: 100%; width: 2px; height: 2rem; transform: none; background: repeating-linear-gradient(180deg, var(--ecto) 0 5px, transparent 5px 10px); background-size: 2px 20px; animation-name: flowv; } @keyframes flowv { to { background-position: 0 20px; } } }
+  @media (prefers-reduced-motion: reduce) { .node::after, .panel.replay .node { animation: none !important; } }
+  .sol { display: grid; gap: .7rem; border-top: 1px solid var(--mist); padding-top: 1.3rem; } .sol h4 { font: 600 var(--step-2)/1.1 var(--f-display); letter-spacing: -.02em; max-width: 24ch; } .sol p:not(.tag) { max-width: 62ch; color: var(--bone); opacity: .92; }
+  .sol__seen { text-transform: none; letter-spacing: .04em; }
+</style>

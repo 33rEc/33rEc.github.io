@@ -1,4 +1,5 @@
 ---
+import Connect from './Connect.astro';
 const { t } = Astro.props; const k = t.tech;
 const viz = {
   rt: '<svg viewBox="0 0 120 44" aria-hidden="true"><polyline class="v-line" points="0,32 14,28 28,30 42,18 56,22 70,10 84,16 98,6 120,12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle class="v-pulse" cx="120" cy="12" r="3" fill="currentColor"/></svg>',
@@ -13,6 +14,8 @@ const viz = {
       <h2 id="tech-h" class="materialize" style="--d:.1s">{k.title}</h2>
       <p class="materialize" style="--d:.2s">{k.intro}</p>
     </div>
+
+    <Connect t={t} />
 
     <h3 class="tech__sub tag materialize">{k.capsTitle}</h3>
     <ul class="caps">
