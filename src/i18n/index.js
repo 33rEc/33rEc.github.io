@@ -18,7 +18,7 @@ const es = {
   skip: 'Saltar al contenido', langLabel: 'Idioma',
   nav: { items: [['#sistema', 'Sistema'], ['#trabajo', 'Trabajo'], ['#tecnologia', 'Tecnología'], ['#servicios', 'Servicios'], ['#proceso', 'Cómo trabajamos'], ['#quienes', 'Quiénes']], cta: 'Pide tu demo gratis', menu: 'Menú' },
   hero: {
-    eyebrow: 'Estudio digital · Ambato, Ecuador · LatAm',
+    eyebrow: 'Estudio digital · Ambato · Quito · Barcelona',
     l1: 'Una pantalla que vende.', l2: 'Otra que controla.',
     sub: 'Tu cliente ve una experiencia que lo hace comprar. Tú ves exactamente qué pasa en tu negocio. Antes de pagar, ves tu demo funcionando en tu celular.',
     cta1: 'Pide tu demo gratis', cta2: 'Ver trabajo',
@@ -157,7 +157,7 @@ const en = {
   skip: 'Skip to content', langLabel: 'Language',
   nav: { items: [['#sistema', 'System'], ['#trabajo', 'Work'], ['#tecnologia', 'Technology'], ['#servicios', 'Services'], ['#proceso', 'How we work'], ['#quienes', 'Who']], cta: 'Get your free demo', menu: 'Menu' },
   hero: {
-    eyebrow: 'Digital studio · Ambato, Ecuador · LatAm',
+    eyebrow: 'Digital studio · Ambato · Quito · Barcelona',
     l1: 'One screen that sells.', l2: 'Another that controls.',
     sub: 'Your customer sees an experience that makes them buy. You see exactly what is happening in your business. Before you pay, you see your demo working on your phone.',
     cta1: 'Get your free demo', cta2: 'See work',
