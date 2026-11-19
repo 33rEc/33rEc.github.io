@@ -87,7 +87,7 @@ export const ja = {
     okTitle: '受け付けました。ありがとうございます。', okText: '次のステップ：WhatsAppでご連絡し、15分ほどビジネスについてお聞きします。それをもとにデモを制作します。', okNote: 'WhatsAppをご確認ください。',
     err: '現在、リクエストを送信できませんでした。もう一度お試しいただくか、直接ご連絡ください。', errRequired: 'この項目を入力してください。', noteSecure: 'ご入力いただいた情報は、デモに関するご連絡にのみ使用します。',
   },
-  footer: { tag: 'マーケティングとテクノロジーのデジタルソリューションスタジオ。', location: 'エクアドル・アンバト — ラテンアメリカ全域で対応', rights: 'All rights reserved.', nav: 'ナビゲーション' },
+  footer: { tag: 'マーケティングとテクノロジーのデジタルソリューションスタジオ。', location: 'アンバト · キト · バルセロナ — ラテンアメリカとスペインで対応', rights: 'All rights reserved.', nav: 'ナビゲーション' },
   egg: { title: '見つけましたね。', text: '暗闇の中で私たちを見つけた方には、デモは私たちからのプレゼントです。', cta: 'デモを受け取る', close: '閉じる', hint: 'ヒント：「33r」と入力、またはロゴを3回タップ。' },
   a11y: { logo: '33r — ホーム', lang: { es: 'Español', en: 'English', ja: '日本語' } },
   ticker: ['Supabase', 'PostgreSQL', 'リアルタイム', 'GPS', 'Preact', 'Vite', 'Next.js', 'Astro', 'PWA', 'Dexie', 'Leaflet', 'Chart.js', 'LoRaWAN', 'Starlink', 'Three.js', 'GSAP', 'Mapbox', 'WhatsApp', 'Vercel', 'GitHub'],

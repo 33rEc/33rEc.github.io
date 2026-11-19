@@ -142,7 +142,7 @@ const es = {
     okTitle: 'Recibido. Gracias.', okText: 'Siguiente paso: te escribimos por WhatsApp para una charla de 15 minutos sobre tu negocio. Con eso construimos tu demo.', okNote: 'Revisa tu WhatsApp.',
     err: 'No pudimos enviar tu solicitud ahora mismo. Inténtalo de nuevo o escríbenos directo.', errRequired: 'Completa este campo.', noteSecure: 'Usamos tus datos solo para contactarte sobre tu demo.',
   },
-  footer: { tag: 'Estudio de soluciones digitales de marketing y tecnología.', location: 'Ambato, Ecuador — trabajamos en todo LatAm', rights: 'Todos los derechos reservados.', nav: 'Navegación' },
+  footer: { tag: 'Estudio de soluciones digitales de marketing y tecnología.', location: 'Ambato · Quito · Barcelona — trabajamos en LatAm y España', rights: 'Todos los derechos reservados.', nav: 'Navegación' },
   egg: { title: 'Sabías dónde mirar.', text: 'A los que nos encuentran en la oscuridad, la demo les sale por nuestra cuenta.', cta: 'Reclamar mi demo', close: 'Cerrar', hint: 'Pista: escribe «33r» o toca el logo tres veces.' },
   a11y: { logo: '33r — inicio', lang: { es: 'Español', en: 'English', ja: '日本語' } },
 };
@@ -281,7 +281,7 @@ const en = {
     okTitle: 'Received. Thank you.', okText: 'Next step: we message you on WhatsApp for a 15-minute chat about your business. That’s what we build your demo from.', okNote: 'Check your WhatsApp.',
     err: 'We couldn’t send your request right now. Try again or message us directly.', errRequired: 'Please fill in this field.', noteSecure: 'We only use your data to contact you about your demo.',
   },
-  footer: { tag: 'Digital marketing and technology solutions studio.', location: 'Ambato, Ecuador — working across LatAm', rights: 'All rights reserved.', nav: 'Navigation' },
+  footer: { tag: 'Digital marketing and technology solutions studio.', location: 'Ambato · Quito · Barcelona — working across LatAm and Spain', rights: 'All rights reserved.', nav: 'Navigation' },
   egg: { title: 'You knew where to look.', text: 'For those who find us in the dark, the demo is on us.', cta: 'Claim my demo', close: 'Close', hint: 'Hint: type “33r” or tap the logo three times.' },
   a11y: { logo: '33r — home', lang: { es: 'Español', en: 'English', ja: '日本語' } },
 };
