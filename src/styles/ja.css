@@ -1,0 +1,18 @@
+/* Tipografía y ritmo para japonés. */
+/* Sin webfont japonesa (rendimiento): Latín con Space Grotesk / Inter / JetBrains Mono (como en ES/EN) y kana/kanji con las fuentes del dispositivo. */
+html[lang='ja'] {
+  --ja: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', 'Noto Sans JP', sans-serif;
+  --f-display: 'Space Grotesk Variable', 'Space Grotesk', var(--ja);
+  --f-text: 'Inter Variable', 'Inter', var(--ja);
+  --f-mono: 'JetBrains Mono Variable', 'JetBrains Mono', var(--ja);
+}
+html[lang='ja'] body { line-height: 1.85; }
+/* Los títulos japoneses no llevan tracking negativo y respiran más; sin tope en «ch» (1 carácter CJK ≈ 2ch) */
+html[lang='ja'] :is(h1, h2, h3, h4) { letter-spacing: 0 !important; line-height: 1.22 !important; max-width: none !important; font-weight: 700; line-break: strict; word-break: keep-all; overflow-wrap: anywhere; }
+html[lang='ja'] :is(p, li, label, summary) { line-break: strict; overflow-wrap: anywhere; }
+html[lang='ja'] p:not(.tag):not(.hero__eyebrow) { max-width: 40em !important; }
+html[lang='ja'] .tag, html[lang='ja'] .chip { letter-spacing: .06em; }
+html[lang='ja'] .hero h1 { font-size: clamp(2.2rem, .9rem + 5.6vw, 5.8rem); line-height: 1.12 !important; }
+html[lang='ja'] .m-line { font-size: clamp(1.8rem, 1rem + 3.4vw, 3.8rem); line-height: 1.25; max-width: none; }
+html[lang='ja'] .btn { letter-spacing: .02em; }
+html[lang='ja'] .hero__sub { max-width: 30em !important; text-wrap: balance; }

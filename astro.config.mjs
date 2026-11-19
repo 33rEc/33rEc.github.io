@@ -8,6 +8,6 @@ export default defineConfig({
   build: { inlineStylesheets: 'auto' },
   integrations: [sitemap({
     filter: (page) => !/(logo-lab|admin|404)/.test(page),
-    i18n: { defaultLocale: 'es', locales: { es: 'es-EC', en: 'en-US' } },
+    i18n: { defaultLocale: 'es', locales: { es: 'es-EC', en: 'en-US', ja: 'ja-JP' } },
   })],
 });

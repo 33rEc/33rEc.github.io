@@ -3,6 +3,8 @@
    V2 "Primero lo ves funcionando. Después decides." — fuerte, pero habla del proceso, no de lo que entregamos.
    V3 "Detrás de cada negocio que crece hay un sistema que no se ve." — el más misterioso, pero abstracto en el primer pantallazo. */
 
+import { ja } from './ja.js';
+
 export const industries = ['gastronomia', 'eventos', 'retail', 'salud', 'entretenimiento', 'gobierno_tech', 'marca_propia'];
 export const types = ['landing', 'panel', 'fidelizacion', 'ecommerce', 'minijuego', 'a_medida'];
 
@@ -142,7 +144,7 @@ const es = {
   },
   footer: { tag: 'Estudio de soluciones digitales de marketing y tecnología.', location: 'Ambato, Ecuador — trabajamos en todo LatAm', rights: 'Todos los derechos reservados.', nav: 'Navegación' },
   egg: { title: 'Sabías dónde mirar.', text: 'A los que nos encuentran en la oscuridad, la demo les sale por nuestra cuenta.', cta: 'Reclamar mi demo', close: 'Cerrar', hint: 'Pista: escribe «33r» o toca el logo tres veces.' },
-  a11y: { logo: '33r — inicio', lang: { es: 'Español', en: 'English' } },
+  a11y: { logo: '33r — inicio', lang: { es: 'Español', en: 'English', ja: '日本語' } },
 };
 
 const en = {
@@ -281,7 +283,8 @@ const en = {
   },
   footer: { tag: 'Digital marketing and technology solutions studio.', location: 'Ambato, Ecuador — working across LatAm', rights: 'All rights reserved.', nav: 'Navigation' },
   egg: { title: 'You knew where to look.', text: 'For those who find us in the dark, the demo is on us.', cta: 'Claim my demo', close: 'Close', hint: 'Hint: type “33r” or tap the logo three times.' },
-  a11y: { logo: '33r — home', lang: { es: 'Español', en: 'English' } },
+  a11y: { logo: '33r — home', lang: { es: 'Español', en: 'English', ja: '日本語' } },
 };
 
-export const dict = { es, en };
+export const dict = { es, en, ja };
+export const langs = ['es', 'en', 'ja'];

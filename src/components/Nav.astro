@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
-const { t } = Astro.props;
-const switchHref = t.other;
+const { t, alts = { es: '/', en: '/en/', ja: '/ja/' } } = Astro.props;
+const LANGS = [['es', 'ES'], ['en', 'EN'], ['ja', '日本語']];
 ---
 <header class="nav" data-nav>
   <div class="wrap nav__in">
@@ -10,9 +10,14 @@ const switchHref = t.other;
       {t.nav.items.map(([href, label]) => <a href={`${t.home}${href}`}>{label}</a>)}
     </nav>
     <div class="nav__right">
-      <a class="lang" href={switchHref} hreflang={t.lang === 'es' ? 'en' : 'es'} lang={t.lang === 'es' ? 'en' : 'es'} aria-label={t.langLabel}>
-        <span class:list={[t.lang === 'es' && 'on']}>ES</span><i>/</i><span class:list={[t.lang === 'en' && 'on']}>EN</span>
-      </a>
+      <nav class="lang" aria-label={t.langLabel}>
+        {LANGS.map(([code, label], i) => (
+          <>
+            {i > 0 && <i aria-hidden="true">/</i>}
+            <a href={alts[code]} lang={code} hreflang={code} class:list={[t.lang === code && 'on']} aria-current={t.lang === code ? 'true' : undefined} aria-label={t.a11y.lang[code]}>{label}</a>
+          </>
+        ))}
+      </nav>
       <a class="btn btn--primary nav__cta" href="#demo" data-track="demo_cta_click" data-where="nav">{t.nav.cta}</a>
     </div>
   </div>
@@ -26,9 +31,15 @@ const switchHref = t.other;
   .nav__links a { color: var(--ash); text-decoration: none; transition: color .2s; padding: .5rem 0; }
   .nav__links a:hover { color: var(--bone); }
   .nav__right { display: flex; align-items: center; gap: .9rem; }
-  .lang { font: 500 .72rem var(--f-mono); letter-spacing: .1em; text-decoration: none; color: var(--ash); padding: .6rem .3rem; display: inline-flex; gap: .3em; }
-  .lang .on { color: var(--bone); } .lang i { font-style: normal; opacity: .5; }
+  .lang { font: 500 .72rem var(--f-mono); letter-spacing: .1em; display: inline-flex; align-items: center; gap: .1em; }
+  .lang a { text-decoration: none; color: var(--ash); padding: .7rem .35rem; min-height: 40px; display: inline-flex; align-items: center; transition: color .2s; } .lang a:hover { color: var(--bone); }
+  .lang a.on { color: var(--bone); } .lang i { font-style: normal; opacity: .4; }
   .nav__cta { min-height: 40px; padding: .6em 1.1em; font-size: .82rem; }
   @media (min-width: 960px) { .nav__links { display: flex; } }
-  @media (max-width: 420px) { .nav__cta { padding: .55em .9em; font-size: .76rem; } }
+  .lang a, .nav__cta { white-space: nowrap; }
+  @media (max-width: 480px) {
+    .nav__in { gap: .4rem; } .nav__right { gap: .25rem; } .nav__logo { width: 54px; }
+    .lang { letter-spacing: 0; } .lang i { display: none; } .lang a { padding: .7rem .38rem; }
+    .nav__cta { padding: .5em .8em; font-size: .72rem; min-height: 38px; }
+  }
 </style>

@@ -27,7 +27,8 @@ create table if not exists projects (
   mechanics text[] not null default '{}',
   metrics jsonb not null default '[]',                -- [{"label":"Pedidos/mes","value":"+120"}]
   screens jsonb not null default '{}',                -- {"sell":"url","control":"url"}
-  en jsonb not null default '{}',                     -- traducciones: star_mechanic, target_client, challenge, solution, results
+  en jsonb not null default '{}',                     -- traducciones EN: star_mechanic, target_client, challenge, solution, results, signature, signature_text, mechanics
+  ja jsonb not null default '{}',                     -- traducciones JA (mismas claves)
   sort_order int not null default 100,
   featured boolean not null default false,
   created_at timestamptz not null default now(),

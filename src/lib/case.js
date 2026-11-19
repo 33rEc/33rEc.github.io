@@ -31,7 +31,7 @@ export function caseHTML(p, t) {
       <div class="cs-screens">${screen(p.screens?.sell || p.cover_url, c.sell)}${screen(p.screens?.control, c.control)}</div>
     </section>
     ${gal.length ? `<section class="wrap"><p class="tag tag--ecto">${esc(c.gallery)}</p><div class="cs-gal">${gal.map((u) => `<img src="${esc(u)}" alt="${esc(p.client)}" loading="lazy" decoding="async">`).join('')}</div></section>` : ''}
-    ${(p.mechanics || []).length ? `<section class="wrap"><p class="tag tag--ecto">${esc(c.mechanics)}</p><ul class="cs-mech">${p.mechanics.map((m) => `<li>${esc(m)}</li>`).join('')}</ul></section>` : ''}
+    ${(loc(p, 'mechanics', lang) || []).length ? `<section class="wrap"><p class="tag tag--ecto">${esc(c.mechanics)}</p><ul class="cs-mech">${loc(p, 'mechanics', lang).map((m) => `<li>${esc(m)}</li>`).join('')}</ul></section>` : ''}
     <section class="wrap"><p class="tag tag--ecto">${esc(c.results)}</p>
       ${metrics.length ? `<ul class="cs-metrics">${metrics.map((m) => `<li><b>${esc(m.value)}</b><span class="tag">${esc(m.label)}</span></li>`).join('')}</ul>` : ''}
       ${results ? `<p class="cs-p">${esc(results)}</p>` : metrics.length ? '' : `<p class="cs-p muted">${esc(c.pending)}</p>`}

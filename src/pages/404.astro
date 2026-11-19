@@ -16,9 +16,9 @@ const t = dict.es;
     import { caseHTML } from '../lib/case.js';
     import { getProject } from '../js/data.js';
     import '../scripts/case.js';
-    const m = location.pathname.match(/^\/(en\/work|trabajo)\/([a-z0-9-]+)\/?$/);
+    const m = location.pathname.match(/^\/(en\/work|ja\/work|trabajo)\/([a-z0-9-]+)\/?$/);
     if (m) {
-      const lang = m[1] === 'trabajo' ? 'es' : 'en', t = dict[lang];
+      const lang = m[1] === 'trabajo' ? 'es' : m[1] === 'ja/work' ? 'ja' : 'en', t = dict[lang];
       getProject(m[2], { drafts: new URLSearchParams(location.search).has('preview') }).then((p) => {
         if (!p) return; document.documentElement.lang = lang; document.title = `${p.client} | 33r`;
         document.querySelector('#main').innerHTML = caseHTML(p, t);

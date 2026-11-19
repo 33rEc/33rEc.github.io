@@ -39,7 +39,7 @@ export async function getProject(slug, { drafts = true } = {}) {
 export const staticProjects = () => seed; // para getStaticPaths en build
 
 /** Devuelve el texto localizado de un proyecto (cae a ES si no hay EN). */
-export const loc = (p, key, lang) => (lang === 'en' && p.en?.[key]) || p[key] || '';
+export const loc = (p, key, lang) => (lang !== 'es' && p[lang]?.[key]) || (lang === 'ja' && p.en?.[key]) || p[key] || '';  // ja → en → es
 
 export async function createLead(lead) {
   const row = {

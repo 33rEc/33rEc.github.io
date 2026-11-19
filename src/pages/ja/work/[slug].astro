@@ -1,0 +1,7 @@
+---
+import CasePage from '../../../components/CasePage.astro';
+import { staticProjects } from '../../../js/data.js';
+export const getStaticPaths = () => staticProjects().filter((p) => p.published && p.status !== 'oculto').map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+const { project } = Astro.props;
+---
+<CasePage project={project} lang="ja" />

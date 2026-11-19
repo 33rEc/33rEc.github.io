@@ -52,8 +52,14 @@ Archivos: `src/lib/logo.js` (trazos, fuente única), `src/components/Logo.astro`
 **Astro** (HTML estático = Lighthouse y SEO, rutas por proyecto, i18n) + CSS propio con variables + **GSAP** (solo el manifiesto, cargado en idle) + canvas 2D ligero + SVG; Supabase por `fetch` (sin SDK); despliegue en **GitHub Pages** vía Actions.
 
 ## 7. Estructura del sitio
-`/` y `/en/` (bilingüe, selector ES/EN): Hero → Manifiesto → «Vende/Controla» interactivo → Por qué 33r → Trabajo → Servicios → Cómo trabajamos → Industrias → Quiénes → Pide tu demo → Footer.
-Más: `/trabajo/[slug]` y `/en/work/[slug]` (caso de estudio, plantilla única `src/lib/case.js`), `/admin` (privado, noindex), `/logo-lab` (noindex), `404.html`, `sitemap-index.xml`, `robots.txt`, `manifest.webmanifest`.
+`/`, `/en/` y `/ja/` (trilingüe ES · EN · 日本語, selector en el menú que conserva la página, también en los casos): Hero → Manifiesto → «Vende/Controla» interactivo → Por qué 33r → Trabajo → Servicios → Cómo trabajamos → Industrias → Quiénes → Pide tu demo → Footer.
+Más: `/trabajo/[slug]`, `/en/work/[slug]` y `/ja/work/[slug]` (caso de estudio, plantilla única `src/lib/case.js`), `/admin` (privado, noindex), `/logo-lab` (noindex), `404.html`, `sitemap-index.xml`, `robots.txt`, `manifest.webmanifest`.
+
+### Idiomas (ES · EN · 日本語)
+- Textos: `src/i18n/index.js` (es, en) y `src/i18n/ja.js`. `node scripts/check-i18n.mjs` verifica que los tres tengan **exactamente** las mismas claves (hoy: 531 por idioma). Correrlo tras tocar cualquier texto.
+- Proyectos: el texto base está en español; las traducciones viven en los objetos `en` y `ja` de cada proyecto (`star_mechanic, target_client, challenge, solution, signature, signature_text, mechanics[]`, `results`). Cadena de respaldo: ja → en → es. `/admin` edita EN y JA (las `mechanics` traducidas se editan hoy en el JSON/Supabase).
+- Japonés: **sin webfont** a propósito (Noto Sans JP completa pesa ~5 MB y llevaba el LCP a 8 s). Se usan las fuentes japonesas del dispositivo (Hiragino / Yu Gothic / Meiryo / Noto) y el latín conserva Space Grotesk/Inter. Estilos en `src/styles/ja.css` (sin tracking negativo, `line-break: strict`, titulares sin tope en ch). Si algún día se quiere una fuente japonesa de marca: subconjunto de los glifos usados + `font-display: optional`.
+- SEO: `hreflang` es/en/ja + x-default, `og:locale` ja_JP, sitemap con los 3 idiomas. Traducción al japonés redactada por Claude: **pedir revisión a un hablante nativo antes de una campaña en Japón** (tono y términos de negocio).
 
 ## 8. Datos del portafolio
 Todo el portafolio vive en datos, no en el HTML. Capa única: `src/js/data.js` (async). Sin claves de Supabase usa `src/data/projects.seed.json`; con claves usa Supabase **sin tocar nada más**.
@@ -95,8 +101,8 @@ Leads: estado `nuevo → contactado → demo_enviada → ganado / perdido` (edit
 ## 11. SEO
 Título y descripción por página, canonical + hreflang ES/EN, Open Graph/Twitter con `og.png`, JSON-LD `Organization`, sitemap. Keywords trabajadas en el copy: «desarrollo de landing pages en Ecuador», «sistema de fidelización para restaurantes», «CRM para negocios pequeños», «agencia de marketing digital Ambato» y equivalentes en EN.
 
-## 12. Rendimiento (Lighthouse móvil, página principal)
-Performance 97 · Accesibilidad 100 · Buenas prácticas 100 · SEO 100 (LCP ≈2.0 s, CLS 0, TBT ≈110 ms). Verificado sin scroll horizontal en 375, 390, 768, 1280 y 1920 px, y con `prefers-reduced-motion`.
+## 12. Rendimiento (Lighthouse móvil)
+ES, EN y JA: Performance 97–98 · Accesibilidad 100 · Buenas prácticas 100 · SEO 100 (LCP ≈2.0 s, CLS < 0.06, TBT ≈0 ms). Verificado sin scroll horizontal en 375, 390, 768, 1280 y 1920 px, y con `prefers-reduced-motion`.
 
 ## 13. Pendientes (lo que necesito de Daniel)
 Ver la lista al final de la entrega: links y capturas de los proyectos, métricas reales, significado de «33r» (hoy el nombre habla solo, no se inventó nada), roles de Daniel y Juan, WhatsApp / email / Instagram / LinkedIn, dominio, herramienta de analítica, claves de Supabase.

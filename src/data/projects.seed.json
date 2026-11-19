@@ -45,7 +45,31 @@
       "challenge": "Watch dams in the high moorland —with no cell coverage— day and night, and make sure that, when there is a risk, everyone knows in seconds what to do.",
       "solution": "Level, rain, flow, piezometer, settlement and tilt sensors at every dam, linked by LoRaWAN to a gateway and by Starlink to the cloud. Alert rules, history, drills and an immutable log; a dashboard for the operations room and an app for technicians and boards, in real time.",
       "signature": "From the sensor on the moor to the technician’s phone, in seconds",
-      "signature_text": "Custom technology end to end: sensors, long-range radio, satellite where there is no cell coverage, alert rules, an operations dashboard and a field app with GPS."
+      "signature_text": "Custom technology end to end: sensors, long-range radio, satellite where there is no cell coverage, alert rules, an operations dashboard and a field app with GPS.",
+      "mechanics": [
+        "IoT sensors on the dams (level, rain, flow, structure)",
+        "LoRaWAN, gateway and Starlink satellite link",
+        "Alert levels with role-based actions",
+        "Estimated time for the flood wave to reach each community",
+        "Field app: “on the way” / “on site” and reports with photo and GPS",
+        "Immutable log and drills"
+      ]
+    },
+    "ja": {
+      "star_mechanic": "各貯水池のライブ状況。アラートレベルと、洪水が各地域に到達するまでの推定時間",
+      "target_client": "運用室、現場の技術者、下流の地域委員会の責任者、そして概要ビューを通じた一般市民。",
+      "challenge": "携帯電波が届かない山岳地帯のダムを昼夜監視し、リスクが生じたとき、全員が数秒で何をすべきか分かる状態にすること。",
+      "solution": "各ダムの水位、雨量、流量、間隙水圧計、沈下、傾斜のセンサーを、LoRaWANでゲートウェイへ、Starlinkでクラウドへつなぎます。アラートルール、履歴、訓練、改ざん不可のログを備え、運用室向けダッシュボードと、技術者・地域委員会向けアプリをリアルタイムで提供します。",
+      "signature": "山岳地帯のセンサーから技術者のスマホまで、数秒で",
+      "signature_text": "エンドツーエンドのオーダーメイド技術。センサー、長距離無線、携帯電波のない場所での衛星通信、アラートルール、運用ダッシュボード、GPS対応のフィールドアプリ。",
+      "mechanics": [
+        "ダムのIoTセンサー（水位、雨量、流量、構造）",
+        "LoRaWAN、ゲートウェイ、Starlink衛星リンク",
+        "ロール別の対応を備えたアラートレベル",
+        "洪水が各地域に到達するまでの推定時間",
+        "フィールドアプリ：「移動中」「現場到着」、写真とGPS付き報告",
+        "改ざん不可のログと訓練"
+      ]
     }
   },
   {
@@ -92,7 +116,27 @@
       "challenge": "A center with six specialties needed to convey clinical trust and turn visits into appointments without phone calls or back and forth.",
       "solution": "A site that puts the doctor and the six specialties up front, and a three-step booking —day, time and details— that reaches WhatsApp with the reason, day and time already filled in, so the appointment is confirmed in the same chat.",
       "signature": "A first-class odontogram",
-      "signature_text": "Beyond the website: a clinical tool built to the practice’s measure, with an odontogram designed for the doctor’s daily work."
+      "signature_text": "Beyond the website: a clinical tool built to the practice’s measure, with an odontogram designed for the doctor’s daily work.",
+      "mechanics": [
+        "3-step booking (day, time, details)",
+        "Booking by specialty",
+        "WhatsApp confirmation with the appointment pre-filled",
+        "A first-class odontogram"
+      ]
+    },
+    "ja": {
+      "star_mechanic": "WhatsApp確認付きの3ステップ予約",
+      "target_client": "バニョス・デ・アグア・サンタで歯科の専門センターを探し、信頼と予約のしやすさで選ぶご家族と大人の方。",
+      "challenge": "6つの診療科を持つセンターが、電話や何度ものやり取りなしに、臨床的な信頼を伝えて来訪を予約に変えること。",
+      "solution": "院長と6つの診療科を前面に出したサイトと、日付・時間・情報の3ステップ予約。診療内容、日付、時間が入力済みのままWhatsAppに届き、同じチャットで予約が確定します。",
+      "signature": "トップクラスのオドントグラム",
+      "signature_text": "ウェブサイトにとどまらず、診療所の実情に合わせた臨床ツール。院長の毎日の診療のために設計したオドントグラム（歯科チャート）を備えています。",
+      "mechanics": [
+        "3ステップ予約（日付・時間・情報）",
+        "診療科別の予約",
+        "予約内容を入力済みでWhatsApp確認",
+        "トップクラスのオドントグラム"
+      ]
     }
   },
   {
@@ -142,7 +186,31 @@
       "challenge": "Sell single-ingredient treats through trust and clarity, and let the owner decide with numbers, not guesswork.",
       "solution": "A store that recommends a combination by the dog’s weight, shows the total instantly and sends the order pre-written via WhatsApp. Behind it, an owner’s dashboard that controls sales, profit, purchasing, pricing and marketing.",
       "signature": "A remarkably sharp owner’s dashboard",
-      "signature_text": "Daily sales and profit, orders with statuses, demand forecast and shopping list, price simulator, funnel and return per channel. The owner sees costs and margins; the team sees only what it needs."
+      "signature_text": "Daily sales and profit, orders with statuses, demand forecast and shopping list, price simulator, funnel and return per channel. The owner sees costs and margins; the team sees only what it needs.",
+      "mechanics": [
+        "Recommended combos by dog size",
+        "Order with instant total sent via WhatsApp",
+        "Owner dashboard with roles (owner and team)",
+        "Demand forecast and shopping list",
+        "Price and margin simulator per line",
+        "Return per marketing channel (ROAS)"
+      ]
+    },
+    "ja": {
+      "star_mechanic": "ストアで注文を組み立てて、書き込み済みでWhatsAppへ。犬のサイズ別セット付き",
+      "target_client": "キト、周辺の谷、アンバトで、愛犬に何を与えているかを正確に知りたい飼い主。",
+      "challenge": "原材料ひとつのおやつを、信頼と明快さで販売し、オーナーが勘ではなく数字で判断できるようにすること。",
+      "solution": "犬の体重に合わせてセットを提案し、合計を即座に表示、注文を書き込み済みでWhatsAppに送るストア。その裏には、売上、利益、仕入れ、価格、マーケティングを管理するオーナー用ダッシュボードがあります。",
+      "signature": "とても的確なオーナー用ダッシュボード",
+      "signature_text": "日別の売上と利益、ステータス付きの注文、需要予測と仕入れリスト、価格シミュレーター、ファネル、チャネル別リターン。オーナーはコストとマージンを、チームは必要な情報だけを見られます。",
+      "mechanics": [
+        "犬のサイズ別おすすめセット",
+        "合計を即時表示してWhatsAppで注文",
+        "ロール別のオーナー用ダッシュボード（オーナー／チーム）",
+        "需要予測と仕入れリスト",
+        "ライン別の価格・マージンシミュレーター",
+        "マーケティングチャネル別リターン（ROAS）"
+      ]
     }
   },
   {
@@ -193,7 +261,29 @@
       "challenge": "Prove that a website can be a truly immersive experience: a complete game that loads in the browser, with nothing to install.",
       "solution": "A corridor 3D platformer set on Nácar, the planet of the fall: worlds that unlock as you finish the previous one, jump, spin and remember mechanics, checkpoints, saved progress, sound and effects settings, touch controls and a time-attack mode.",
       "signature": "A complete 3D game, in the browser",
-      "signature_text": "Our own character, worlds, music and progress: proof that we can build experiences that hook people, not just pages that inform."
+      "signature_text": "Our own character, worlds, music and progress: proof that we can build experiences that hook people, not just pages that inform.",
+      "mechanics": [
+        "3D platformer with unlockable worlds",
+        "Jump, spin and remember",
+        "Checkpoints and saved progress",
+        "Time-attack mode",
+        "Keyboard and touch controls"
+      ]
+    },
+    "ja": {
+      "star_mechanic": "ワールド制の3Dプラットフォーマー。セーブとタイムアタック付き",
+      "target_client": "ブラウザで、PCでもスマホでも遊べる、短くて美しく、繰り返し楽しめる体験を求めるプレイヤー。",
+      "challenge": "ウェブサイトが、本当に没入できる体験になれることを示すこと。インストール不要で、ブラウザで読み込める完成されたゲーム。",
+      "solution": "「落下の惑星」ナカル（Nácar）を舞台にした、回廊型の3Dプラットフォーマー。前のワールドをクリアすると次が解放され、ジャンプ、回転、思い出すの仕組み、チェックポイント、セーブ、サウンドとエフェクトの設定、タッチ操作、タイムアタックモードを備えています。",
+      "signature": "ブラウザで遊べる、本格的な3Dゲーム",
+      "signature_text": "独自のキャラクター、ワールド、音楽、進行。ただ情報を伝えるページではなく、人を夢中にさせる体験を作れることの証明です。",
+      "mechanics": [
+        "解放式ワールドの3Dプラットフォーマー",
+        "ジャンプ、回転、思い出す",
+        "チェックポイントとセーブ",
+        "タイムアタックモード",
+        "キーボードとタッチ操作"
+      ]
     }
   },
   {
@@ -238,11 +328,31 @@
       "challenge": "Give customers something to do while they wait, and make that wait end in a sign-up and more spending.",
       "solution": "A landing with its own identity: the customer picks a side (angel or devil), plays and registers their score by WhatsApp; the best of the day wins a prize. The same screen leads to the menu, builds the takeaway or delivery order and sends it pre-written by WhatsApp, and connects the Mocka card to pay with balance by showing a QR.",
       "signature": "Mocka card: its own balance and QR payments",
-      "signature_text": "An in-house purchase card: customers top it up, pay by showing their QR at the counter and check their balance. It also works when ordering by WhatsApp."
+      "signature_text": "An in-house purchase card: customers top it up, pay by showing their QR at the counter and check their balance. It also works when ordering by WhatsApp.",
+      "mechanics": [
+        "Mini-game with a daily leaderboard and prize",
+        "Menu with direct ordering to WhatsApp",
+        "Mocka card with balance and QR",
+        "Promos of the day up front"
+      ]
     },
     "accent": "#FFD400",
     "signature": "Tarjeta Mocka: saldo propio y pago por QR",
-    "signature_text": "Una tarjeta de compra interna: el cliente la recarga, paga mostrando su QR en caja y consulta su saldo. También se puede usar al pedir por WhatsApp."
+    "signature_text": "Una tarjeta de compra interna: el cliente la recarga, paga mostrando su QR en caja y consulta su saldo. También se puede usar al pedir por WhatsApp.",
+    "ja": {
+      "star_mechanic": "ミニゲーム「天使か悪魔か」と毎日の賞品",
+      "target_client": "テーブルのQRをスキャンするカフェ・ブランチのお客様と、すでにMockaカードにチャージしている方。",
+      "challenge": "お客様が待ち時間に楽しめることを作り、その待ち時間を登録と追加注文につなげること。",
+      "solution": "独自の世界観を持つランディング。お客様は天使か悪魔かを選んでプレイし、スコアをWhatsAppで登録。その日のトップが賞品を獲得します。同じ画面からメニューへ進み、持ち帰りまたはデリバリーの注文を組み立て、書き込み済みでWhatsAppに送信。さらにMockaカードを連携し、QRを見せて残高で支払えます。",
+      "signature": "Mockaカード：独自の残高とQR決済",
+      "signature_text": "店内専用のプリペイドカード。お客様はチャージし、レジでQRを見せて支払い、残高を確認できます。WhatsApp注文時にも使えます。",
+      "mechanics": [
+        "毎日のランキングと賞品付きミニゲーム",
+        "WhatsAppへ直接注文できるメニュー",
+        "残高とQRのMockaカード",
+        "本日のプロモーションを前面に"
+      ]
+    }
   },
   {
     "industry": "salud",
@@ -286,11 +396,31 @@
       "challenge": "Fill 12-spot classes without relying on messages, and turn the first class into a recurring membership.",
       "solution": "A studio website that shows the schedule by location with spots left in real time, lets members book, join a waitlist and change class from their Core Card, and sells 1, 3, 6 or 12-month plans. Every class, event and friend brought earns stars that never expire.",
       "signature": "Core Card: your consistency earns stars",
-      "signature_text": "Every class, event and friend brought earns stars on the member’s card. They never expire and can be redeemed for benefits and merch."
+      "signature_text": "Every class, event and friend brought earns stars on the member’s card. They never expire and can be redeemed for benefits and merch.",
+      "mechanics": [
+        "Booking with live availability per location",
+        "Automatic waitlist",
+        "Subscription memberships (1, 3, 6 and 12 months)",
+        "Core Card with stars that never expire"
+      ]
     },
     "accent": "#D9C8B0",
     "signature": "Core Card: tu constancia suma estrellas",
-    "signature_text": "Cada clase, evento y amiga que traes suma estrellas a la tarjeta de la alumna. No vencen, y se canjean por beneficios y merch."
+    "signature_text": "Cada clase, evento y amiga que traes suma estrellas a la tarjeta de la alumna. No vencen, y se canjean por beneficios y merch.",
+    "ja": {
+      "star_mechanic": "クラスのリアルタイム空き状況予約とメンバーシップ登録",
+      "target_client": "きめ細かいフォローを大切にする、ピラティス＋筋力トレーニングスタジオの会員と見込み会員。",
+      "challenge": "定員12名のクラスを、メッセージに頼らず満席にし、初回レッスンを継続会員につなげること。",
+      "solution": "スタジオごとの時間割を、空き枠とともにリアルタイムで表示。予約、キャンセル待ち、Core Cardからのクラス変更ができ、1・3・6・12か月のプランを販売。クラス、イベント、お友達の紹介ごとに、期限のないスターが貯まります。",
+      "signature": "Core Card：継続がスターになる",
+      "signature_text": "クラス、イベント、お友達の紹介ごとに、会員カードにスターが貯まります。スターは失効せず、特典やグッズと交換できます。",
+      "mechanics": [
+        "スタジオごとのリアルタイム空き状況予約",
+        "自動のキャンセル待ち",
+        "サブスクリプション型メンバーシップ（1・3・6・12か月）",
+        "期限のないスターのCore Card"
+      ]
+    }
   },
   {
     "industry": "gastronomia",
@@ -335,11 +465,33 @@
       "challenge": "A venue with a different schedule every week needed booking, ordering and finding events to be one tap away, and to give customers a reason to come back.",
       "solution": "A phone-first site: weekly agenda, menu, table booking and dish-by-dish delivery orders —both with the WhatsApp message already written—, a mini-game that hands out a coupon and a points-based Beer Club.",
       "signature": "Beer Club: points to come back",
-      "signature_text": "A club of its own with points for returning customers, alongside a mini-game that hands out coupons and a weekly agenda that changes with the venue."
+      "signature_text": "A club of its own with points for returning customers, alongside a mini-game that hands out coupons and a weekly agenda that changes with the venue.",
+      "mechanics": [
+        "Table booking via WhatsApp",
+        "Dish-by-dish delivery ordering",
+        "“Catch the Foam” mini-game with coupon",
+        "Weekly agenda and ticket sales",
+        "Points-based Beer Club"
+      ]
     },
     "accent": "#7FB069",
     "signature": "Beer Club: puntos para volver",
-    "signature_text": "Un club propio con puntos para quien vuelve, junto a un minijuego que entrega cupones y una agenda semanal que cambia con el local."
+    "signature_text": "Un club propio con puntos para quien vuelve, junto a un minijuego que entrega cupones y una agenda semanal que cambia con el local.",
+    "ja": {
+      "star_mechanic": "「泡をキャッチ」：30秒のミニゲームで、レジで使えるクーポンを獲得",
+      "target_client": "フィコアの夜遊び好き。手羽先、クラフトビール、ライブ音楽を求めて、スマホから予約や注文をするグループ。",
+      "challenge": "毎週スケジュールが変わる店で、予約、注文、イベント情報の確認をワンタップにし、お客様にまた来る理由を与えること。",
+      "solution": "スマホ中心のサイト。週間スケジュール、メニュー、テーブル予約、料理ごとのデリバリー注文（どちらも書き込み済みのWhatsAppメッセージ付き）、クーポンを配るミニゲーム、ポイント制のBeer Club。",
+      "signature": "Beer Club：また来たくなるポイント",
+      "signature_text": "再来店のお客様のための専用クラブ。クーポンを配るミニゲームと、店の動きに合わせて変わる週間スケジュールも備えています。",
+      "mechanics": [
+        "WhatsAppでテーブル予約",
+        "料理ごとのデリバリー注文",
+        "クーポン付きミニゲーム「泡をキャッチ」",
+        "週間スケジュールとチケット販売",
+        "ポイント制Beer Club"
+      ]
+    }
   },
   {
     "industry": "gastronomia",
@@ -383,11 +535,31 @@
       "challenge": "A strong-character brand running two businesses in one (venue and event food truck), and customers who want to order in a minute.",
       "solution": "A site with the brand’s identity: burger carousel, menu, an order built on the page and sent ready via WhatsApp (pickup or delivery), a jeep mini-game for the wait and a section to quote the food truck per event.",
       "signature": "The Gorilla’s jeep",
-      "signature_text": "While you wait for your order you drive the Gorilla’s jeep with the food truck in tow: every cartoon pedestrian you hit scores points."
+      "signature_text": "While you wait for your order you drive the Gorilla’s jeep with the food truck in tow: every cartoon pedestrian you hit scores points.",
+      "mechanics": [
+        "Burger carousel",
+        "Order sent to WhatsApp (pickup or delivery)",
+        "“Play while you wait” mini-game",
+        "Food truck quote for events"
+      ]
     },
     "accent": "#E0A06A",
     "signature": "El jeep del Gorila",
-    "signature_text": "Mientras esperas tu pedido, manejas el jeep del Gorila con el food truck a cuestas: cada peatón de caricatura que choques suma puntos."
+    "signature_text": "Mientras esperas tu pedido, manejas el jeep del Gorila con el food truck a cuestas: cada peatón de caricatura que choques suma puntos.",
+    "ja": {
+      "star_mechanic": "注文をサイトで組み立ててWhatsAppへ。待ち時間用のミニゲーム付き",
+      "target_client": "テイクアウトやデリバリーでバーガーを注文するアンバトの人々と、コンサート、フェア、パーティーでフードトラックを依頼する主催者。",
+      "challenge": "個性の強いブランドで、店舗とイベント用フードトラックの二つの事業を持ち、お客様は1分で注文したい。",
+      "solution": "ブランドの世界観を表現したサイト。バーガーのカルーセル、メニュー、ページ上で組み立てた注文を書き込み済みでWhatsAppへ送信（持ち帰り／デリバリー）、待ち時間に遊べるジープのミニゲーム、イベント別のフードトラック見積もりセクション。",
+      "signature": "ゴリラのジープ",
+      "signature_text": "注文を待つあいだ、フードトラックを引いたゴリラのジープを運転。漫画風の歩行者にぶつかるたびに、ポイントが加算されます。",
+      "mechanics": [
+        "バーガーのカルーセル",
+        "WhatsAppへ注文を送信（持ち帰り／デリバリー）",
+        "ミニゲーム「遊んで待つ」",
+        "イベント向けフードトラックの見積もり"
+      ]
+    }
   },
   {
     "slug": "nutribites",

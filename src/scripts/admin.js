@@ -87,8 +87,8 @@ function editor(p) {
     <label class="full">Mecánicas (una por línea)<textarea name="mechanics">${esc((v.mechanics || []).join('\n'))}</textarea></label>
     <label class="full">Métricas (una por línea: «Etiqueta | Valor»)<textarea name="metrics">${esc((v.metrics || []).map((m) => `${m.label} | ${m.value}`).join('\n'))}</textarea></label>
     <label class="full">Resultados (texto)<textarea name="results">${esc(v.results)}</textarea></label>
-    <p class="tag full">Traducción al inglés (opcional)</p>
-    ${['signature', 'signature_text', 'star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => `<label class="full">EN · ${k}<textarea name="en_${k}">${esc(en[k])}</textarea></label>`).join('')}
+    <p class="tag full">Traducciones (opcional): inglés y japonés</p>
+    ${['en', 'ja'].map((L) => ['signature', 'signature_text', 'star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => `<label class="full">${L.toUpperCase()} · ${k}<textarea name="${L}_${k}">${esc((v[L] || {})[k])}</textarea></label>`).join('')).join('')}
     <label>Orden<input name="sort_order" type="number" value="${esc(v.sort_order)}"></label>
     <div class="row full"><label class="chk"><input type="checkbox" name="published" ${v.published ? 'checked' : ''}>Publicado (visible en la web)</label><label class="chk"><input type="checkbox" name="featured" ${v.featured ? 'checked' : ''}>Destacado</label></div>
     </div><p class="msg" id="pmsg" role="alert"></p><div class="row"><button class="btn btn--primary" type="submit">Guardar</button></div></form>`;
@@ -106,7 +106,8 @@ function editor(p) {
       cover_url: g('cover_url'), video_url: g('video_url'), screens: { sell: g('screen_sell'), control: g('screen_control') },
       accent: g('accent'), signature: g('signature'), signature_text: g('signature_text'), star_mechanic: g('star_mechanic'), target_client: g('target_client'), challenge: g('challenge'), solution: g('solution'), results: g('results'),
       mechanics: lines('mechanics'), metrics: lines('metrics').map((l) => { const [label, ...r] = l.split('|'); return { label: label.trim(), value: r.join('|').trim() }; }),
-      en: Object.fromEntries(['signature', 'signature_text', 'star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => [k, g('en_' + k)]).filter(([, x]) => x)),
+      en: { ...(p?.en || {}), ...Object.fromEntries(['signature', 'signature_text', 'star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => [k, g('en_' + k)]).filter(([, x]) => x)) },
+      ja: { ...(p?.ja || {}), ...Object.fromEntries(['signature', 'signature_text', 'star_mechanic', 'target_client', 'challenge', 'solution', 'results'].map((k) => [k, g('ja_' + k)]).filter(([, x]) => x)) },
       sort_order: Number(g('sort_order')) || 100, published: f.elements.published.checked, featured: f.elements.featured.checked,
     };
     try { await D.saveProject(row); dlg.close(); dash(); } catch (er) { msg.className = 'msg'; msg.textContent = 'Error: ' + er.message; }

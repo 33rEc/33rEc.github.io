@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site } from '../config/site.js';
+import JaFonts from '../components/JaFonts.astro';
 const { title, description = '', noindex = false, lang = 'es', path = '', alt = null, ogTitle = title, jsonLd = true, skip = 'Saltar al contenido' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const abs = (p) => `${site.url}${p}`;
@@ -29,6 +30,7 @@ const analytics = site.analytics;
     {alt && !noindex && <>
       <link rel="alternate" hreflang="es" href={abs(alt.es)} />
       <link rel="alternate" hreflang="en" href={abs(alt.en)} />
+      <link rel="alternate" hreflang="ja" href={abs(alt.ja)} />
       <link rel="alternate" hreflang="x-default" href={abs(alt.es)} />
     </>}
     <meta property="og:type" content="website" />
@@ -38,7 +40,7 @@ const analytics = site.analytics;
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={abs('/og.png')} />
     <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
-    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_EC'} />
+    <meta property="og:locale" content={({ en: 'en_US', ja: 'ja_JP' })[lang] ?? 'es_EC'} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:image" content={abs('/og.png')} />
@@ -52,6 +54,7 @@ const analytics = site.analytics;
     {analytics.provider === 'umami' && <script defer data-website-id={analytics.id} src={analytics.src}></script>}
     {analytics.provider === 'ga4' && <><script async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.id}`}></script>
       <script is:inline define:vars={{ id: analytics.id }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',id);</script></>}
+    {lang === 'ja' && <JaFonts />}
     <slot name="head" />
   </head>
   <body>
