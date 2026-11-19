@@ -17,6 +17,7 @@ const links = [
       {t.nav.items.map(([h, l]) => <a href={`${t.home}${h}`}>{l}</a>)}
     </nav>
     {links.length > 0 && <ul class="foot__links">{links.map(([h, l]) => <li><a href={h} target={h.startsWith('http') ? '_blank' : undefined} rel="noopener" data-track={l === 'WhatsApp' ? 'whatsapp_click' : undefined} data-where="footer">{l}</a></li>)}</ul>}
+    {(site.analytics.ga4 || site.analytics.clarity) && <p class="foot__consent"><button type="button" class="tag" data-consent-open>{t.consent.label}</button></p>}
     <p class="tag foot__meta">{t.footer.location} · © {site.year} 33r. {t.footer.rights}</p>
   </div>
 </footer>
@@ -24,5 +25,6 @@ const links = [
   .foot { border-top: 1px solid var(--mist); padding-block: 3rem 2.5rem; }
   .foot__in { display: grid; gap: 1.8rem; } @media (min-width: 860px) { .foot__in { grid-template-columns: 1.2fr 1fr 1fr; align-items: start; } .foot__meta { grid-column: 1 / -1; } }
   .foot__logo { width: 84px; margin-bottom: 1rem; } .foot__brand { display: grid; max-width: 34ch; }
+  .foot__consent button { background: none; border: 0; padding: .5rem 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; color: var(--ash); } .foot__consent button:hover { color: var(--ecto); }
   .foot__nav, .foot__links { display: grid; gap: .3rem; list-style: none; margin: 0; padding: 0; } .foot a { text-decoration: none; padding: .35rem 0; display: inline-block; } .foot a:hover { color: var(--ecto); }
 </style>

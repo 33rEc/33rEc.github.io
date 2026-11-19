@@ -1,0 +1,17 @@
+---
+import { site } from '../config/site.js';
+import { dict } from '../i18n/index.js';
+const { lang = 'es' } = Astro.props; const c = dict[lang].consent; const a = site.analytics;
+---
+{(a.ga4 || a.clarity) && (
+  <div id="consent" class="consent" role="dialog" aria-label={c.label} hidden data-ga4={a.ga4} data-clarity={a.clarity}>
+    <p>{c.text}</p>
+    <div class="consent__btns"><button type="button" class="btn" data-consent="reject">{c.reject}</button><button type="button" class="btn btn--primary" data-consent="accept">{c.accept}</button></div>
+  </div>
+  <script>import { initConsent } from '../scripts/consent.js'; initConsent();</script>
+)}
+<style>
+  .consent { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 80; max-width: 640px; margin-inline: auto; display: grid; gap: .9rem; padding: 1.1rem 1.2rem; background: rgba(20, 20, 24, .96); backdrop-filter: blur(10px); border: 1px solid var(--mist); border-radius: 14px; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .7); font-size: .9rem; }
+  .consent[hidden] { display: none; } .consent p { max-width: none !important; }
+  .consent__btns { display: flex; gap: .6rem; justify-content: flex-end; flex-wrap: wrap; } .consent .btn { min-height: 42px; padding: .6em 1.2em; font-size: .85rem; }
+</style>

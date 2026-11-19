@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { site } from '../config/site.js';
 import JaFonts from '../components/JaFonts.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 const { title, description = '', noindex = false, lang = 'es', path = '', alt = null, ogTitle = title, jsonLd = true, skip = 'Saltar al contenido' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const abs = (p) => `${site.url}${p}`;
@@ -16,7 +17,6 @@ const org = {
   sameAs: [site.contact.instagram, site.contact.linkedin].filter(Boolean),
   knowsAbout: ['Landing pages', 'CRM', 'Sistemas de fidelización', 'Marketing digital', 'Automatización'],
 };
-const analytics = site.analytics;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -50,15 +50,12 @@ const analytics = site.analytics;
     <link rel="manifest" href={`${base}manifest.webmanifest`} />
     <script is:inline>document.documentElement.classList.add('js')</script>
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(org)} />}
-    {analytics.provider === 'plausible' && <script defer data-domain={analytics.id} src={analytics.src || 'https://plausible.io/js/script.js'}></script>}
-    {analytics.provider === 'umami' && <script defer data-website-id={analytics.id} src={analytics.src}></script>}
-    {analytics.provider === 'ga4' && <><script async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.id}`}></script>
-      <script is:inline define:vars={{ id: analytics.id }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',id);</script></>}
     {lang === 'ja' && <JaFonts />}
     <slot name="head" />
   </head>
   <body>
     <a class="skip" href="#main">{skip}</a>
     <slot />
+    {!noindex && <ConsentBanner lang={lang} />}
   </body>
 </html>

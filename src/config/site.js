@@ -14,7 +14,7 @@ export const site = {
     { name: 'Juan Lozada M.', role: { es: '', en: '' } },   // rol: pendiente de Daniel
   ],
   // Analítica: elige proveedor y pon el ID. provider: 'plausible' | 'ga4' | 'umami' | ''
-  analytics: { provider: '', id: '', src: '' },
+  analytics: { ga4: import.meta.env.PUBLIC_GA4_ID ?? '', clarity: import.meta.env.PUBLIC_CLARITY_ID ?? '' },  // IDs públicos: variables del repo (ver CONTEXTO §10)
   // Supabase: SOLO claves públicas (anon). Se leen de variables PUBLIC_* en el build.
   supabase: {
     url: import.meta.env.PUBLIC_SUPABASE_URL ?? '',

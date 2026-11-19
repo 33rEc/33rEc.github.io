@@ -95,8 +95,12 @@ Solo se listan tecnologías **verificadas** en el código de los proyectos publi
 4. Re-ejecutar el despliegue. RLS: el público solo lee proyectos publicados e inserta leads; todo lo demás requiere usuario admin.
 Leads: estado `nuevo → contactado → demo_enviada → ganado / perdido` (editable en `/admin`).
 
-## 10. Analítica
-`src/scripts/analytics.js` emite: `demo_cta_click`, `lead_submit`, `whatsapp_click`, `case_open`, `filter_change`, `easter_egg`. Para conectar la herramienta elegida: `src/config/site.js → analytics` (`plausible`, `umami` o `ga4` + ID). Hasta entonces no se carga ningún script de terceros.
+## 10. Analítica y medición (GA4 + Microsoft Clarity)
+- **Qué se comunica en la web:** sección «Medición» (`src/components/Measure.astro`, ES/EN/JA): cómo medimos con GA4 (quién llega, de dónde, embudos, tiempo real, recurrencia) y Clarity (mapas de calor, atención y scroll, grabaciones), el ciclo medir → leer → decidir → probar → repetir y un **ejemplo real de MockaBox** (datos de Clarity: ~81 % del tiempo de sesión entre el 20 % y el 30 % del scroll, 540 vistas de página). Esos datos son de un cliente y salieron de capturas que Daniel compartió: confirmar con MockaBox que acepta mostrarlos; si no, retirar el bloque `example` o anonimizar.
+- **Conexión en el propio sitio de 33r:** el código ya está listo. Para activarlo, en GitHub → Settings → Secrets and variables → Actions → **Variables**: `PUBLIC_GA4_ID` (ej. `G-XXXXXXXXXX`) y `PUBLIC_CLARITY_ID` (el ID del proyecto de Clarity). Con las variables vacías no se carga ni se muestra nada.
+- **Consentimiento (obligatorio por el público en España, RGPD/ePrivacy):** `ConsentBanner.astro` + `src/scripts/consent.js`. GA4 y Clarity **no se cargan hasta que la persona acepta**; rechazar se recuerda; el pie de página permite reabrir las preferencias; no aparece en `/admin` ni `/logo-lab`. Verificado en ES/EN/JA. **Pendiente legal:** publicar una política de privacidad/cookies y enlazarla (hoy el banner explica qué se usa, pero no enlaza a una política).
+- **Eventos** (`src/scripts/analytics.js`) hacia GA4 y como eventos personalizados de Clarity: `demo_cta_click, lead_submit, whatsapp_click, case_open, filter_change, live_site_click, easter_egg`.
+- **Medir los sitios de los clientes** (MockaBox ya está con GA4 y Clarity): cada cliente necesita su propia propiedad de GA4 y su proyecto de Clarity; documentar a quién pertenece cada cuenta.
 
 ## 11. SEO
 Título y descripción por página, canonical + hreflang ES/EN, Open Graph/Twitter con `og.png`, JSON-LD `Organization`, sitemap. Keywords trabajadas en el copy: «desarrollo de landing pages en Ecuador», «sistema de fidelización para restaurantes», «CRM para negocios pequeños», «agencia de marketing digital Ambato» y equivalentes en EN.

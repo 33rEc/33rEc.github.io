@@ -43,7 +43,7 @@ const es = {
     live: 'En vivo', feed: 'Últimos pedidos', order_word: 'Pedido', newCustomer: 'Cliente nuevo', returning: 'Recurrente',
     currency: 'USD', locale: 'es-EC',
   },
-  ticker: ['Supabase', 'PostgreSQL', 'Tiempo real', 'GPS', 'Preact', 'Vite', 'Next.js', 'Astro', 'PWA', 'Dexie', 'Leaflet', 'Chart.js', 'LoRaWAN', 'Starlink', 'Three.js', 'GSAP', 'Mapbox', 'WhatsApp', 'Vercel', 'GitHub'],
+  ticker: ['Supabase', 'PostgreSQL', 'Tiempo real', 'GPS', 'Preact', 'Vite', 'Next.js', 'Astro', 'PWA', 'Dexie', 'Leaflet', 'Chart.js', 'LoRaWAN', 'Starlink', 'Three.js', 'GSAP', 'Mapbox', 'GA4', 'Clarity', 'WhatsApp', 'Vercel', 'GitHub'],
   connect: {
     title: 'Elige una necesidad. Mira cómo la conectamos.',
     intro: 'Cada solución es una cadena: un problema real, las tecnologías justas y un resultado que se usa. Estas son cadenas que ya construimos o estamos construyendo.',
@@ -73,7 +73,7 @@ const es = {
       ['Tiempo real y dispositivos', ['Datos en tiempo real', 'GPS y geolocalización', 'Sensores IoT', 'LoRaWAN', 'Starlink (satélite)', 'Cámaras IP']],
       ['Mapas, gráficos y alertas', ['Mapbox', 'Leaflet + markercluster', 'Chart.js', 'pdf.js', 'Niveles de alerta por rol', 'Bitácora inmutable']],
       ['Apps y mensajería', ['PWA instalables', 'Service worker (vite-plugin-pwa)', 'WhatsApp (pedidos y campañas)', 'Automatización', 'IA en el proceso']],
-      ['Despliegue', ['GitHub', 'GitHub Actions (CI/CD)', 'GitHub Pages', 'Vercel']],
+      ['Despliegue y medición', ['GitHub', 'GitHub Actions (CI/CD)', 'GitHub Pages', 'Vercel', 'Google Analytics 4', 'Microsoft Clarity']],
     ],
     capsTitle: 'Lo que podemos conectar', seen: 'Visto en',
     caps: [
@@ -88,13 +88,36 @@ const es = {
       ['3d', 'Juegos y 3D', 'Minijuegos que captan registros y un juego 3D completo corriendo en el navegador.', ['DIP', 'Ficoa', 'Gorila']],
     ],
   },
+  measure: {
+    eyebrow: 'Medición', title: 'Decisiones con datos, no con intuición.',
+    intro: 'Cada página que lanzamos se mide desde el primer día con Google Analytics 4 y Microsoft Clarity. GA4 nos dice quién llega, de dónde y qué hace; Clarity nos muestra cómo se usa la página de verdad: dónde se hace clic, hasta dónde se baja y dónde se pierde la atención. Afinamos con evidencia, no con opiniones.',
+    tools: [
+      ['Google Analytics 4', 'Quién llega, de dónde y qué hace', [
+        ['Usuarios, países y fuentes', 'De dónde viene la gente y qué canales traen a los mejores visitantes.'],
+        ['Embudos y eventos', 'Clic en pedir, envío de formulario, apertura de un caso: cada paso que importa.'],
+        ['Tiempo real', 'Qué está pasando en el sitio ahora mismo.'],
+        ['Recurrencia', 'Quién vuelve y cada cuánto.'],
+      ]],
+      ['Microsoft Clarity', 'Cómo se usa la página de verdad', [
+        ['Mapas de calor de clics', 'Dónde se toca y dónde no.'],
+        ['Mapas de atención y scroll', 'Hasta dónde se baja y dónde se queda el tiempo.'],
+        ['Grabaciones de sesión', 'Ver cómo usa la página una persona real.'],
+        ['Móvil y escritorio', 'Cada dispositivo se lee por separado.'],
+      ]],
+    ],
+    loopTitle: 'El ciclo', loop: ['Medir', 'Leer', 'Decidir', 'Probar', 'Repetir'],
+    exEyebrow: 'Ejemplo real · MockaBox', exTitle: 'Dónde está la atención de verdad',
+    exText: 'En una página de MockaBox, el mapa de atención de Clarity mostró que cerca del 81 % del tiempo de sesión se concentra entre el 20 % y el 30 % del recorrido de la página. Con un dato así sabes dónde poner el esfuerzo primero, y qué dejar quieto.',
+    chartTitle: 'Porcentaje del tiempo de sesión según la profundidad de scroll (primera mitad de la página)', depth: 'Profundidad de scroll', note: 'Datos reales de un cliente · 540 vistas de página · Microsoft Clarity.',
+  },
+  consent: { label: 'Preferencias de medición', text: 'Usamos Google Analytics 4 y Microsoft Clarity para entender cómo se usa este sitio y mejorarlo con datos. Solo se activan si aceptas.', accept: 'Aceptar', reject: 'Rechazar' },
   custom: { eyebrow: 'Hecho a medida', title: 'Cada negocio, su propia pieza.', intro: 'Lo que construimos solo para ellos, y que ninguna plantilla trae: una tarjeta propia, un club, un odontograma, un panel, un juego.', open: 'Ver caso' },
   edge: {
     eyebrow: 'Por qué 33r', title: 'Velocidad de estudio pequeño. Nivel de agencia grande.',
     items: [
       ['Primero lo ves funcionando', 'Antes de pagar construimos una demo real de tu negocio, con tu marca y tu caso. La pruebas en tu celular. Si no te convence, no pagas.'],
       ['Diseñado para cómo compra tu cliente', 'Estudiamos el comportamiento de tu consumidor antes de diseñar. Una licorería, un restaurante de autor y una clínica no se venden igual.'],
-      ['Datos desde el día uno', 'Cada sistema mide embudos, recurrencia y ticket. Sabes qué funciona y qué no, sin adivinar.'],
+      ['Datos desde el día uno', 'Cada sistema mide embudos, recurrencia y ticket con GA4 y Clarity. Sabes qué funciona y qué no, sin adivinar.'],
       ['Días, no semanas', 'Usamos IA en el proceso para entregar en días lo que antes tomaba semanas, sin recortar en criterio ni en calidad.'],
     ],
   },
@@ -124,7 +147,7 @@ const es = {
   },
   process: {
     eyebrow: 'Cómo trabajamos', title: 'De tu idea a tu demo, en días.',
-    steps: [['Nos cuentas tu negocio', '15 minutos. Quién te compra, cómo y por qué.'], ['Construimos tu demo real', 'En días, con tu marca y tu caso. No una plantilla genérica.'], ['La pruebas en tu celular', 'La usas como la usaría tu cliente.'], ['Ajustamos y lanzamos', 'Afinamos contigo y salimos al aire.'], ['Medimos y mejoramos', 'Embudos, recurrencia y ticket para decidir con datos.']],
+    steps: [['Nos cuentas tu negocio', '15 minutos. Quién te compra, cómo y por qué.'], ['Construimos tu demo real', 'En días, con tu marca y tu caso. No una plantilla genérica.'], ['La pruebas en tu celular', 'La usas como la usaría tu cliente.'], ['Ajustamos y lanzamos', 'Afinamos contigo y salimos al aire.'], ['Medimos y mejoramos', 'GA4 y Clarity: embudos, mapas de calor, recurrencia y ticket para decidir con datos.']],
     promise: 'Si la demo no te convence, no pagas.',
   },
   industries: {
@@ -182,7 +205,7 @@ const en = {
     live: 'Live', feed: 'Latest orders', order_word: 'Order', newCustomer: 'New customer', returning: 'Returning',
     currency: 'USD', locale: 'en-US',
   },
-  ticker: ['Supabase', 'PostgreSQL', 'Real time', 'GPS', 'Preact', 'Vite', 'Next.js', 'Astro', 'PWA', 'Dexie', 'Leaflet', 'Chart.js', 'LoRaWAN', 'Starlink', 'Three.js', 'GSAP', 'Mapbox', 'WhatsApp', 'Vercel', 'GitHub'],
+  ticker: ['Supabase', 'PostgreSQL', 'Real time', 'GPS', 'Preact', 'Vite', 'Next.js', 'Astro', 'PWA', 'Dexie', 'Leaflet', 'Chart.js', 'LoRaWAN', 'Starlink', 'Three.js', 'GSAP', 'Mapbox', 'GA4', 'Clarity', 'WhatsApp', 'Vercel', 'GitHub'],
   connect: {
     title: 'Pick a need. See how we connect it.',
     intro: 'Every solution is a chain: a real problem, the right technologies and a result people actually use. These are chains we have built or are building.',
@@ -212,7 +235,7 @@ const en = {
       ['Real time and devices', ['Real-time data', 'GPS and geolocation', 'IoT sensors', 'LoRaWAN', 'Starlink (satellite)', 'IP cameras']],
       ['Maps, charts and alerts', ['Mapbox', 'Leaflet + markercluster', 'Chart.js', 'pdf.js', 'Role-based alert levels', 'Immutable log']],
       ['Apps and messaging', ['Installable PWAs', 'Service worker (vite-plugin-pwa)', 'WhatsApp (orders and campaigns)', 'Automation', 'AI in the process']],
-      ['Deployment', ['GitHub', 'GitHub Actions (CI/CD)', 'GitHub Pages', 'Vercel']],
+      ['Deployment and measurement', ['GitHub', 'GitHub Actions (CI/CD)', 'GitHub Pages', 'Vercel', 'Google Analytics 4', 'Microsoft Clarity']],
     ],
     capsTitle: 'What we can connect', seen: 'Seen in',
     caps: [
@@ -227,13 +250,36 @@ const en = {
       ['3d', 'Games and 3D', 'Mini-games that capture sign-ups and a complete 3D game running in the browser.', ['DIP', 'Ficoa', 'Gorila']],
     ],
   },
+  measure: {
+    eyebrow: 'Measurement', title: 'Decisions from data, not from hunches.',
+    intro: 'Every page we launch is measured from day one with Google Analytics 4 and Microsoft Clarity. GA4 tells us who arrives, from where and what they do; Clarity shows how the page is really used: where people click, how far they scroll and where attention drops. We refine with evidence, not opinions.',
+    tools: [
+      ['Google Analytics 4', 'Who arrives, from where, and what they do', [
+        ['Users, countries and sources', 'Where people come from and which channels bring the best visitors.'],
+        ['Funnels and events', 'Click on order, form submission, case opened: every step that matters.'],
+        ['Real time', 'What is happening on the site right now.'],
+        ['Recurrence', 'Who comes back and how often.'],
+      ]],
+      ['Microsoft Clarity', 'How the page is really used', [
+        ['Click heatmaps', 'Where people tap and where they don’t.'],
+        ['Attention and scroll maps', 'How far they go and where the time is spent.'],
+        ['Session recordings', 'Watch a real person use the page.'],
+        ['Mobile and desktop', 'Each device is read separately.'],
+      ]],
+    ],
+    loopTitle: 'The loop', loop: ['Measure', 'Read', 'Decide', 'Test', 'Repeat'],
+    exEyebrow: 'Real example · MockaBox', exTitle: 'Where the attention really is',
+    exText: 'On a MockaBox page, Clarity’s attention map showed that about 81% of session time is concentrated between 20% and 30% of the page. With a number like that you know where to put the effort first, and what to leave alone.',
+    chartTitle: 'Share of session time by scroll depth (first half of the page)', depth: 'Scroll depth', note: 'Real client data · 540 page views · Microsoft Clarity.',
+  },
+  consent: { label: 'Measurement preferences', text: 'We use Google Analytics 4 and Microsoft Clarity to understand how this site is used and improve it with data. They only turn on if you accept.', accept: 'Accept', reject: 'Reject' },
   custom: { eyebrow: 'Built to measure', title: 'Every business, its own piece.', intro: 'What we build only for them, and no template ships with: its own card, a club, an odontogram, a dashboard, a game.', open: 'View case' },
   edge: {
     eyebrow: 'Why 33r', title: 'Small-studio speed. Big-agency level.',
     items: [
       ['You see it working first', 'Before you pay we build a real demo of your business, with your brand and your case. You try it on your phone. If it doesn’t convince you, you don’t pay.'],
       ['Designed for how your customer buys', 'We study your consumer’s behavior before designing. A liquor store, a fine-dining restaurant and a clinic are not sold the same way.'],
-      ['Data from day one', 'Every system measures funnels, recurrence and ticket. You know what works and what doesn’t, without guessing.'],
+      ['Data from day one', 'Every system measures funnels, recurrence and ticket with GA4 and Clarity. You know what works and what doesn’t, without guessing.'],
       ['Days, not weeks', 'We use AI in the process to deliver in days what used to take weeks, without cutting corners on judgment or quality.'],
     ],
   },
@@ -263,7 +309,7 @@ const en = {
   },
   process: {
     eyebrow: 'How we work', title: 'From your idea to your demo, in days.',
-    steps: [['You tell us about your business', '15 minutes. Who buys from you, how and why.'], ['We build your real demo', 'In days, with your brand and your case. Not a generic template.'], ['You try it on your phone', 'Use it the way your customer would.'], ['We adjust and launch', 'We fine-tune with you and go live.'], ['We measure and improve', 'Funnels, recurrence and ticket to decide with data.']],
+    steps: [['You tell us about your business', '15 minutes. Who buys from you, how and why.'], ['We build your real demo', 'In days, with your brand and your case. Not a generic template.'], ['You try it on your phone', 'Use it the way your customer would.'], ['We adjust and launch', 'We fine-tune with you and go live.'], ['We measure and improve', 'GA4 and Clarity: funnels, heatmaps, recurrence and ticket to decide with data.']],
     promise: 'If the demo doesn’t convince you, you don’t pay.',
   },
   industries: {

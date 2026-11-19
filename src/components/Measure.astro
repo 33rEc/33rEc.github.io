@@ -1,0 +1,75 @@
+---
+const { t } = Astro.props; const m = t.measure;
+// Datos REALES de Microsoft Clarity (MockaBox, 540 vistas de página): % del tiempo de sesión por tramo de scroll. Primera mitad de la página.
+const depth = [['0–5', 0.99], ['5–10', 1.40], ['10–15', 1.11], ['15–20', 7.99], ['20–25', 48.23], ['25–30', 32.62], ['30–35', 1.61], ['35–40', 0.67], ['40–45', 0.34], ['45–50', 0.25]];
+const max = 50;
+const summary = depth.map(([r, v]) => `${r}%: ${v}%`).join(', ');
+---
+<section class="section measure" id="medicion" aria-labelledby="measure-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag tag--ecto materialize">{m.eyebrow}</p>
+      <h2 id="measure-h" class="materialize" style="--d:.1s">{m.title}</h2>
+      <p class="materialize" style="--d:.2s">{m.intro}</p>
+    </div>
+
+    <div class="tools">
+      {m.tools.map(([name, sub, items], i) => (
+        <article class="card tool materialize materialize--rise" style={`--d:${i * 0.1}s`}>
+          <p class="tag tag--ecto">{name}</p>
+          <h3>{sub}</h3>
+          <ul>{items.map(([h, p]) => <li><b>{h}</b><span class="muted">{p}</span></li>)}</ul>
+        </article>
+      ))}
+    </div>
+
+    <div class="loop materialize" aria-label={`${m.loopTitle}: ${m.loop.join(' → ')}`}>
+      <p class="tag">{m.loopTitle}</p>
+      <ol>{m.loop.map((x, i) => <li style={`--i:${i}`}><span class="tag tag--ecto">{String(i + 1).padStart(2, '0')}</span>{x}</li>)}</ol>
+    </div>
+
+    <div class="example card materialize materialize--rise">
+      <div class="example__txt">
+        <p class="tag tag--ecto">{m.exEyebrow}</p>
+        <h3>{m.exTitle}</h3>
+        <p>{m.exText}</p>
+        <p class="tag example__note">{m.note}</p>
+      </div>
+      <figure class="chart materialize">
+        <figcaption class="tag">{m.chartTitle}</figcaption>
+        <div class="bars" role="img" aria-label={`${m.chartTitle}. ${summary}`}>
+          {depth.map(([r, v]) => (
+            <div class:list={['bar', v > 30 && 'bar--hot']} style={`--v:${(v / max) * 100};--k:${depth.findIndex((d) => d[1] === v)}`}>
+              <b>{v >= 5 ? `${Math.round(v)}%` : ''}</b><i></i><span>{r}</span>
+            </div>
+          ))}
+        </div>
+        <p class="tag chart__axis">{m.depth} (%)</p>
+      </figure>
+    </div>
+  </div>
+</section>
+<style>
+  .tools { display: grid; gap: 1rem; } @media (min-width: 900px) { .tools { grid-template-columns: 1fr 1fr; } }
+  .tool { display: grid; gap: 1rem; align-content: start; padding: clamp(1.4rem, 3vw, 2.2rem); } .tool h3 { font-size: var(--step-2); max-width: 22ch; }
+  .tool ul { list-style: none; margin: .4rem 0 0; padding: 0; display: grid; gap: 0; }
+  .tool li { display: grid; gap: .2rem; padding: .9rem 0; border-top: 1px solid var(--mist); } .tool li b { font-weight: 600; }
+  .loop { margin-top: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 1rem; } .loop ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+  .loop li { display: flex; gap: .6rem; align-items: center; padding: .75rem 1.1rem; border: 1px solid var(--mist); border-radius: 999px; background: var(--graphite); font: 600 var(--step-0) var(--f-display); position: relative; margin-right: 1.4rem; }
+  .loop li:not(:last-child)::after { content: '→'; position: absolute; right: -1.25rem; color: var(--ecto); font-family: var(--f-mono); }
+  .loop li:last-child { background: var(--ecto); color: var(--ink); border-color: var(--ecto); } .loop li:last-child .tag { color: var(--ink); }
+  .example { margin-top: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2rem; padding: clamp(1.4rem, 3vw, 2.4rem); align-items: center; }
+  @media (min-width: 980px) { .example { grid-template-columns: 1fr 1.25fr; gap: 3rem; } }
+  .example__txt { display: grid; gap: 1rem; } .example__txt h3 { font-size: var(--step-3); } .example__note { text-transform: none; letter-spacing: .03em; }
+  .chart { margin: 0; display: grid; gap: 1.1rem; }
+  .bars { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: clamp(.25rem, 1.2vw, .6rem); align-items: end; height: 260px; }
+  .bar { display: grid; grid-template-rows: 1.2rem 1fr 1.4rem; height: 100%; gap: .35rem; justify-items: center; text-align: center; }
+  .bar b { font: 600 .78rem var(--f-mono); color: var(--bone); align-self: end; }
+  .bar i { display: block; width: 100%; align-self: end; height: calc(var(--v) * 1%); min-height: 3px; background: var(--mist); border-radius: 5px 5px 2px 2px; transform-origin: bottom; transition: transform 1.1s var(--ease); transition-delay: calc(var(--k, 0) * 60ms); }
+  .bar--hot i { background: var(--ecto); box-shadow: 0 0 32px -6px rgba(156, 246, 212, .55); }
+  .bar span { font: 500 .62rem var(--f-mono); color: var(--ash); letter-spacing: 0; align-self: end; }
+  html.js .chart:not(.in) .bar i { transform: scaleY(0); }
+  .chart__axis { text-align: center; text-transform: none; letter-spacing: .03em; }
+  @media (max-width: 520px) { .bar span { font-size: .52rem; } .bars { height: 220px; } }
+  @media (prefers-reduced-motion: reduce) { html.js .chart:not(.in) .bar i { transform: none; } }
+</style>
