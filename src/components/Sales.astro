@@ -1,0 +1,55 @@
+---
+const { t } = Astro.props; const s = t.sales;
+---
+<section class="section sales" id="ventas" aria-labelledby="sales-h">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="tag materialize sales__eyebrow">{s.eyebrow}</p>
+      <h2 id="sales-h" class="materialize" style="--d:.1s">{s.title}</h2>
+      <p class="materialize" style="--d:.2s">{s.intro}</p>
+    </div>
+
+    <div class="sales__grid">
+      <figure class="sales__shot materialize materialize--rise">
+        <div class="frame">
+          <div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img src="/work/nutribites-panel.webp" width="1400" height="738" alt={s.shotAlt} loading="lazy" decoding="async" />
+        </div>
+        <figcaption class="tag">{s.shotNote}</figcaption>
+      </figure>
+
+      <div class="sales__txt">
+        <div class="two">
+          <div class="materialize"><h3>{s.sellerTitle}</h3><ul>{s.sellerItems.map((x) => <li>{x}</li>)}</ul></div>
+          <div class="materialize" style="--d:.1s"><h3>{s.ownerTitle}</h3><ul>{s.ownerItems.map((x) => <li>{x}</li>)}</ul></div>
+        </div>
+        <div class="case materialize" style="--d:.15s">
+          <p class="tag">{s.caseLabel}</p><b>{s.caseName}</b><p class="muted">{s.caseText}</p>
+          <a class="btn" href={`${t.workBase}nutribites`} data-track="case_open" data-where="sales">{s.open} →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sales__foot materialize">
+      <div><p class="tag">{s.forTitle}</p><ul class="for">{s.forItems.map((x) => <li>{x}</li>)}</ul></div>
+      <a class="btn btn--primary" href="#demo" data-track="demo_cta_click" data-where="sales">{s.cta}</a>
+    </div>
+  </div>
+</section>
+<style>
+  .sales { background: linear-gradient(180deg, transparent, #101013 18%, #101013 82%, transparent); border-block: 1px solid var(--mist); }
+  .sales__eyebrow { color: #F3C43A; }
+  .sales__grid { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; } @media (min-width: 1040px) { .sales__grid { grid-template-columns: 1.35fr 1fr; } }
+  .sales__shot { margin: 0; display: grid; gap: .8rem; }
+  .frame { border: 1px solid var(--mist); border-radius: 14px; overflow: hidden; background: #fff; } .frame .bar { display: flex; gap: 6px; padding: .6rem .8rem; background: var(--graphite); } .frame .bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--mist); display: block; }
+  .frame img { width: 100%; height: auto; display: block; }
+  .sales__txt { display: grid; gap: 1.2rem; min-width: 0; }
+  .two { display: grid; gap: 1.2rem; } @media (min-width: 640px) and (max-width: 1039px) { .two { grid-template-columns: 1fr 1fr; } }
+  .two h3 { font-size: var(--step-1); margin-bottom: .7rem; color: #F3C43A; }
+  .two ul, .for { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; } .two li { display: flex; gap: .6rem; font-size: .96rem; } .two li::before { content: '↳'; color: var(--ecto); font-family: var(--f-mono); flex: none; }
+  .case { display: grid; gap: .5rem; justify-items: start; padding: 1.1rem 1.2rem; border: 1px solid var(--mist); border-radius: 12px; background: var(--graphite); } .case b { font: 600 var(--step-0) var(--f-display); }
+  .case .btn { min-height: 42px; padding: .6em 1.1em; font-size: .85rem; margin-top: .3rem; }
+  .sales__foot { margin-top: clamp(2rem, 5vw, 3.5rem); display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: end; justify-content: space-between; padding-top: 1.5rem; border-top: 1px solid var(--mist); }
+  .sales__foot > div { min-width: 0; flex: 1 1 26rem; }
+  .for { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin-top: .8rem; max-width: 56rem; } .for li { padding: .5rem .9rem; border: 1px solid var(--mist); border-radius: 999px; font-size: .86rem; background: var(--graphite); }
+</style>

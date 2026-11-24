@@ -1,5 +1,82 @@
 [
   {
+    "slug": "nutribites",
+    "client": "Nutribites",
+    "industry": "retail",
+    "country": "Ecuador",
+    "city": "Ambato",
+    "year": 2026,
+    "status": "en_vivo",
+    "published": true,
+    "kind": "cliente",
+    "solution_types": [
+      "panel",
+      "a_medida",
+      "landing"
+    ],
+    "accent": "#F3C43A",
+    "live_url": "https://nutribitesec.github.io/",
+    "cover_url": "/work/nutribites-cover.webp",
+    "screens": {
+      "sell": "/work/nutribites-mobile.webp",
+      "control": "/work/nutribites-panel.webp"
+    },
+    "video_url": "",
+    "results": "",
+    "metrics": [],
+    "featured": true,
+    "sort_order": 1,
+    "star_mechanic": "Panel de ruta para el equipo de ventas: mapa en tiempo real, visitas y ventas del día",
+    "target_client": "Gimnasios, universidades, oficinas, tiendas y cafeterías que se abastecen de snacks saludables, atendidos por un equipo de vendedores en ruta.",
+    "challenge": "Saber en tiempo real qué ruta hace cada vendedor, a quién visitó, quién compró y cuánto se vendió, sin depender de llamadas ni de reportes al final del día.",
+    "solution": "Dos pantallas conectadas: el vendedor sigue su ruta y registra visitas y pedidos; el dueño lo ve todo en un mapa de Ambato en tiempo real, con las ventas del día y la efectividad de cada visita.",
+    "mechanics": [
+      "Mapa en tiempo real con el estado de cada visita",
+      "Asignación de rutas por vendedor",
+      "Ventas del día, pedidos y ticket promedio",
+      "Efectividad de visitas: compras sobre visitas",
+      "Alertas activas y actividad reciente",
+      "Clientes, productos y propuestas",
+      "Sitio B2B con cotización por WhatsApp"
+    ],
+    "signature": "Un equipo de ventas que se ve en un mapa",
+    "signature_text": "Dónde está cada vendedor, a quién visitó y cuánto vendió, en tiempo real y en un solo panel para el dueño.",
+    "en": {
+      "star_mechanic": "Route dashboard for the sales team: real-time map, visits and the day’s sales",
+      "target_client": "Gyms, universities, offices, shops and cafés that stock healthy snacks, served by a team of reps on the road.",
+      "challenge": "Know in real time which route each rep is on, whom they visited, who bought and how much was sold, without relying on calls or end-of-day reports.",
+      "solution": "Two connected screens: the rep follows their route and logs visits and orders; the owner sees it all on a real-time map of Ambato, with the day’s sales and the effectiveness of every visit.",
+      "signature": "A sales team you can see on a map",
+      "signature_text": "Where every rep is, whom they visited and how much they sold, in real time and in one owner’s dashboard.",
+      "mechanics": [
+        "Real-time map with the status of every visit",
+        "Route assignment per rep",
+        "The day’s sales, orders and average ticket",
+        "Visit effectiveness: purchases over visits",
+        "Active alerts and recent activity",
+        "Customers, products and proposals",
+        "B2B website with quotes by WhatsApp"
+      ]
+    },
+    "ja": {
+      "star_mechanic": "営業チーム向けルートダッシュボード：リアルタイム地図、訪問、当日の売上",
+      "target_client": "ジム、大学、オフィス、店舗、カフェ。外回りの営業チームが、ヘルシースナックを供給しています。",
+      "challenge": "電話や日報に頼らず、各営業担当がどのルートを回り、誰を訪問し、誰が購入し、いくら売れたかをリアルタイムで把握すること。",
+      "solution": "つながった2つの画面。営業担当はルートを確認して訪問と注文を記録し、オーナーはアンバトのリアルタイム地図で、当日の売上と各訪問の成果をすべて確認できます。",
+      "signature": "地図で姿が見える営業チーム",
+      "signature_text": "各営業担当の居場所、訪問先、売上を、リアルタイムに1つのオーナー用ダッシュボードで。",
+      "mechanics": [
+        "各訪問の状況がわかるリアルタイム地図",
+        "営業担当ごとのルート割り当て",
+        "当日の売上、注文数、平均客単価",
+        "訪問の成果：訪問に対する購入の割合",
+        "アラートと最新のアクティビティ",
+        "顧客、商品、提案",
+        "WhatsAppで見積もりできるB2Bサイト"
+      ]
+    }
+  },
+  {
     "slug": "geriam",
     "client": "SAT Embalses Tungurahua",
     "industry": "gobierno_tech",
@@ -560,42 +637,5 @@
         "イベント向けフードトラックの見積もり"
       ]
     }
-  },
-  {
-    "slug": "nutribites",
-    "client": "Nutribites (marca propia)",
-    "industry": "marca_propia",
-    "solution_types": [
-      "ecommerce",
-      "panel"
-    ],
-    "country": "Ecuador",
-    "city": "",
-    "year": 2026,
-    "status": "caso_de_estudio",
-    "published": false,
-    "live_url": "",
-    "cover_url": "",
-    "video_url": "",
-    "star_mechanic": "Catálogo y reposición para clientes institucionales",
-    "target_client": "Gimnasios, universidades y empresas que compran snacks saludables de forma recurrente.",
-    "challenge": "Vender y reponer a clientes institucionales sin depender de cotizaciones manuales.",
-    "solution": "Marca propia del estudio: catálogo, proformas y un portal para que cada cliente reponga sin escribir.",
-    "mechanics": [
-      "Catálogo",
-      "Proformas",
-      "Portal de reposición"
-    ],
-    "results": "",
-    "metrics": [],
-    "sort_order": 9,
-    "featured": false,
-    "en": {
-      "star_mechanic": "Catalog and replenishment for institutional clients",
-      "target_client": "Gyms, universities and companies that buy healthy snacks on a recurring basis.",
-      "challenge": "Sell to and replenish institutional clients without manual quotes.",
-      "solution": "The studio's own brand: catalog, quotes and a portal so each client can reorder without messaging."
-    },
-    "kind": "propio"
   }
 ]

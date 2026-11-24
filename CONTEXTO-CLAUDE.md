@@ -73,7 +73,8 @@ Campos de un proyecto: `slug, client, industry, solution_types[], country, city,
 - **Dogo — panel:** está detrás de login; su contenido se leyó del código de `panel.html` (resumen, pedidos, compras con pronóstico de demanda, precios y márgenes, marketing con ROAS, clientes, equipo con roles dueño/equipo). Falta captura.
 - **Luna Dental — odontograma:** NO es visible en el sitio público (no hay ruta ni código). Se publica según lo indicado por Daniel, sin detalles inventados. Falta captura o link.
 - Nueva industria: `entretenimiento` (para DIP). El campo `gallery` admite imágenes extra («En acción»).
-- Sigue como **borrador** (no público): `nutribites`. (La «plantilla dental» se reemplazó por Luna Dental.)
+- **Nutribites** (agregado el 24-nov-2026, `kind: cliente`, `en_vivo`): panel de ruta para equipo de ventas. El sitio público es el B2B (productos, granel, empresas, cotización por WhatsApp); el **panel del dueño** está tras login y se describe SOLO desde la captura que compartió Daniel (mapa de Ambato en tiempo real, estados de visita, asignar rutas, ventas del día, efectividad de visitas, alertas, vendedores activos, clientes/productos/propuestas). El **panel del vendedor** no se vio: se describe con lo mínimo deducible (su ruta, visitas y pedidos). La captura muestra el panel sin datos cargados: no se citan cifras. **Pendiente:** captura del panel del vendedor y confirmar si Nutribites es cliente o marca propia (el primer brief decía marca propia). Tiene sección destacada propia en la portada (`Sales.astro`, id `#ventas`, ES/EN/JA) para equipos de venta y distribuidoras, y una cadena en el selector «Mover un equipo de ventas».
+- (La «plantilla dental» se reemplazó por Luna Dental.)
 - Falta la captura de «la pantalla que controla» de cada uno: hoy se muestra un recuadro «captura pendiente».
 - Los datos de contacto de esos negocios (WhatsApp, correo) **no** se copiaron a esta web.
 

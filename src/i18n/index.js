@@ -51,6 +51,8 @@ const es = {
     needs: [
       ['campo', 'Operar en campo', ['Técnico en campo', 'Preact + Vite', 'Dexie · datos en el dispositivo', 'Leaflet + markercluster', 'Chart.js · pdf.js', 'App con dos roles'],
         'App de campo para una empresa eléctrica', 'Mapa con marcadores agrupados, gráficos y PDFs, un formulario cuyo estado se mantiene ordenado entre dos roles, y un service worker generado con vite-plugin-pwa. Elegimos Preact (~4 KB) porque rinde en Android de gama baja.', ['Empresa eléctrica · en desarrollo'], true],
+      ['ruta', 'Mover un equipo de ventas', ['Vendedor en ruta', 'Visitas y pedidos registrados', 'Mapa en tiempo real', 'Alertas y ventas del día', 'Panel del dueño'],
+        'Un equipo de ventas que se ve', 'Rutas asignadas, visitas con y sin compra, ventas del día y efectividad, en un mapa de la ciudad y en un panel para el dueño.', ['Nutribites'], false],
       ['vigilar', 'Vigilar en tiempo real', ['Presa en el páramo', 'Sensores', 'LoRaWAN', 'Starlink', 'Nube y reglas de alerta', 'Panel y app con GPS'],
         'Alerta temprana de embalses', 'Niveles de alerta con acciones por rol, tiempo estimado de llegada de la crecida a cada comunidad y bitácora inmutable. Del sensor al teléfono del técnico, en segundos.', ['Geriam'], false],
       ['vender', 'Vender y cobrar', ['Cliente en su celular', 'Web a medida', 'Pedido armado', 'WhatsApp', 'Panel del dueño'],
@@ -77,8 +79,8 @@ const es = {
     ],
     capsTitle: 'Lo que podemos conectar', seen: 'Visto en',
     caps: [
-      ['rt', 'Tiempo real', 'Paneles que se actualizan al instante: ventas que suben, niveles que cambian, estados que se mueven. Sin esperar al reporte del lunes.', ['Geriam', 'Demo de arriba']],
-      ['gps', 'GPS y geolocalización', 'Técnicos que marcan «en camino» y «en sitio», y reportes de campo con foto y ubicación.', ['Geriam']],
+      ['rt', 'Tiempo real', 'Paneles que se actualizan al instante: ventas que suben, niveles que cambian, estados que se mueven. Sin esperar al reporte del lunes.', ['Geriam', 'Nutribites', 'Demo de arriba']],
+      ['gps', 'GPS y geolocalización', 'Técnicos que marcan «en camino» y «en sitio», reportes de campo con foto y ubicación, y vendedores vistos en un mapa.', ['Geriam', 'Nutribites']],
       ['sat', 'IoT y conectividad satelital', 'Sensores de largo alcance (LoRaWAN) y enlace por satélite donde no hay cobertura celular.', ['Geriam']],
       ['alert', 'Alertas y protocolos por rol', 'Niveles de alerta y qué hace cada persona en cada uno, con bitácora que no se puede borrar.', ['Geriam']],
       ['roles', 'Paneles con permisos', 'El dueño ve costos y márgenes; el equipo, solo lo que necesita para trabajar.', ['Dogo']],
@@ -111,6 +113,15 @@ const es = {
     chartTitle: 'Porcentaje del tiempo de sesión según la profundidad de scroll (primera mitad de la página)', depth: 'Profundidad de scroll', note: 'Datos reales de un cliente · 540 vistas de página · Microsoft Clarity.',
   },
   consent: { label: 'Preferencias de medición', text: 'Usamos Google Analytics 4 y Microsoft Clarity para entender cómo se usa este sitio y mejorarlo con datos. Solo se activan si aceptas.', accept: 'Aceptar', reject: 'Rechazar' },
+  sales: {
+    eyebrow: 'Equipos de venta y distribuidoras', title: 'Sabe dónde está cada vendedor y cuánto vendió, sin llamar.',
+    intro: 'Si tu negocio vende en ruta, el problema no es vender: es ver lo que pasa en la calle. Construimos dos pantallas conectadas, una para el vendedor y un panel para el dueño con el mapa, las visitas y las ventas del día.',
+    sellerTitle: 'Para el vendedor', sellerItems: ['Su ruta del día, asignada por el dueño', 'Registra cada visita y cada pedido', 'Sabe cuál es su siguiente parada'],
+    ownerTitle: 'Para el dueño', ownerItems: ['Mapa en tiempo real con el estado de cada visita', 'Ventas del día: pedidos y ticket promedio', 'Efectividad de visitas: cuántas terminan en compra', 'Alertas, vendedores activos y actividad reciente', 'Rutas, clientes, productos y propuestas en un solo lugar'],
+    forTitle: 'Pensado para', forItems: ['Distribuidoras de alimentos y bebidas', 'Equipos de preventa y autoventa', 'Marcas que reparten a tiendas, gimnasios y oficinas', 'Cualquier equipo que visita clientes en ruta'],
+    caseLabel: 'Caso real', caseName: 'Nutribites · snacks saludables · Ambato', caseText: 'Abastece a gimnasios, universidades y tiendas, y abre el canal de oficinas corporativas.',
+    shotAlt: 'Panel del dueño de Nutribites con el mapa de Ambato en tiempo real', shotNote: 'Panel del dueño · captura real', cta: 'Pide una demo para tu equipo de ventas', open: 'Ver el caso',
+  },
   custom: { eyebrow: 'Hecho a medida', title: 'Cada negocio, su propia pieza.', intro: 'Lo que construimos solo para ellos, y que ninguna plantilla trae: una tarjeta propia, un club, un odontograma, un panel, un juego.', open: 'Ver caso' },
   edge: {
     eyebrow: 'Por qué 33r', title: 'Velocidad de estudio pequeño. Nivel de agencia grande.',
@@ -139,7 +150,7 @@ const es = {
     eyebrow: 'Servicios', title: 'Qué construimos',
     blocks: [
       ['01', 'Webs que venden', 'Landings de alta conversión con una mecánica pensada para cómo compra tu cliente.', ['Configurador «arma tu fiesta» con cotización automática', 'Pedidos en 3 toques con grilla tipo teclado', 'Menús digitales y catálogos con pedido directo']],
-      ['02', 'Sistemas que controlan', 'Paneles internos a medida: sabes qué pasa sin preguntarle a nadie.', ['CRM de clientes con segmentación y campañas por WhatsApp', 'Cotizaciones, calendario y disponibilidad', 'Finanzas con roles (cocina, contabilidad, marketing) y dashboards']],
+      ['02', 'Sistemas que controlan', 'Paneles internos a medida: sabes qué pasa sin preguntarle a nadie.', ['Equipos de venta en ruta: mapa en tiempo real, rutas, visitas y ventas del día', 'CRM de clientes con segmentación y campañas por WhatsApp', 'Cotizaciones, calendario y disponibilidad', 'Finanzas con roles (cocina, contabilidad, marketing) y dashboards']],
       ['03', 'Experiencias que fidelizan', 'Mecánicas que hacen volver y dejan datos de quién vuelve.', ['Tarjeta de fidelización tipo pasaporte', 'Minijuegos que captan registros', 'Suscripciones y recompra programada']],
       ['04', 'Tecnología a medida', 'Cuando la plantilla no alcanza, lo construimos.', ['Monitoreo de infraestructura en tiempo real: sensores, LoRaWAN y enlace satelital (alerta temprana de embalses)', 'GPS, geolocalización y apps de campo instalables (PWA)', 'Automatización de prospección y plantillas por nicho, con IA donde aporta']],
     ],
@@ -213,6 +224,8 @@ const en = {
     needs: [
       ['campo', 'Work in the field', ['Field technician', 'Preact + Vite', 'Dexie · on-device data', 'Leaflet + markercluster', 'Chart.js · pdf.js', 'Two-role app'],
         'Field app for an electric utility', 'A map with clustered markers, charts and PDFs, a form whose state stays tidy across two roles, and a service worker generated with vite-plugin-pwa. We chose Preact (~4 KB) because it performs on low-end Android.', ['Electric utility · in development'], true],
+      ['ruta', 'Run a field sales team', ['Rep on the road', 'Visits and orders logged', 'Real-time map', 'Alerts and the day’s sales', 'Owner’s dashboard'],
+        'A sales team you can see', 'Assigned routes, visits with and without a purchase, the day’s sales and effectiveness, on a city map and in an owner’s dashboard.', ['Nutribites'], false],
       ['vigilar', 'Monitor in real time', ['Dam on the moor', 'Sensors', 'LoRaWAN', 'Starlink', 'Cloud and alert rules', 'Dashboard and app with GPS'],
         'Reservoir early warning', 'Alert levels with role-based actions, the estimated time for a flood wave to reach each community and an immutable log. From sensor to technician’s phone in seconds.', ['Geriam'], false],
       ['vender', 'Sell and get paid', ['Customer on their phone', 'Custom website', 'Order built', 'WhatsApp', 'Owner’s dashboard'],
@@ -239,8 +252,8 @@ const en = {
     ],
     capsTitle: 'What we can connect', seen: 'Seen in',
     caps: [
-      ['rt', 'Real time', 'Dashboards that update instantly: sales going up, levels changing, statuses moving. No waiting for Monday’s report.', ['Geriam', 'Demo above']],
-      ['gps', 'GPS and geolocation', 'Technicians who mark “on the way” and “on site”, and field reports with photo and location.', ['Geriam']],
+      ['rt', 'Real time', 'Dashboards that update instantly: sales going up, levels changing, statuses moving. No waiting for Monday’s report.', ['Geriam', 'Nutribites', 'Demo above']],
+      ['gps', 'GPS and geolocation', 'Technicians who mark “on the way” and “on site”, field reports with photo and location, and sales reps seen on a map.', ['Geriam', 'Nutribites']],
       ['sat', 'IoT and satellite connectivity', 'Long-range sensors (LoRaWAN) and a satellite link where there is no cell coverage.', ['Geriam']],
       ['alert', 'Alerts and role-based protocols', 'Alert levels and what each person does at each one, with a log that can’t be erased.', ['Geriam']],
       ['roles', 'Dashboards with permissions', 'The owner sees costs and margins; the team sees only what it needs to work.', ['Dogo']],
@@ -273,6 +286,15 @@ const en = {
     chartTitle: 'Share of session time by scroll depth (first half of the page)', depth: 'Scroll depth', note: 'Real client data · 540 page views · Microsoft Clarity.',
   },
   consent: { label: 'Measurement preferences', text: 'We use Google Analytics 4 and Microsoft Clarity to understand how this site is used and improve it with data. They only turn on if you accept.', accept: 'Accept', reject: 'Reject' },
+  sales: {
+    eyebrow: 'Sales teams and distributors', title: 'Know where every rep is and how much they sold, without calling.',
+    intro: 'If your business sells on the road, the problem isn’t selling: it’s seeing what happens out there. We build two connected screens, one for the rep and an owner’s dashboard with the map, the visits and the day’s sales.',
+    sellerTitle: 'For the rep', sellerItems: ['Their route for the day, assigned by the owner', 'Logs every visit and every order', 'Knows what the next stop is'],
+    ownerTitle: 'For the owner', ownerItems: ['Real-time map with the status of every visit', 'Today’s sales: orders and average ticket', 'Visit effectiveness: how many end in a purchase', 'Alerts, active reps and recent activity', 'Routes, customers, products and proposals in one place'],
+    forTitle: 'Built for', forItems: ['Food and beverage distributors', 'Pre-sale and van-sales teams', 'Brands that deliver to shops, gyms and offices', 'Any team that visits customers on a route'],
+    caseLabel: 'Real case', caseName: 'Nutribites · healthy snacks · Ambato', caseText: 'Supplies gyms, universities and shops, and is opening the corporate-office channel.',
+    shotAlt: 'Nutribites owner’s dashboard with a real-time map of Ambato', shotNote: 'Owner’s dashboard · real screenshot', cta: 'Get a demo for your sales team', open: 'View the case',
+  },
   custom: { eyebrow: 'Built to measure', title: 'Every business, its own piece.', intro: 'What we build only for them, and no template ships with: its own card, a club, an odontogram, a dashboard, a game.', open: 'View case' },
   edge: {
     eyebrow: 'Why 33r', title: 'Small-studio speed. Big-agency level.',
@@ -301,7 +323,7 @@ const en = {
     eyebrow: 'Services', title: 'What we build',
     blocks: [
       ['01', 'Websites that sell', 'High-conversion landings with a mechanic designed for how your customer buys.', ['“Build your party” configurator with automatic quote', '3-tap ordering with a keypad-style grid', 'Digital menus and catalogs with direct ordering']],
-      ['02', 'Systems that control', 'Custom internal dashboards: know what’s happening without asking anyone.', ['Customer CRM with segmentation and WhatsApp campaigns', 'Quotes, calendar and availability', 'Finance with roles (kitchen, accounting, marketing) and dashboards']],
+      ['02', 'Systems that control', 'Custom internal dashboards: know what’s happening without asking anyone.', ['Field sales teams: real-time map, routes, visits and the day’s sales', 'Customer CRM with segmentation and WhatsApp campaigns', 'Quotes, calendar and availability', 'Finance with roles (kitchen, accounting, marketing) and dashboards']],
       ['03', 'Experiences that retain', 'Mechanics that bring people back and tell you who returns.', ['Passport-style loyalty card', 'Mini-games that capture sign-ups', 'Subscriptions and scheduled reorders']],
       ['04', 'Custom technology', 'When a template isn’t enough, we build it.', ['Real-time infrastructure monitoring: sensors, LoRaWAN and a satellite link (reservoir early warning)', 'GPS, geolocation and installable field apps (PWA)', 'Prospecting automation and niche templates, with AI where it helps']],
     ],
