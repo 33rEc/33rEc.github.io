@@ -7,10 +7,13 @@ const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const app = document.getElementById('app'), store = makeStore();
 let db = null, S = null, view = (location.hash || '#resumen').slice(1), msg = '';
-const F = { clientes: { q: '', status: '', country: '' }, proyectos: { q: '', status: '', country: '' }, finanzas: { tab: 'income', month: '' } };
+const F = { clientes: { q: '', status: '', country: '' }, proyectos: { q: '', status: '', country: '' }, finanzas: { tab: 'income', month: '' }, prospectos: { week: '', status: '', country: '', q: '' } };
+const DAY = 864e5, sundayOf = (d) => { const x = new Date(`${d}T12:00:00`); x.setDate(x.getDate() - x.getDay()); return localDate(x); }, addDays = (d, n) => { const x = new Date(`${d}T12:00:00`); x.setDate(x.getDate() + n); return localDate(x); }, WEEK_GOAL = 25;
 
 const L = {
-  cstatus: [['prospecto', 'Prospecto'], ['activo', 'Activo'], ['pausado', 'Pausado'], ['perdido', 'Perdido']],
+  pstat: [['nuevo', 'Nuevo'], ['contactado', 'Contactado'], ['respondio', 'Respondió'], ['propuesta', 'Propuesta enviada'], ['reunion', 'Reunión'], ['ganado', 'Ganado'], ['descartado', 'Descartado']],
+  channel: [['instagram', 'Instagram'], ['whatsapp', 'WhatsApp'], ['email', 'Correo'], ['linkedin', 'LinkedIn'], ['web', 'Formulario web'], ['otro', 'Otro']],
+  cstatus: [['activo', 'Activo'], ['pausado', 'Pausado'], ['perdido', 'Perdido']],
   pstatus: [['demo', 'Demo'], ['en_desarrollo', 'En desarrollo'], ['en_vivo', 'En vivo'], ['pausado', 'Pausado'], ['cerrado', 'Cerrado']],
   industry: [['gastronomia', 'Gastronomía'], ['eventos', 'Eventos'], ['retail', 'Retail'], ['salud', 'Salud y bienestar'], ['entretenimiento', 'Entretenimiento'], ['gobierno_tech', 'Gobierno / Tech'], ['marca_propia', 'Marca propia'], ['distribucion', 'Distribución'], ['otro', 'Otro']],
   kind: [['landing', 'Landing'], ['panel', 'Panel / CRM'], ['fidelizacion', 'Fidelización'], ['ecommerce', 'E-commerce'], ['minijuego', 'Minijuego'], ['a_medida', 'A medida'], ['monitoreo', 'Monitoreo'], ['otro', 'Otro']],
@@ -27,11 +30,16 @@ const clientOpts = () => [['', '— sin cliente —'], ...db.clients.map((c) => 
 const projectOpts = () => [['', '— sin proyecto —'], ...db.projects.map((p) => [p.id, p.name])];
 const toolOpts = () => [['', '— ninguna —'], ...db.tools.map((t) => [t.id, t.name])];
 const SCHEMA = {
+  prospects: { title: 'Prospecto', fields: [
+    { k: 'week', label: 'Semana (domingo)', type: 'date', req: 1, def: 'week' }, { k: 'name', label: 'Negocio', req: 1 }, { k: 'country', label: 'País', req: 1, list: COUNTRIES, def: 'España' }, { k: 'city', label: 'Ciudad' },
+    { k: 'industry', label: 'Rubro', type: 'select', o: opts(L.industry) }, { k: 'score', label: 'Puntaje de ajuste (0-100)', type: 'int' }, { k: 'channel', label: 'Canal de contacto', type: 'select', o: opts(L.channel) }, { k: 'contact', label: 'Contacto / usuario' },
+    { k: 'evidence_url', label: 'Enlace de evidencia', type: 'url' }, { k: 'status', label: 'Estado', type: 'select', o: opts(L.pstat), def: 'nuevo' }, { k: 'why', label: 'Por qué encaja', type: 'textarea', wide: 1 }, { k: 'offer', label: 'Qué ofrecerle', wide: 1 },
+    { k: 'first_message', label: 'Primer mensaje', type: 'textarea', wide: 1 }, { k: 'next_action', label: 'Próxima acción' }, { k: 'next_on', label: 'Para cuándo', type: 'date' }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }] },
   clients: { title: 'Cliente', fields: [
     { k: 'name', label: 'Nombre del cliente', req: 1 }, { k: 'country', label: 'País', req: 1, list: COUNTRIES, def: 'Ecuador' }, { k: 'city', label: 'Ciudad' },
     { k: 'industry', label: 'Rubro', type: 'select', o: opts(L.industry) }, { k: 'status', label: 'Estado', type: 'select', o: opts(L.cstatus), def: 'activo' },
     { k: 'contact', label: 'Contacto (nombre y canal)', hint: 'Solo lo necesario: este dato es privado.' }, { k: 'since', label: 'Cliente desde', type: 'date' },
-    { k: 'mrr_cents', label: 'Mensualidad que paga (USD/mes)', type: 'money' }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }] },
+    { k: 'mrr_cents', label: 'Mensualidad que paga (USD/mes)', type: 'money' }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }, { k: '_proj', label: 'También crear su proyecto (mismo nombre, país y ciudad)', type: 'check', onlyNew: 1 }] },
   projects: { title: 'Proyecto', fields: [
     { k: 'name', label: 'Nombre del proyecto', req: 1 }, { k: 'client_id', label: 'Cliente', type: 'select', o: clientOpts }, { k: 'country', label: 'País', req: 1, list: COUNTRIES, def: 'Ecuador' }, { k: 'city', label: 'Ciudad' },
     { k: 'kind', label: 'Tipo', type: 'select', o: opts(L.kind) }, { k: 'status', label: 'Estado', type: 'select', o: opts(L.pstatus), def: 'en_desarrollo' },
@@ -53,7 +61,7 @@ const SCHEMA = {
 // ---------- utilidades de interfaz ----------
 const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? esc(u) : '');
 const pill = (t, tone = '') => `<span class="pill ${tone}">${esc(t)}</span>`;
-const stTone = (s) => ({ activo: 'ok', en_vivo: 'ok', cobrado: 'ok', prospecto: 'info', demo: 'info', en_desarrollo: 'info', pendiente: 'warn', pausado: 'warn', perdido: 'bad', cerrado: 'mute' }[s] || '');
+const stTone = (s) => ({ ganado: 'ok', nuevo: 'info', contactado: 'info', respondio: 'warn', propuesta: 'warn', reunion: 'warn', descartado: 'mute', activo: 'ok', en_vivo: 'ok', cobrado: 'ok', prospecto: 'info', demo: 'info', en_desarrollo: 'info', pendiente: 'warn', pausado: 'warn', perdido: 'bad', cerrado: 'mute' }[s] || '');
 const money = (c) => `<span class="n ${c < 0 ? 'neg' : ''}">${fmt(c)}</span>`;
 const empty = (t, cta = '') => `<div class="empty"><p>${esc(t)}</p>${cta}</div>`;
 const table = (cols, rows) => `<div class="tbl"><table><thead><tr>${cols.map((c) => `<th class="${c.r ? 'r' : ''}">${esc(c.h)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${c.r ? 'r' : ''}">${c.f(r)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -74,11 +82,12 @@ function chartMonths(series) {
 const barRows = (rows, color) => { const max = Math.max(...rows.map((r) => r.v), 1); return `<ul class="bars">${rows.map((r) => `<li><span class="bl">${esc(r.l)}</span><span class="bt"><i style="width:${(r.v / max) * 100}%;background:var(${color})"></i></span><b>${esc(r.t)}</b></li>`).join('')}</ul>`; };
 
 // ---------- vistas ----------
+const card = (l, v, sub, tone = '') => `<div class="kpi ${tone}"><span class="tag">${l}</span><b>${v}</b><small>${sub}</small></div>`;
 function vResumen() {
-  const k = S.kpis; const card = (l, v, sub, tone = '') => `<div class="kpi ${tone}"><span class="tag">${l}</span><b>${v}</b><small>${sub}</small></div>`;
+  const k = S.kpis;
   const pcount = {}; for (const p of db.projects) pcount[p.status] = (pcount[p.status] || 0) + 1;
   return `<div class="kpis">
-    ${card('Clientes activos', k.clientsActive, `${k.prospects} prospecto(s)`)}
+    ${card('Clientes activos', k.clientsActive, `${db.prospects.filter((p) => p.week === sundayOf(localDate())).length}/${WEEK_GOAL} prospectos esta semana`)}
     ${card('Proyectos en vivo', k.projectsLive, `${k.projectsOpen} abiertos · ${k.countries} país(es)`)}
     ${card('Cobrado este mes', fmt(k.collectedMonth), `Total histórico ${fmt(k.collectedTotal)}`, 'good')}
     ${card('Costos registrados (mes)', fmt(k.costsMonth), `Resultado del mes ${fmt(k.resultMonth)}`, k.resultMonth < 0 ? 'bad' : '')}
@@ -110,6 +119,24 @@ function vProyectos() {
     { h: 'Herramientas', f: (p) => p.tools.length ? `<div class="chips">${p.tools.map((t) => `<span class="chip">${esc(t)}</span>`).join('')}</div>` : '<small class="muted">Sin asignar</small>' },
     { h: 'Precio', r: 1, f: (p) => money(p.price_cents) }, { h: 'Cobrado', r: 1, f: (p) => money(p.collected) }, { h: 'Por cobrar', r: 1, f: (p) => money(p.pending) }, { h: 'Costos', r: 1, f: (p) => money(p.direct) }, { h: 'Neto', r: 1, f: (p) => money(p.net) }, { h: 'Herram./mes', r: 1, f: (p) => money(p.toolMonthly) }, { h: '', f: (p) => actions('projects', p.id) }], rows)
   : empty(db.projects.length ? 'Ningún proyecto coincide con ese filtro.' : 'Aún no hay proyectos.', `<button class="btn primary" data-new="projects">+ Nuevo proyecto</button>`)}<p class="note">«Neto» = cobrado − costos directos del proyecto. «Herram./mes» es el costo mensual de herramientas repartido entre los proyectos que las usan.</p>`;
+}
+
+function vProspectos() {
+  const f = F.prospectos, cur = sundayOf(localDate()), next = addDays(cur, 7);
+  const weeks = [...new Set([next, cur, ...db.prospects.map((p) => p.week)])].sort().reverse(); if (!f.week) f.week = cur;
+  const q = f.q.toLowerCase(), all = db.prospects.filter((p) => p.week === f.week);
+  const rows = all.filter((p) => (!f.status || p.status === f.status) && (!f.country || p.country === f.country) && (!q || `${p.name} ${p.city} ${p.industry}`.toLowerCase().includes(q))).sort((a, b) => b.score - a.score);
+  const cnt = (s) => all.filter((p) => p.status === s).length, worked = all.filter((p) => p.status !== 'nuevo').length, today = localDate();
+  const due = db.prospects.filter((p) => p.next_on && p.next_on <= today && !['ganado', 'descartado'].includes(p.status));
+  return `<div class="kpis">${card(`Semana del ${f.week}`, `${all.length} / ${WEEK_GOAL}`, all.length >= WEEK_GOAL ? 'Lista completa' : `Faltan ${WEEK_GOAL - all.length} por cargar`)}${card('Contactados', `${worked} / ${all.length}`, `${cnt('nuevo')} sin tocar`)}${card('Respondieron', cnt('respondio') + cnt('reunion'), `${cnt('propuesta')} propuestas enviadas`)}${card('Ganados', cnt('ganado'), `${cnt('descartado')} descartados`)}</div>
+  <p class="note"><b>Ritmo:</b> cada domingo Cazapin prepara 25 prospectos nuevos. Pega su lista aquí (botón «Pegar lista de Cazapin»), y durante la semana avanza cada uno de «Nuevo» a «Ganado». Próxima lista: <b>${next}</b>.</p>
+  ${due.length ? `<p class="banner err" role="alert">${due.length} seguimiento(s) vencido(s): ${due.slice(0, 5).map((p) => esc(p.name)).join(', ')}${due.length > 5 ? '…' : ''}</p>` : ''}
+  <div class="bar2"><select data-f="week" aria-label="Semana">${options(weeks.map((w) => [w, `Domingo ${w}${w === cur ? ' (esta semana)' : w === next ? ' (próxima)' : ''}`]), f.week)}</select><input id="q" type="search" placeholder="Buscar prospecto…" value="${esc(f.q)}" aria-label="Buscar"><select data-f="status" aria-label="Estado">${options(L.pstat, f.status, 'Todos los estados')}</select><select data-f="country" aria-label="País">${options([...new Set(all.map((p) => p.country))].map((c) => [c, c]), f.country, 'Todos los países')}</select><button class="btn" data-act="pimport">Pegar lista de Cazapin</button><button class="btn" data-act="pprompt">Copiar pedido para Cazapin</button><button class="btn primary" data-new="prospects">+ Prospecto</button></div>
+  ${rows.length ? table([{ h: 'Pts', r: 1, f: (p) => `<b>${p.score}</b>` }, { h: 'Prospecto', f: (p) => `<b>${safeUrl(p.evidence_url) ? `<a href="${safeUrl(p.evidence_url)}" target="_blank" rel="noopener">${esc(p.name)} ↗</a>` : esc(p.name)}</b><br><small class="muted">${esc(lab(L.industry, p.industry))} · ${esc(p.country)}${p.city ? ', ' + esc(p.city) : ''}</small>` },
+    { h: 'Contacto', f: (p) => `${esc(lab(L.channel, p.channel))}<br><small class="muted">${esc(p.contact || '')}</small>` }, { h: 'Por qué / oferta', f: (p) => `${esc(p.why || '')}${p.offer ? `<br><small class="muted">→ ${esc(p.offer)}</small>` : ''}` },
+    { h: 'Estado', f: (p) => `<select class="stsel" data-pst="${p.id}" aria-label="Estado de ${esc(p.name)}">${options(L.pstat, p.status)}</select>` }, { h: 'Próximo paso', f: (p) => `${esc(p.next_action || '')}${p.next_on ? `<br><small class="${p.next_on <= today && !['ganado', 'descartado'].includes(p.status) ? 'err' : 'muted'}">${esc(p.next_on)}</small>` : ''}` },
+    { h: '', f: (p) => `${p.first_message ? `<button class="btn sm" data-copy="${p.id}">Copiar mensaje</button> ` : ''}${p.status === 'ganado' && !p.client_id ? `<button class="btn sm primary" data-win="${p.id}">Pasar a cliente</button> ` : ''}${actions('prospects', p.id)}` }], rows)
+  : empty(all.length ? 'Ningún prospecto coincide con ese filtro.' : `Aún no hay prospectos para la semana del ${f.week}.`, `<button class="btn primary" data-act="pimport">Pegar lista de Cazapin</button>`)}`;
 }
 
 function vPaises() {
@@ -152,7 +179,7 @@ function vAjustes() {
   <p class="note">Descarga un respaldo cada semana. Los archivos contienen datos privados de clientes: guárdalos en un lugar seguro, nunca en el repositorio.</p></section></div>`;
 }
 
-const VIEWS = { resumen: ['Resumen', vResumen], clientes: ['Clientes', vClientes], proyectos: ['Proyectos', vProyectos], paises: ['Países', vPaises], herramientas: ['Herramientas', vHerramientas], finanzas: ['Finanzas', vFinanzas], ajustes: ['Ajustes', vAjustes] };
+const VIEWS = { resumen: ['Resumen', vResumen], clientes: ['Clientes', vClientes], proyectos: ['Proyectos', vProyectos], prospectos: ['Prospectos', vProspectos], paises: ['Países', vPaises], herramientas: ['Herramientas', vHerramientas], finanzas: ['Finanzas', vFinanzas], ajustes: ['Ajustes', vAjustes] };
 
 function shell() {
   if (!VIEWS[view]) view = 'resumen';
@@ -166,10 +193,12 @@ function shell() {
 // ---------- formularios ----------
 function openForm(table, id) {
   const sc = SCHEMA[table], row = id ? db[table].find((r) => r.id === id) : null; const dlg = $('#dlg'); const today = localDate();
-  const val = (f) => (row ? row[f.k] : f.def === 'today' ? today : f.def);
+  const val = (f) => (row ? row[f.k] : f.def === 'today' ? today : f.def === 'week' ? sundayOf(today) : f.def);
   const inputs = sc.fields.map((f) => {
     const v = val(f), req = f.req ? 'required' : ''; let ctl;
-    if (f.type === 'select') ctl = `<select name="${f.k}" ${req}>${options(f.o(), v ?? '')}</select>`;
+    if (f.type === 'check') { if (row || !f.onlyNew) return ''; ctl = `<label class="chk"><input type="checkbox" name="${f.k}" checked>Sí</label>`; }
+    else if (f.type === 'int') ctl = `<input name="${f.k}" type="number" min="0" max="100" value="${v ?? ''}">`;
+    else if (f.type === 'select') ctl = `<select name="${f.k}" ${req}>${options(f.o(), v ?? '')}</select>`;
     else if (f.type === 'textarea') ctl = `<textarea name="${f.k}" rows="3">${esc(v || '')}</textarea>`;
     else if (f.type === 'money') ctl = `<input name="${f.k}" inputmode="decimal" placeholder="0.00" value="${v ? (v / 100).toFixed(2) : ''}" ${req}>`;
     else if (f.type === 'tools') { const cur = new Set(row ? db.project_tools.filter((l) => l.project_id === row.id).map((l) => l.tool_id) : []); ctl = `<div class="checks">${db.tools.length ? db.tools.map((t) => `<label class="chk"><input type="checkbox" name="_tool" value="${t.id}" ${cur.has(t.id) ? 'checked' : ''}>${esc(t.name)}</label>`).join('') : '<small class="muted">Aún no hay herramientas: créalas en la pestaña Herramientas.</small>'}</div>`; }
@@ -181,17 +210,46 @@ function openForm(table, id) {
   $('[data-close]', dlg).onclick = () => dlg.close();
   $('#frm').onsubmit = async (e) => {
     e.preventDefault(); const fd = new FormData(e.target), out = { ...(row || {}) }, err = $('#ferr');
-    for (const f of sc.fields) { if (f.type === 'tools') continue; let v = fd.get(f.k); v = v == null ? '' : String(v).trim(); if (f.req && !v) { err.textContent = `Falta: ${f.label}`; return; } if (f.type === 'money') { v = toCents(v); if (f.req && !v) { err.textContent = `Pon un monto mayor a 0 en: ${f.label}`; return; } } else if (f.type === 'date' || f.type === 'select' && f.k.endsWith('_id')) v = v || null; out[f.k] = v; }
-    out.id ||= newId(); try { await store.save(table, out); if (table === 'projects') await store.setLinks(out.id, fd.getAll('_tool')); dlg.close(); await refresh(); toast('Guardado'); } catch (x) { err.textContent = fail(x); }
+    for (const f of sc.fields) { if (f.type === 'tools' || f.type === 'check') continue; let v = fd.get(f.k); v = v == null ? '' : String(v).trim(); if (f.req && !v) { err.textContent = `Falta: ${f.label}`; return; } if (f.type === 'money') { v = toCents(v); if (f.req && !v) { err.textContent = `Pon un monto mayor a 0 en: ${f.label}`; return; } } else if (f.type === 'int') v = v === '' ? 0 : Math.max(0, Math.min(100, Math.round(Number(v)) || 0)); else if (f.type === 'date' || f.type === 'select' && f.k.endsWith('_id')) v = v || null; out[f.k] = v; }
+    const isNew = !row; out.id ||= newId(); try { await store.save(table, out); if (table === 'clients' && isNew && fd.get('_proj')) await store.save('projects', { id: newId(), client_id: out.id, name: out.name, country: out.country, city: out.city || '', kind: '', status: 'en_desarrollo', started_on: null, delivered_on: null, price_cents: 0, live_url: '', repo_url: '', notes: '' }); if (table === 'projects') await store.setLinks(out.id, fd.getAll('_tool')); dlg.close(); await refresh(); toast('Guardado'); } catch (x) { err.textContent = fail(x); }
   };
 }
 const fail = (e) => { const m = String(e.message || e); if (/JWT|auth|401/i.test(m)) { D.signOut(); setTimeout(boot, 0); return 'Tu sesión venció: entra de nuevo.'; } if (/relation .* does not exist|Could not find the table/i.test(m)) return 'Faltan las tablas del panel: ejecuta supabase/control.sql en Supabase.'; return m.slice(0, 200); };
+
+async function copyText(t, ok) { try { await navigator.clipboard.writeText(t); toast(ok); } catch { const d = $('#dlg'); d.innerHTML = `<form method="dialog"><h2>Copia el texto</h2><textarea rows="10" style="width:100%" readonly>${esc(t)}</textarea><div class="row"><button class="btn">Cerrar</button></div></form>`; d.showModal(); d.querySelector('textarea').select(); } }
+const COLS = 'negocio | pais | ciudad | rubro | puntaje | por_que | evidencia | canal | contacto | oferta | mensaje';
+const cazapinPrompt = () => `Cazapin: prepara la lista semanal de 25 prospectos para la semana del domingo ${addDays(sundayOf(localDate()), 7)}. Mezcla España, Europa, México y Colombia (y otros rubros además de clínicas, según te indiqué). Solo fuentes públicas, con enlace de evidencia de cada dato, puntaje 0-100 de ajuste y primer mensaje listo, sin enviar nada. Entrégala como UNA tabla con exactamente estas columnas separadas por | y una fila por prospecto, sin texto extra dentro de la tabla:\n${COLS}\nrubro debe ser uno de: gastronomia, eventos, retail, salud, entretenimiento, gobierno_tech, distribucion, otro. canal: instagram, whatsapp, email, linkedin, web.`;
+const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z_ ]/g, '').trim().replace(/ +/g, '_');
+const ALIAS = { negocio: 'name', nombre: 'name', empresa: 'name', pais: 'country', ciudad: 'city', rubro: 'industry', puntaje: 'score', puntos: 'score', por_que: 'why', porque: 'why', evidencia: 'evidence_url', enlace: 'evidence_url', canal: 'channel', contacto: 'contact', oferta: 'offer', mensaje: 'first_message', primer_mensaje: 'first_message' };
+function parseList(txt) {
+  const t = txt.trim(); let rows;
+  if (t.startsWith('[')) rows = JSON.parse(t).map((o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [ALIAS[norm(k)] || norm(k), v])));
+  else {
+    const lines = t.split(/\r?\n/).filter((l) => l.trim() && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l)); if (lines.length < 2) throw new Error('Pega la cabecera y al menos una fila.');
+    const sep = lines[0].includes('\t') ? '\t' : lines[0].includes('|') ? '|' : ',';
+    const cells = (l) => (sep === ',' ? l.match(/("([^"]|"")*"|[^,]*)(,|$)/g).map((c) => c.replace(/,$/, '').replace(/^"|"$/g, '').replace(/""/g, '"')) : l.split(sep)).map((c) => c.trim()).filter((c, i, a) => sep !== '|' || !((i === 0 || i === a.length - 1) && c === ''));
+    const head = cells(lines[0]).map((h) => ALIAS[norm(h)] || norm(h));
+    rows = lines.slice(1).map((l) => Object.fromEntries(cells(l).map((c, i) => [head[i], c])));
+  }
+  return rows.filter((r) => r.name);
+}
+function importForm() {
+  const d = $('#dlg'); const wk = F.prospectos.week || sundayOf(localDate());
+  d.innerHTML = `<form method="dialog" id="pf" novalidate><div class="ph"><h2>Pegar lista de Cazapin</h2><button type="button" class="btn sm" data-close>Cerrar</button></div><p class="muted">Pega la tabla que entrega Cazapin (columnas: <code>${COLS}</code>) o un JSON. Se guardan en la semana del domingo <b>${wk}</b>. Los que ya existen (mismo negocio y país) se omiten.</p><textarea name="t" rows="10" style="width:100%" required></textarea><p class="err" id="ferr" role="alert"></p><div class="row"><button class="btn primary" type="submit">Importar</button></div></form>`;
+  d.showModal(); $('[data-close]', d).onclose = null; $('[data-close]', d).onclick = () => d.close();
+  $('#pf').onsubmit = async (e) => { e.preventDefault(); const err = $('#ferr'); try {
+    const list = parseList(new FormData(e.target).get('t')), seen = new Set(db.prospects.map((p) => `${p.name}|${p.country}`.toLowerCase())); let n = 0;
+    for (const r of list) { const k = `${r.name}|${r.country || 'España'}`.toLowerCase(); if (seen.has(k)) continue; seen.add(k); n++;
+      const ind = L.industry.some(([v]) => v === norm(r.industry)) ? norm(r.industry) : 'otro', ch = L.channel.some(([v]) => v === norm(r.channel)) ? norm(r.channel) : 'otro';
+      await store.save('prospects', { id: newId(), week: wk, name: String(r.name).slice(0, 120), country: r.country || 'España', city: r.city || '', industry: ind, score: Math.max(0, Math.min(100, Math.round(Number(r.score)) || 0)), channel: ch, contact: r.contact || '', evidence_url: /^https?:\/\//i.test(r.evidence_url || '') ? r.evidence_url : '', why: r.why || '', offer: r.offer || '', first_message: r.first_message || '', status: 'nuevo', next_action: '', next_on: null, client_id: null, notes: '' }); }
+    d.close(); await refresh(); toast(`${n} prospecto(s) importados${list.length - n ? `, ${list.length - n} repetidos omitidos` : ''}`); } catch (x) { err.textContent = fail(x); } };
+}
 
 function confirmBox(text) { return new Promise((res) => { const d = $('#dlg'); d.innerHTML = `<form method="dialog"><h2>${esc(text)}</h2><p class="muted">No se puede deshacer.</p><div class="row"><button class="btn" value="no">Cancelar</button><button class="btn danger" value="yes">Sí, borrar</button></div></form>`; d.showModal(); d.onclose = () => res(d.returnValue === 'yes'); }); }
 
 // ---------- eventos ----------
 document.addEventListener('click', async (e) => {
-  const t = e.target.closest('[data-new],[data-edit],[data-del],[data-paid],[data-link],[data-tab],[data-act]'); if (!t || !db) return;
+  const t = e.target.closest('[data-new],[data-edit],[data-del],[data-paid],[data-link],[data-tab],[data-act],[data-copy],[data-win]'); if (!t || !db) return;
   try {
     if (t.dataset.new) return openForm(t.dataset.new);
     if (t.dataset.edit) { const [tb, id] = t.dataset.edit.split(':'); return openForm(tb, id); }
@@ -199,7 +257,11 @@ document.addEventListener('click', async (e) => {
     if (t.dataset.paid) { const r = db.income.find((x) => x.id === t.dataset.paid); await store.save('income', { ...r, status: 'cobrado' }); await refresh(); return toast('Marcado como cobrado'); }
     if (t.dataset.link) { const [p, tl] = t.dataset.link.split('|'); const cur = db.project_tools.filter((l) => l.project_id === p).map((l) => l.tool_id); await store.setLinks(p, cur.includes(tl) ? cur.filter((x) => x !== tl) : [...cur, tl]); return refresh(); }
     if (t.dataset.tab) { F.finanzas.tab = t.dataset.tab; F.finanzas.month = ''; return render(); }
+    if (t.dataset.copy) { const r = db.prospects.find((x) => x.id === t.dataset.copy); return copyText(r.first_message, 'Mensaje copiado'); }
+    if (t.dataset.win) { const r = db.prospects.find((x) => x.id === t.dataset.win), cid = newId(); await store.save('clients', { id: cid, name: r.name, country: r.country, city: r.city || '', industry: r.industry || 'otro', status: 'activo', contact: r.contact || '', since: localDate(), mrr_cents: 0, notes: r.why || '' }); await store.save('prospects', { ...r, client_id: cid }); await refresh(); return toast('Ahora es cliente: completa su proyecto'); }
     const a = t.dataset.act;
+    if (a === 'pprompt') return copyText(cazapinPrompt(), 'Pedido copiado: pégalo en Cazapin');
+    if (a === 'pimport') return importForm();
     if (a === 'out') { D.signOut(); return boot(); }
     if (a === 'json') return downloadFile(`33r-control-${localDate()}.json`, JSON.stringify(db, null, 2), 'application/json');
     if (a === 'csv-projects') return downloadFile(`33r-proyectos-${localDate()}.csv`, toCSV(S.projectStats, [{ label: 'Proyecto', get: (p) => p.name }, { label: 'Cliente', get: (p) => p.client }, { label: 'País', get: (p) => p.country }, { label: 'Ciudad', get: (p) => p.city }, { label: 'Estado', get: (p) => p.status }, { label: 'Herramientas', get: (p) => p.tools.join(' | ') }, { label: 'Precio USD', get: (p) => (p.price_cents / 100).toFixed(2) }, { label: 'Cobrado USD', get: (p) => (p.collected / 100).toFixed(2) }, { label: 'Costos USD', get: (p) => (p.direct / 100).toFixed(2) }, { label: 'Neto USD', get: (p) => (p.net / 100).toFixed(2) }]), 'text/csv');
@@ -210,6 +272,7 @@ document.addEventListener('click', async (e) => {
   } catch (x) { msg = fail(x); render(); }
 });
 document.addEventListener('change', async (e) => {
+  const ps = e.target.closest('[data-pst]'); if (ps) { try { const r = db.prospects.find((x) => x.id === ps.dataset.pst); await store.save('prospects', { ...r, status: ps.value }); await refresh(); } catch (x) { msg = fail(x); render(); } return; }
   const fl = e.target.closest('[data-f]'); if (fl) { F[view][fl.dataset.f] = fl.value; return render(); }
   if (e.target.matches('[data-fm]')) { F.finanzas.month = e.target.value; return render(); }
   if (e.target.matches('[data-import]')) { try { const data = JSON.parse(await e.target.files[0].text()); if (!data.clients) throw new Error('El archivo no parece un respaldo del panel.'); await store.replaceAll(data); await refresh(); toast('Respaldo importado'); } catch (x) { msg = fail(x); render(); } }

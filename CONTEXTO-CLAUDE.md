@@ -119,3 +119,4 @@ Ver la lista al final de la entrega: links y capturas de los proyectos, métrica
 - Sin Supabase funciona en **modo local** (datos solo en ese navegador; exportar respaldo seguido). Hay migración local → Supabase en Ajustes.
 - Datos reales (clientes, precios, costos) se cargan desde la página ya autenticado; **nunca** en el repo.
 - Lógica en `src/scripts/control/calc.js` (test: `node scripts/test-control-calc.mjs`). Montos en centavos; costos de herramientas se prorratean en partes iguales entre proyectos no cerrados; neto = cobrado − costos directos.
+- **Prospectos** (pestaña del panel, tabla `prospects` en `supabase/control.sql`): lista semanal de 25 que prepara Cazapin cada domingo; se pega su tabla Markdown/CSV/JSON, se avanza cada uno (Nuevo → Contactado → Respondió → Propuesta → Reunión → Ganado/Descartado) y «Pasar a cliente» lo convierte. Distinto de `clients` (ya nos contrataron).

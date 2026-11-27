@@ -90,3 +90,30 @@ begin
     execute format('create policy "solo admin" on %I for all using (is_admin()) with check (is_admin())', t);
   end loop;
 end $$;
+
+-- PROSPECTOS: la lista semanal (cada domingo) que prepara Cazapin. Distinto de `clients`: aquí aún no nos han contratado.
+create table if not exists prospects (
+  id uuid primary key default gen_random_uuid(),
+  week date not null,                          -- el domingo que abre la semana de trabajo
+  name text not null,
+  country text not null default 'España',
+  city text,
+  industry text,
+  score int not null default 0 check (score between 0 and 100),
+  channel text,
+  contact text,
+  evidence_url text,
+  why text,
+  offer text,
+  first_message text,
+  status text not null default 'nuevo' check (status in ('nuevo','contactado','respondio','propuesta','reunion','ganado','descartado')),
+  next_action text,
+  next_on date,
+  client_id uuid references clients(id) on delete set null,
+  notes text,
+  created_at timestamptz not null default now()
+);
+create index if not exists prospects_week on prospects(week);
+alter table prospects enable row level security;
+drop policy if exists "solo admin" on prospects;
+create policy "solo admin" on prospects for all using (is_admin()) with check (is_admin());

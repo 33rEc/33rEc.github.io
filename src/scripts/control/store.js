@@ -5,11 +5,11 @@
 import * as D from '../../js/data.js';
 import seed from '../../data/projects.seed.json';
 
-export const TABLES = ['clients', 'projects', 'tools', 'project_tools', 'income', 'costs'];
+export const TABLES = ['clients', 'projects', 'tools', 'project_tools', 'income', 'costs', 'prospects'];
 const LOCAL_KEY = '33r_control_v1';
 const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => { const r = (Math.random() * 16) | 0; return (c === 'x' ? r : (r & 3) | 8).toString(16); }));
 const empty = () => Object.fromEntries(TABLES.map((t) => [t, []]));
-const ORDER = { clients: 'created_at.asc', projects: 'created_at.asc', tools: 'created_at.asc', income: 'date.desc', costs: 'date.desc', project_tools: 'project_id.asc' };
+const ORDER = { clients: 'created_at.asc', projects: 'created_at.asc', tools: 'created_at.asc', income: 'date.desc', prospects: 'week.desc', costs: 'date.desc', project_tools: 'project_id.asc' };
 
 /** Semilla local: SOLO lo que ya es público en https://33rec.github.io (proyectos publicados). Sin precios ni costos. */
 function seedLocal() {
@@ -49,7 +49,7 @@ function remote() {
     async remove(table, id) { await D.dbDelete(table, `id=eq.${id}`); },
     async setLinks(projectId, toolIds) { await D.dbDelete('project_tools', `project_id=eq.${projectId}`); if (toolIds.length) await D.dbUpsert('project_tools', toolIds.map((t) => ({ project_id: projectId, tool_id: t })), 'project_id,tool_id'); },
     /** Sube lo que hay en este navegador a Supabase, respetando el orden de dependencias. */
-    async importAll(data) { for (const t of ['clients', 'tools', 'projects', 'project_tools', 'income', 'costs']) { const rows = (data[t] || []).map(({ created_at, ...r }) => r); if (rows.length) await D.dbUpsert(t, rows, t === 'project_tools' ? 'project_id,tool_id' : ''); } },
+    async importAll(data) { for (const t of ['clients', 'tools', 'projects', 'project_tools', 'income', 'costs', 'prospects']) { const rows = (data[t] || []).map(({ created_at, ...r }) => r); if (rows.length) await D.dbUpsert(t, rows, t === 'project_tools' ? 'project_id,tool_id' : ''); } },
   };
 }
 
