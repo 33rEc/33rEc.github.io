@@ -115,7 +115,7 @@ Ver la lista al final de la entrega: links y capturas de los proyectos, métrica
 ## Panel de control interno (`/admin/control/`)
 - Página oculta (noindex, sin enlaces) para Daniel y Juan: Resumen, Clientes, Proyectos, Países, Herramientas (matriz proyecto × herramienta), Finanzas (ingresos/costos/margen, MRR, alertas) y Ajustes (exportar/importar CSV/JSON).
 - **Oculta ≠ segura**: el repo y el sitio son públicos. La protección real es Supabase Auth + RLS (`is_admin()`).
-- Activarla: en Supabase ejecutar `supabase/schema.sql` y luego `supabase/control.sql`; agregar los correos de Daniel y Juan a la tabla `admins`; definir `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_ANON_KEY` en GitHub Actions. Nunca usar `service_role` en el front.
+- Activarla: en Supabase ejecutar `supabase/control.sql` (autónomo: no requiere `schema.sql`; todas sus tablas llevan prefijo `ctl_` y no toca nada existente); agregar los correos de Daniel y Juan a `ctl_admins` (`insert into ctl_admins values ('correo')`) y crearlos como usuarios en Authentication; definir `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_ANON_KEY` en GitHub Actions. Nunca usar `service_role` en el front.
 - Sin Supabase funciona en **modo local** (datos solo en ese navegador; exportar respaldo seguido). Hay migración local → Supabase en Ajustes.
 - Datos reales (clientes, precios, costos) se cargan desde la página ya autenticado; **nunca** en el repo.
 - Lógica en `src/scripts/control/calc.js` (test: `node scripts/test-control-calc.mjs`). Montos en centavos; costos de herramientas se prorratean en partes iguales entre proyectos no cerrados; neto = cobrado − costos directos.

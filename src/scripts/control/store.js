@@ -40,16 +40,17 @@ function local() {
   };
 }
 
+const T = (t) => `ctl_${t}`; // tablas del panel en Supabase llevan prefijo ctl_ (no chocan con las de la web)
 function remote() {
   const unwrap = (r) => (Array.isArray(r) ? r[0] : r);
   return {
     live: true,
-    async load() { const out = {}; await Promise.all(TABLES.map(async (t) => { out[t] = await D.dbList(t, ORDER[t]); })); return out; },
-    async save(table, row) { const r = { ...row }; delete r.created_at; return unwrap(await D.dbUpsert(table, r, table === 'project_tools' ? 'project_id,tool_id' : '')); },
-    async remove(table, id) { await D.dbDelete(table, `id=eq.${id}`); },
-    async setLinks(projectId, toolIds) { await D.dbDelete('project_tools', `project_id=eq.${projectId}`); if (toolIds.length) await D.dbUpsert('project_tools', toolIds.map((t) => ({ project_id: projectId, tool_id: t })), 'project_id,tool_id'); },
+    async load() { const out = {}; await Promise.all(TABLES.map(async (t) => { out[t] = await D.dbList(T(t), ORDER[t]); })); return out; },
+    async save(table, row) { const r = { ...row }; delete r.created_at; return unwrap(await D.dbUpsert(T(table), r, table === 'project_tools' ? 'project_id,tool_id' : '')); },
+    async remove(table, id) { await D.dbDelete(T(table), `id=eq.${id}`); },
+    async setLinks(projectId, toolIds) { await D.dbDelete(T('project_tools'), `project_id=eq.${projectId}`); if (toolIds.length) await D.dbUpsert(T('project_tools'), toolIds.map((t) => ({ project_id: projectId, tool_id: t })), 'project_id,tool_id'); },
     /** Sube lo que hay en este navegador a Supabase, respetando el orden de dependencias. */
-    async importAll(data) { for (const t of ['clients', 'tools', 'projects', 'project_tools', 'income', 'costs', 'prospects']) { const rows = (data[t] || []).map(({ created_at, ...r }) => r); if (rows.length) await D.dbUpsert(t, rows, t === 'project_tools' ? 'project_id,tool_id' : ''); } },
+    async importAll(data) { for (const t of ['clients', 'tools', 'projects', 'project_tools', 'income', 'costs', 'prospects']) { const rows = (data[t] || []).map(({ created_at, ...r }) => r); if (rows.length) await D.dbUpsert(T(t), rows, t === 'project_tools' ? 'project_id,tool_id' : ''); } },
   };
 }
 
