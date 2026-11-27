@@ -111,3 +111,11 @@ ES, EN y JA: Performance 97–98 · Accesibilidad 100 · Buenas prácticas 100 �
 
 ## 13. Pendientes (lo que necesito de Daniel)
 Ver la lista al final de la entrega: links y capturas de los proyectos, métricas reales, significado de «33r» (hoy el nombre habla solo, no se inventó nada), roles de Daniel y Juan, WhatsApp / email / Instagram / LinkedIn, dominio, herramienta de analítica, claves de Supabase.
+
+## Panel de control interno (`/admin/control/`)
+- Página oculta (noindex, sin enlaces) para Daniel y Juan: Resumen, Clientes, Proyectos, Países, Herramientas (matriz proyecto × herramienta), Finanzas (ingresos/costos/margen, MRR, alertas) y Ajustes (exportar/importar CSV/JSON).
+- **Oculta ≠ segura**: el repo y el sitio son públicos. La protección real es Supabase Auth + RLS (`is_admin()`).
+- Activarla: en Supabase ejecutar `supabase/schema.sql` y luego `supabase/control.sql`; agregar los correos de Daniel y Juan a la tabla `admins`; definir `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_ANON_KEY` en GitHub Actions. Nunca usar `service_role` en el front.
+- Sin Supabase funciona en **modo local** (datos solo en ese navegador; exportar respaldo seguido). Hay migración local → Supabase en Ajustes.
+- Datos reales (clientes, precios, costos) se cargan desde la página ya autenticado; **nunca** en el repo.
+- Lógica en `src/scripts/control/calc.js` (test: `node scripts/test-control-calc.mjs`). Montos en centavos; costos de herramientas se prorratean en partes iguales entre proyectos no cerrados; neto = cobrado − costos directos.

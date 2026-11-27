@@ -92,3 +92,10 @@ export async function uploadMedia(file, folder = 'misc') {
   if (!res.ok) throw new Error(await res.text());
   return `${SB}/storage/v1/object/public/project-media/${name}`;
 }
+
+// ---------- Panel de control (solo admin; ver supabase/control.sql). Genérico: sirve a cualquier tabla del panel. ----------
+export async function dbList(table, order = 'created_at.asc') { return rest(`/rest/v1/${table}?select=*&order=${order}`, { token: await authed() }); }
+export async function dbUpsert(table, row, onConflict = '') {
+  return rest(`/rest/v1/${table}${onConflict ? `?on_conflict=${onConflict}` : ''}`, { method: 'POST', body: row, token: await authed(), headers: { Prefer: 'resolution=merge-duplicates,return=representation' } });
+}
+export async function dbDelete(table, match) { return rest(`/rest/v1/${table}?${match}`, { method: 'DELETE', token: await authed() }); }
