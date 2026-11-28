@@ -12,7 +12,7 @@ const safe = (fn, d) => { try { return fn(); } catch { return d; } };
 async function rest(path, { method = 'GET', body, token, headers = {}, raw = false } = {}) {
   const res = await fetch(`${SB}${path}`, {
     method,
-    headers: { apikey: KEY, Authorization: `Bearer ${token || KEY}`, ...(body && !raw ? { 'Content-Type': 'application/json' } : {}), ...headers },
+    headers: { apikey: KEY, ...(token || !KEY.startsWith('sb_') ? { Authorization: `Bearer ${token || KEY}` } : {}), ...(body && !raw ? { 'Content-Type': 'application/json' } : {}), ...headers },
     body: body ? (raw ? body : JSON.stringify(body)) : undefined,
   });
   if (!res.ok) throw new Error((await res.text().catch(() => '')) || res.statusText);
