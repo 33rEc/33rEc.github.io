@@ -7,11 +7,15 @@ const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const app = document.getElementById('app'), store = makeStore();
 let db = null, S = null, view = (location.hash || '#resumen').slice(1), msg = '';
-const F = { clientes: { q: '', status: '', country: '' }, proyectos: { q: '', status: '', country: '' }, finanzas: { tab: 'income', month: '' }, prospectos: { week: '', status: '', country: '', q: '' } };
+const F = { clientes: { q: '', status: '', country: '' }, proyectos: { q: '', status: '', country: '' }, finanzas: { tab: 'income', month: '' }, prospectos: { week: '', status: '', country: '', q: '' }, contenido: { client: '', month: localDate().slice(0, 7), status: '', q: '' } };
+const DAILY_GOAL = 5;
 const DAY = 864e5, sundayOf = (d) => { const x = new Date(`${d}T12:00:00`); x.setDate(x.getDate() - x.getDay()); return localDate(x); }, addDays = (d, n) => { const x = new Date(`${d}T12:00:00`); x.setDate(x.getDate() + n); return localDate(x); }, WEEK_GOAL = 25;
 
 const L = {
-  pstat: [['nuevo', 'Nuevo'], ['contactado', 'Contactado'], ['respondio', 'Respondió'], ['propuesta', 'Propuesta enviada'], ['reunion', 'Reunión'], ['ganado', 'Ganado'], ['descartado', 'Descartado']],
+  pstat: [['nuevo', 'Nuevo'], ['demo_lista', 'Demo lista'], ['contactado', 'Contactado'], ['respondio', 'Respondió'], ['propuesta', 'Propuesta enviada'], ['reunion', 'Reunión'], ['ganado', 'Ganado'], ['descartado', 'Descartado']],
+  cchan: [['instagram', 'Instagram'], ['tiktok', 'TikTok'], ['facebook', 'Facebook'], ['linkedin', 'LinkedIn'], ['whatsapp', 'WhatsApp'], ['otro', 'Otro']],
+  cformat: [['post', 'Post'], ['carrusel', 'Carrusel'], ['reel', 'Reel'], ['historia', 'Historia'], ['otro', 'Otro']],
+  cstat: [['idea', 'Idea'], ['aprobado', 'Aprobado'], ['publicado', 'Publicado'], ['descartado', 'Descartado']],
   channel: [['instagram', 'Instagram'], ['whatsapp', 'WhatsApp'], ['email', 'Correo'], ['linkedin', 'LinkedIn'], ['web', 'Formulario web'], ['otro', 'Otro']],
   cstatus: [['activo', 'Activo'], ['pausado', 'Pausado'], ['perdido', 'Perdido']],
   pstatus: [['demo', 'Demo'], ['en_desarrollo', 'En desarrollo'], ['en_vivo', 'En vivo'], ['pausado', 'Pausado'], ['cerrado', 'Cerrado']],
@@ -34,12 +38,16 @@ const SCHEMA = {
     { k: 'week', label: 'Semana (domingo)', type: 'date', req: 1, def: 'week' }, { k: 'name', label: 'Negocio', req: 1 }, { k: 'country', label: 'País', req: 1, list: COUNTRIES, def: 'España' }, { k: 'city', label: 'Ciudad' },
     { k: 'industry', label: 'Rubro', type: 'select', o: opts(L.industry) }, { k: 'score', label: 'Puntaje de ajuste (0-100)', type: 'int' }, { k: 'channel', label: 'Canal de contacto', type: 'select', o: opts(L.channel) }, { k: 'contact', label: 'Contacto / usuario' },
     { k: 'evidence_url', label: 'Enlace de evidencia', type: 'url' }, { k: 'status', label: 'Estado', type: 'select', o: opts(L.pstat), def: 'nuevo' }, { k: 'why', label: 'Por qué encaja', type: 'textarea', wide: 1 }, { k: 'offer', label: 'Qué ofrecerle', wide: 1 },
-    { k: 'first_message', label: 'Primer mensaje', type: 'textarea', wide: 1 }, { k: 'next_action', label: 'Próxima acción' }, { k: 'next_on', label: 'Para cuándo', type: 'date' }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }] },
+    { k: 'pain', label: 'Dolor detectado', type: 'textarea', wide: 1 }, { k: 'demo_url', label: 'Enlace de la demo', type: 'url', wide: 1 }, { k: 'first_message', label: 'Primer mensaje', type: 'textarea', wide: 1 }, { k: 'followups', label: 'Seguimientos (día 2, 5 y 9)', type: 'textarea', wide: 1 }, { k: 'contacted_on', label: 'Enviado el', type: 'date' }, { k: 'next_action', label: 'Próxima acción' }, { k: 'next_on', label: 'Para cuándo', type: 'date' }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }] },
+  content: { title: 'Pieza de contenido', fields: [
+    { k: 'publish_on', label: 'Fecha de publicación', type: 'date', req: 1, def: 'today' }, { k: 'client_id', label: 'Cliente', type: 'select', o: clientOpts }, { k: 'channel', label: 'Canal', type: 'select', o: opts(L.cchan) }, { k: 'format', label: 'Formato', type: 'select', o: opts(L.cformat) },
+    { k: 'title', label: 'Idea / título', req: 1, wide: 1 }, { k: 'copy', label: 'Texto (copy)', type: 'textarea', wide: 1 }, { k: 'visual', label: 'Imagen o video (descripción)', type: 'textarea', wide: 1 }, { k: 'hashtags', label: 'Hashtags' },
+    { k: 'status', label: 'Estado', type: 'select', o: opts(L.cstat), def: 'idea' }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }] },
   clients: { title: 'Cliente', fields: [
     { k: 'name', label: 'Nombre del cliente', req: 1 }, { k: 'country', label: 'País', req: 1, list: COUNTRIES, def: 'Ecuador' }, { k: 'city', label: 'Ciudad' },
     { k: 'industry', label: 'Rubro', type: 'select', o: opts(L.industry) }, { k: 'status', label: 'Estado', type: 'select', o: opts(L.cstatus), def: 'activo' },
     { k: 'contact', label: 'Contacto (nombre y canal)', hint: 'Solo lo necesario: este dato es privado.' }, { k: 'since', label: 'Cliente desde', type: 'date' },
-    { k: 'mrr_cents', label: 'Mensualidad que paga (USD/mes)', type: 'money' }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }, { k: '_proj', label: 'También crear su proyecto (mismo nombre, país y ciudad)', type: 'check', onlyNew: 1 }] },
+    { k: 'mrr_cents', label: 'Mensualidad que paga (USD/mes)', type: 'money' }, { k: 'brand', label: 'Marca y voz (colores, tono, público; sirve a Lucho)', type: 'textarea', wide: 1 }, { k: 'notes', label: 'Notas', type: 'textarea', wide: 1 }, { k: '_proj', label: 'También crear su proyecto (mismo nombre, país y ciudad)', type: 'check', onlyNew: 1 }] },
   projects: { title: 'Proyecto', fields: [
     { k: 'name', label: 'Nombre del proyecto', req: 1 }, { k: 'client_id', label: 'Cliente', type: 'select', o: clientOpts }, { k: 'country', label: 'País', req: 1, list: COUNTRIES, def: 'Ecuador' }, { k: 'city', label: 'Ciudad' },
     { k: 'kind', label: 'Tipo', type: 'select', o: opts(L.kind) }, { k: 'status', label: 'Estado', type: 'select', o: opts(L.pstatus), def: 'en_desarrollo' },
@@ -61,7 +69,7 @@ const SCHEMA = {
 // ---------- utilidades de interfaz ----------
 const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? esc(u) : '');
 const pill = (t, tone = '') => `<span class="pill ${tone}">${esc(t)}</span>`;
-const stTone = (s) => ({ ganado: 'ok', nuevo: 'info', contactado: 'info', respondio: 'warn', propuesta: 'warn', reunion: 'warn', descartado: 'mute', activo: 'ok', en_vivo: 'ok', cobrado: 'ok', prospecto: 'info', demo: 'info', en_desarrollo: 'info', pendiente: 'warn', pausado: 'warn', perdido: 'bad', cerrado: 'mute' }[s] || '');
+const stTone = (s) => ({ ganado: 'ok', publicado: 'ok', aprobado: 'warn', idea: 'info', demo_lista: 'info', nuevo: 'info', contactado: 'info', respondio: 'warn', propuesta: 'warn', reunion: 'warn', descartado: 'mute', activo: 'ok', en_vivo: 'ok', cobrado: 'ok', prospecto: 'info', demo: 'info', en_desarrollo: 'info', pendiente: 'warn', pausado: 'warn', perdido: 'bad', cerrado: 'mute' }[s] || '');
 const money = (c) => `<span class="n ${c < 0 ? 'neg' : ''}">${fmt(c)}</span>`;
 const empty = (t, cta = '') => `<div class="empty"><p>${esc(t)}</p>${cta}</div>`;
 const table = (cols, rows) => `<div class="tbl"><table><thead><tr>${cols.map((c) => `<th class="${c.r ? 'r' : ''}">${esc(c.h)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${c.r ? 'r' : ''}">${c.f(r)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -121,22 +129,43 @@ function vProyectos() {
   : empty(db.projects.length ? 'Ningún proyecto coincide con ese filtro.' : 'Aún no hay proyectos.', `<button class="btn primary" data-new="projects">+ Nuevo proyecto</button>`)}<p class="note">«Neto» = cobrado − costos directos del proyecto. «Herram./mes» es el costo mensual de herramientas repartido entre los proyectos que las usan.</p>`;
 }
 
+const markSent = (r) => ({ ...r, status: 'contactado', contacted_on: localDate(), next_action: 'Seguimiento 1 (día 2)', next_on: addDays(localDate(), 2) });
 function vProspectos() {
-  const f = F.prospectos, cur = sundayOf(localDate()), next = addDays(cur, 7);
+  const f = F.prospectos, cur = sundayOf(localDate()), next = addDays(cur, 7), today = localDate();
   const weeks = [...new Set([next, cur, ...db.prospects.map((p) => p.week)])].sort().reverse(); if (!f.week) f.week = cur;
   const q = f.q.toLowerCase(), all = db.prospects.filter((p) => p.week === f.week);
   const rows = all.filter((p) => (!f.status || p.status === f.status) && (!f.country || p.country === f.country) && (!q || `${p.name} ${p.city} ${p.industry}`.toLowerCase().includes(q))).sort((a, b) => b.score - a.score);
-  const cnt = (s) => all.filter((p) => p.status === s).length, worked = all.filter((p) => p.status !== 'nuevo').length, today = localDate();
+  const cnt = (s) => all.filter((p) => p.status === s).length, sent = db.prospects.filter((p) => p.contacted_on === today).length;
+  const queue = db.prospects.filter((p) => p.status === 'demo_lista').sort((a, b) => b.score - a.score).slice(0, Math.max(0, DAILY_GOAL - sent));
   const due = db.prospects.filter((p) => p.next_on && p.next_on <= today && !['ganado', 'descartado'].includes(p.status));
-  return `<div class="kpis">${card(`Semana del ${f.week}`, `${all.length} / ${WEEK_GOAL}`, all.length >= WEEK_GOAL ? 'Lista completa' : `Faltan ${WEEK_GOAL - all.length} por cargar`)}${card('Contactados', `${worked} / ${all.length}`, `${cnt('nuevo')} sin tocar`)}${card('Respondieron', cnt('respondio') + cnt('reunion'), `${cnt('propuesta')} propuestas enviadas`)}${card('Ganados', cnt('ganado'), `${cnt('descartado')} descartados`)}</div>
-  <p class="note"><b>Ritmo:</b> cada domingo Cazapin prepara 25 prospectos nuevos. Pega su lista aquí (botón «Pegar lista de Cazapin»), y durante la semana avanza cada uno de «Nuevo» a «Ganado». Próxima lista: <b>${next}</b>.</p>
+  const needDemo = all.filter((p) => p.status === 'nuevo').sort((a, b) => b.score - a.score).slice(0, 8).length;
+  return `<div class="kpis">${card(`Semana del ${f.week}`, `${all.length} / ${WEEK_GOAL}`, all.length >= WEEK_GOAL ? 'Lista completa' : `Faltan ${WEEK_GOAL - all.length} por cargar`)}${card('Demos enviadas hoy', `${sent} / ${DAILY_GOAL}`, sent >= DAILY_GOAL ? 'Meta del día cumplida' : `Faltan ${DAILY_GOAL - sent}`, sent >= DAILY_GOAL ? 'good' : '')}${card('Respondieron', cnt('respondio') + cnt('reunion'), `${cnt('propuesta')} propuestas enviadas`)}${card('Ganados', cnt('ganado'), `${cnt('descartado')} descartados`)}</div>
+  <section class="today" aria-label="Envíos de hoy"><h2>Para enviar hoy · ${sent}/${DAILY_GOAL}</h2>${queue.length ? `<ul>${queue.map((p) => `<li><span><b>${esc(p.name)}</b> <small class="muted">${p.score} pts · ${esc(p.country)}${p.city ? ', ' + esc(p.city) : ''} · ${esc(lab(L.channel, p.channel))} ${esc(p.contact || '')}</small></span><span class="acts">${safeUrl(p.demo_url) ? `<a class="btn sm" href="${safeUrl(p.demo_url)}" target="_blank" rel="noopener">Abrir demo ↗</a>` : '<small class="err">Sin enlace de demo</small>'}${p.first_message ? `<button class="btn sm" data-copy="${p.id}">Copiar mensaje</button>` : ''}<button class="btn sm primary" data-sent="${p.id}">Marcar enviado</button></span></li>`).join('')}</ul>` : `<p class="muted">${sent >= DAILY_GOAL ? 'Ya enviaste las 5 de hoy.' : 'No hay demos listas. Pide a Buscapin las demos de los mejores de la lista (usa «→ Buscapin» en cada fila) y pega su resultado.'}</p>`}</section>
+  <p class="note"><b>Ritmo:</b> domingo = Cazapin trae 25 · cada día 5 demos enviadas (mayor puntaje primero) · Buscapin hace la demo · Redactín el mensaje y los seguimientos. Hoy hay ${needDemo} prospecto(s) de la semana sin demo entre los mejores. Próxima lista: <b>${next}</b>.</p>
   ${due.length ? `<p class="banner err" role="alert">${due.length} seguimiento(s) vencido(s): ${due.slice(0, 5).map((p) => esc(p.name)).join(', ')}${due.length > 5 ? '…' : ''}</p>` : ''}
-  <div class="bar2"><select data-f="week" aria-label="Semana">${options(weeks.map((w) => [w, `Domingo ${w}${w === cur ? ' (esta semana)' : w === next ? ' (próxima)' : ''}`]), f.week)}</select><input id="q" type="search" placeholder="Buscar prospecto…" value="${esc(f.q)}" aria-label="Buscar"><select data-f="status" aria-label="Estado">${options(L.pstat, f.status, 'Todos los estados')}</select><select data-f="country" aria-label="País">${options([...new Set(all.map((p) => p.country))].map((c) => [c, c]), f.country, 'Todos los países')}</select><button class="btn" data-act="pimport">Pegar lista de Cazapin</button><button class="btn" data-act="pprompt">Copiar pedido para Cazapin</button><button class="btn primary" data-new="prospects">+ Prospecto</button></div>
+  <div class="bar2"><select data-f="week" aria-label="Semana">${options(weeks.map((w) => [w, `Domingo ${w}${w === cur ? ' (esta semana)' : w === next ? ' (próxima)' : ''}`]), f.week)}</select><input id="q" type="search" placeholder="Buscar prospecto…" value="${esc(f.q)}" aria-label="Buscar"><select data-f="status" aria-label="Estado">${options(L.pstat, f.status, 'Todos los estados')}</select><select data-f="country" aria-label="País">${options([...new Set(all.map((p) => p.country))].map((c) => [c, c]), f.country, 'Todos los países')}</select><button class="btn" data-act="pimport">Pegar lista de Cazapin</button><button class="btn" data-act="presult">Pegar resultado de Buscapin / Redactín</button><button class="btn" data-act="pprompt">Copiar pedido para Cazapin</button><button class="btn primary" data-new="prospects">+ Prospecto</button></div>
   ${rows.length ? table([{ h: 'Pts', r: 1, f: (p) => `<b>${p.score}</b>` }, { h: 'Prospecto', f: (p) => `<b>${safeUrl(p.evidence_url) ? `<a href="${safeUrl(p.evidence_url)}" target="_blank" rel="noopener">${esc(p.name)} ↗</a>` : esc(p.name)}</b><br><small class="muted">${esc(lab(L.industry, p.industry))} · ${esc(p.country)}${p.city ? ', ' + esc(p.city) : ''}</small>` },
-    { h: 'Contacto', f: (p) => `${esc(lab(L.channel, p.channel))}<br><small class="muted">${esc(p.contact || '')}</small>` }, { h: 'Por qué / oferta', f: (p) => `${esc(p.why || '')}${p.offer ? `<br><small class="muted">→ ${esc(p.offer)}</small>` : ''}` },
+    { h: 'Contacto', f: (p) => `${esc(lab(L.channel, p.channel))}<br><small class="muted">${esc(p.contact || '')}</small>` }, { h: 'Dolor / oferta', f: (p) => `${esc(p.pain || p.why || '')}${p.offer ? `<br><small class="muted">→ ${esc(p.offer)}</small>` : ''}` },
+    { h: 'Demo', f: (p) => safeUrl(p.demo_url) ? `<a href="${safeUrl(p.demo_url)}" target="_blank" rel="noopener">Abrir ↗</a>` : '<small class="muted">—</small>' },
     { h: 'Estado', f: (p) => `<select class="stsel" data-pst="${p.id}" aria-label="Estado de ${esc(p.name)}">${options(L.pstat, p.status)}</select>` }, { h: 'Próximo paso', f: (p) => `${esc(p.next_action || '')}${p.next_on ? `<br><small class="${p.next_on <= today && !['ganado', 'descartado'].includes(p.status) ? 'err' : 'muted'}">${esc(p.next_on)}</small>` : ''}` },
-    { h: '', f: (p) => `${p.first_message ? `<button class="btn sm" data-copy="${p.id}">Copiar mensaje</button> ` : ''}${p.status === 'ganado' && !p.client_id ? `<button class="btn sm primary" data-win="${p.id}">Pasar a cliente</button> ` : ''}${actions('prospects', p.id)}` }], rows)
+    { h: '', f: (p) => `<div class="acts">${['nuevo', 'demo_lista'].includes(p.status) ? `<button class="btn sm" data-ficha="b:${p.id}">→ Buscapin</button>` : ''}${['nuevo', 'demo_lista', 'contactado', 'respondio'].includes(p.status) ? `<button class="btn sm" data-ficha="r:${p.id}">→ Redactín</button>` : ''}${p.first_message ? `<button class="btn sm" data-copy="${p.id}">Copiar mensaje</button>` : ''}${p.status === 'ganado' && !p.client_id ? `<button class="btn sm primary" data-win="${p.id}">Pasar a cliente</button>` : ''}${actions('prospects', p.id)}</div>` }], rows)
   : empty(all.length ? 'Ningún prospecto coincide con ese filtro.' : `Aún no hay prospectos para la semana del ${f.week}.`, `<button class="btn primary" data-act="pimport">Pegar lista de Cazapin</button>`)}`;
+}
+
+function vContenido() {
+  const f = F.contenido, cur = localDate().slice(0, 7), nextM = addDays(`${cur}-01`, 32).slice(0, 7), q = f.q.toLowerCase();
+  const months = [...new Set([nextM, cur, ...db.content.map((c) => c.publish_on.slice(0, 7))])].sort().reverse();
+  const cname = (id) => db.clients.find((c) => c.id === id)?.name || '—';
+  const rows = db.content.filter((c) => (!f.client || c.client_id === f.client) && (!f.month || c.publish_on.startsWith(f.month)) && (!f.status || c.status === f.status) && (!q || `${c.title} ${c.copy}`.toLowerCase().includes(q))).sort((a, b) => a.publish_on.localeCompare(b.publish_on));
+  const n = (s) => rows.filter((c) => c.status === s).length;
+  return `<div class="kpis">${card('Piezas', rows.length, f.month || 'todos los meses')}${card('Por aprobar', n('idea'), 'En estado «Idea»')}${card('Aprobadas', n('aprobado'), 'Listas para publicar')}${card('Publicadas', n('publicado'), rows.length ? `${Math.round((n('publicado') / rows.length) * 100)}% del mes` : '—', n('publicado') && n('publicado') === rows.length ? 'good' : '')}</div>
+  <p class="note"><b>Lucho</b> prepara el calendario del mes de cada cliente con manejo de redes: elige el cliente, copia el pedido, pégalo en Lucho y pega aquí su calendario. Define antes la <b>marca y voz</b> del cliente en su ficha (Clientes → Editar).</p>
+  <div class="bar2"><select data-f="client" aria-label="Cliente">${options(db.clients.map((c) => [c.id, c.name]), f.client, 'Todos los clientes')}</select><select data-f="month" aria-label="Mes">${options(months.map((m) => [m, m]), f.month, 'Todos los meses')}</select><select data-f="status" aria-label="Estado">${options(L.cstat, f.status, 'Todos los estados')}</select><input id="q" type="search" placeholder="Buscar pieza…" value="${esc(f.q)}" aria-label="Buscar"><button class="btn" data-act="limport">Pegar calendario de Lucho</button><button class="btn" data-act="lprompt">Copiar pedido para Lucho</button><button class="btn primary" data-new="content">+ Pieza</button></div>
+  ${rows.length ? table([{ h: 'Fecha', f: (c) => esc(c.publish_on) }, { h: 'Cliente', f: (c) => esc(cname(c.client_id)) }, { h: 'Canal', f: (c) => `${esc(lab(L.cchan, c.channel))}<br><small class="muted">${esc(lab(L.cformat, c.format))}</small>` },
+    { h: 'Pieza', f: (c) => `<b>${esc(c.title)}</b>${c.copy ? `<br><small class="muted">${esc(c.copy.length > 140 ? c.copy.slice(0, 140) + '…' : c.copy)}</small>` : ''}${c.visual ? `<br><small class="muted">🎨 ${esc(c.visual.length > 90 ? c.visual.slice(0, 90) + '…' : c.visual)}</small>` : ''}` },
+    { h: 'Estado', f: (c) => `<select class="stsel" data-cst="${c.id}" aria-label="Estado de ${esc(c.title)}">${options(L.cstat, c.status)}</select>` },
+    { h: '', f: (c) => `<div class="acts">${c.copy ? `<button class="btn sm" data-ccopy="${c.id}">Copiar texto</button>` : ''}${actions('content', c.id)}</div>` }], rows)
+  : empty(db.content.length ? 'Ninguna pieza coincide con ese filtro.' : 'Aún no hay contenido. Elige un cliente, copia el pedido para Lucho y pega su calendario.', `<button class="btn primary" data-new="content">+ Pieza</button>`)}`;
 }
 
 function vPaises() {
@@ -179,7 +208,7 @@ function vAjustes() {
   <p class="note">Descarga un respaldo cada semana. Los archivos contienen datos privados de clientes: guárdalos en un lugar seguro, nunca en el repositorio.</p></section></div>`;
 }
 
-const VIEWS = { resumen: ['Resumen', vResumen], clientes: ['Clientes', vClientes], proyectos: ['Proyectos', vProyectos], prospectos: ['Prospectos', vProspectos], paises: ['Países', vPaises], herramientas: ['Herramientas', vHerramientas], finanzas: ['Finanzas', vFinanzas], ajustes: ['Ajustes', vAjustes] };
+const VIEWS = { resumen: ['Resumen', vResumen], clientes: ['Clientes', vClientes], proyectos: ['Proyectos', vProyectos], prospectos: ['Prospectos', vProspectos], contenido: ['Contenido', vContenido], paises: ['Países', vPaises], herramientas: ['Herramientas', vHerramientas], finanzas: ['Finanzas', vFinanzas], ajustes: ['Ajustes', vAjustes] };
 
 function shell() {
   if (!VIEWS[view]) view = 'resumen';
@@ -220,18 +249,49 @@ async function copyText(t, ok) { try { await navigator.clipboard.writeText(t); t
 const COLS = 'negocio | pais | ciudad | rubro | puntaje | por_que | evidencia | canal | contacto | oferta | mensaje';
 const cazapinPrompt = () => `Cazapin: prepara la lista semanal de 25 prospectos para la semana del domingo ${addDays(sundayOf(localDate()), 7)}. Mezcla España, Europa, México y Colombia (y otros rubros además de clínicas, según te indiqué). Solo fuentes públicas, con enlace de evidencia de cada dato, puntaje 0-100 de ajuste y primer mensaje listo, sin enviar nada.\n\nFORMATO OBLIGATORIO: entrégala en UN SOLO bloque de código (para copiarlo con un clic), en CSV con encabezado, una fila por prospecto, TODOS los campos entre comillas dobles, sin saltos de línea dentro de los campos y sin ningún texto fuera del bloque. Encabezado exacto:\n${COLS.replace(/ \| /g, ',')}\nrubro debe ser uno de: gastronomia, eventos, retail, salud, entretenimiento, gobierno_tech, distribucion, otro. canal: instagram, whatsapp, email, linkedin, web. puntaje: número entero. Si un dato no existe en fuentes públicas, déjalo vacío (""), nunca lo inventes. Si no te caben las 25, termina el bloque y avísame para pedirte «continúa».`;
 const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z_ ]/g, '').trim().replace(/ +/g, '_');
-const ALIAS = { negocio: 'name', nombre: 'name', empresa: 'name', pais: 'country', ciudad: 'city', rubro: 'industry', puntaje: 'score', puntos: 'score', por_que: 'why', porque: 'why', evidencia: 'evidence_url', enlace: 'evidence_url', canal: 'channel', contacto: 'contact', oferta: 'offer', mensaje: 'first_message', primer_mensaje: 'first_message' };
-function parseList(txt) {
+const ALIAS = { negocio: 'name', nombre: 'name', empresa: 'name', pais: 'country', ciudad: 'city', rubro: 'industry', puntaje: 'score', puntos: 'score', por_que: 'why', porque: 'why', evidencia: 'evidence_url', enlace: 'evidence_url', canal: 'channel', contacto: 'contact', oferta: 'offer', mensaje: 'first_message', dolor: 'pain', demo: 'demo_url', enlace_demo: 'demo_url', seguimientos: 'followups', cliente: 'client_name', fecha: 'publish_on', formato: 'format', titulo: 'title', copy: 'copy', visual: 'visual', hashtags: 'hashtags', primer_mensaje: 'first_message' };
+function parseList(txt, opt = {}) {
+  const KEY = opt.key || 'name', HEAD = opt.head || /negocio|nombre|empresa/i;
   const t = txt.trim(); let rows;
   if (t.startsWith('[')) rows = JSON.parse(t).map((o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [ALIAS[norm(k)] || norm(k), v])));
   else {
-    let lines = t.split(/\r?\n/).filter((l) => l.trim() && !/^\s*```/.test(l) && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l)); const hi = lines.findIndex((l) => /negocio|nombre|empresa/i.test(l)); if (hi > 0) lines = lines.slice(hi); if (lines[0] && lines[0].includes('|')) lines = lines.filter((l) => l.includes('|')); if (lines.length < 2) throw new Error('Pega la cabecera y al menos una fila.');
+    let lines = t.split(/\r?\n/).filter((l) => l.trim() && !/^\s*```/.test(l) && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l)); const hi = lines.findIndex((l) => HEAD.test(l)); if (hi > 0) lines = lines.slice(hi); if (lines[0] && lines[0].includes('|')) lines = lines.filter((l) => l.includes('|')); if (lines.length < 2) throw new Error('Pega la cabecera y al menos una fila.');
     const sep = lines[0].includes('\t') ? '\t' : lines[0].includes('|') ? '|' : ',';
     const cells = (l) => (sep === ',' ? l.match(/("([^"]|"")*"|[^,]*)(,|$)/g).map((c) => c.replace(/,$/, '').replace(/^"|"$/g, '').replace(/""/g, '"')) : l.split(sep)).map((c) => c.trim()).filter((c, i, a) => sep !== '|' || !((i === 0 || i === a.length - 1) && c === ''));
     const head = cells(lines[0]).map((h) => ALIAS[norm(h)] || norm(h));
     rows = lines.slice(1).map((l) => Object.fromEntries(cells(l).map((c, i) => [head[i], c])));
   }
-  return rows.filter((r) => r.name);
+  return rows.filter((r) => r[KEY]);
+}
+const langOf = (c) => ({ 'Japón': 'japonés', 'Estados Unidos': 'inglés', Portugal: 'portugués' }[c] || 'español');
+const fichaBuscapin = (p) => `Buscapin: prepara la demo para este prospecto (te adjunto sus capturas de Instagram a continuación).\n\nNegocio: ${p.name}\nPaís / ciudad: ${p.country}${p.city ? ' / ' + p.city : ''}\nRubro: ${lab(L.industry, p.industry)}\nCanal / contacto: ${lab(L.channel, p.channel)} ${p.contact || ''}\nPor qué encaja (Cazapin): ${p.why || '—'}\nOferta sugerida: ${p.offer || '—'}\nEvidencia: ${p.evidence_url || '—'}\nIdioma del mensaje: ${langOf(p.country)}\n\nLa demo tiene SOLO 3 partes: «Cómo probarla», «Lo que ve tu cliente» y «Lo que ves tú». Al final entrégame el BLOQUE PARA EL PANEL: un solo bloque de código CSV con el encabezado exacto negocio,pais,dolor,demo,oferta,mensaje (todos los campos entre comillas dobles, sin saltos de línea dentro de los campos); en «demo» pon {enlace} si aún no está publicada.`;
+const fichaRedactin = (p) => `Redactín: prepara el acercamiento a este prospecto.\n\nNegocio: ${p.name}\nPaís / ciudad: ${p.country}${p.city ? ' / ' + p.city : ''}\nRubro: ${lab(L.industry, p.industry)}\nCanal / contacto: ${lab(L.channel, p.channel)} ${p.contact || ''}\nDolor detectado: ${p.pain || p.why || '—'}\nOferta: ${p.offer || '—'}\nEnlace de la demo: ${p.demo_url || '[AÚN SIN ENLACE]'}\nIdioma: ${langOf(p.country)}\n\nEntrégame: primer mensaje (corto) y seguimientos a los días 2, 5 y 9. Al final, el BLOQUE PARA EL PANEL: un solo bloque de código CSV con el encabezado exacto negocio,pais,mensaje,seguimientos (todos los campos entre comillas dobles, sin saltos de línea dentro de los campos; separa los seguimientos con « || »).`;
+const luchoPrompt = (c) => { const m = F.contenido.month || addDays(`${localDate().slice(0, 7)}-01`, 32).slice(0, 7); return `Lucho: prepara el calendario de contenido de ${m} para este cliente.\n\nCliente: ${c.name}\nRubro: ${lab(L.industry, c.industry)}\nPaís / ciudad: ${c.country}${c.city ? ' / ' + c.city : ''}\nMarca y voz: ${c.brand || '(no definida: pregúntame lo mínimo antes de empezar)'}\nVolumen: 12 piezas (3 por semana), mezcla de formatos.\n\nFORMATO OBLIGATORIO: un solo bloque de código CSV con el encabezado exacto cliente,fecha,canal,formato,titulo,copy,visual,hashtags. En «cliente» repite exactamente: ${c.name}. fecha en formato AAAA-MM-DD dentro de ${m}. canal: instagram, tiktok, facebook, linkedin, whatsapp u otro. formato: post, carrusel, reel, historia u otro. Todos los campos entre comillas dobles, sin saltos de línea dentro de los campos y sin texto fuera del bloque.`; };
+function resultForm() {
+  const d = $('#dlg');
+  d.innerHTML = `<form method="dialog" id="rf" novalidate><div class="ph"><h2>Pegar resultado de Buscapin / Redactín</h2><button type="button" class="btn sm" data-close>Cerrar</button></div><p class="muted">Pega el bloque CSV que te dio el agente. Se busca cada prospecto por <b>negocio + país</b> y se completan sus campos (dolor, demo, oferta, mensaje, seguimientos). Si trae enlace de demo, pasa a «Demo lista».</p><textarea name="t" rows="10" style="width:100%" required></textarea><p class="err" id="ferr" role="alert"></p><div class="row"><button class="btn primary" type="submit">Actualizar prospectos</button></div></form>`;
+  d.showModal(); $('[data-close]', d).onclick = () => d.close();
+  $('#rf').onsubmit = async (e) => { e.preventDefault(); const err = $('#ferr'); try {
+    const list = parseList(new FormData(e.target).get('t')); let n = 0; const miss = [];
+    for (const r of list) { const nm = String(r.name).toLowerCase(), ct = String(r.country || '').toLowerCase();
+      const p = db.prospects.find((x) => x.name.toLowerCase() === nm && (!ct || x.country.toLowerCase() === ct)) || db.prospects.find((x) => x.name.toLowerCase() === nm);
+      if (!p) { miss.push(r.name); continue; }
+      const out = { ...p }; for (const k of ['pain', 'offer', 'first_message', 'followups']) if (r[k]) out[k] = String(r[k]);
+      if (r.demo_url && /^https?:\/\//i.test(r.demo_url)) { out.demo_url = r.demo_url; if (p.status === 'nuevo') out.status = 'demo_lista'; }
+      await store.save('prospects', out); n++; }
+    d.close(); await refresh(); toast(`${n} actualizado(s)${miss.length ? ` · sin coincidencia: ${miss.slice(0, 3).join(', ')}` : ''}`); } catch (x) { err.textContent = fail(x); } };
+}
+function contentForm() {
+  const d = $('#dlg'), cl = db.clients.find((c) => c.id === F.contenido.client);
+  d.innerHTML = `<form method="dialog" id="cf" novalidate><div class="ph"><h2>Pegar calendario de Lucho</h2><button type="button" class="btn sm" data-close>Cerrar</button></div><p class="muted">Pega el bloque CSV de Lucho (cliente,fecha,canal,formato,titulo,copy,visual,hashtags). Cada pieza entra como «Idea» para que la apruebes.${cl ? ` Si falta el cliente en una fila, se usa <b>${esc(cl.name)}</b>.` : ''}</p><textarea name="t" rows="10" style="width:100%" required></textarea><p class="err" id="ferr" role="alert"></p><div class="row"><button class="btn primary" type="submit">Importar</button></div></form>`;
+  d.showModal(); $('[data-close]', d).onclick = () => d.close();
+  $('#cf').onsubmit = async (e) => { e.preventDefault(); const err = $('#ferr'); try {
+    const list = parseList(new FormData(e.target).get('t'), { key: 'title', head: /titulo|fecha/i }); let n = 0, skip = 0; const seen = new Set(db.content.map((c) => `${c.client_id}|${c.publish_on}|${c.title}`.toLowerCase()));
+    for (const r of list) { const c = db.clients.find((x) => x.name.toLowerCase() === String(r.client_name || '').toLowerCase()) || cl; if (!c || !/^\d{4}-\d{2}-\d{2}$/.test(r.publish_on || '')) { skip++; continue; }
+      const k = `${c.id}|${r.publish_on}|${r.title}`.toLowerCase(); if (seen.has(k)) { skip++; continue; } seen.add(k);
+      const ch = L.cchan.some(([v]) => v === norm(r.channel)) ? norm(r.channel) : 'otro', fm = L.cformat.some(([v]) => v === norm(r.format)) ? norm(r.format) : 'otro';
+      await store.save('content', { id: newId(), client_id: c.id, publish_on: r.publish_on, channel: ch, format: fm, title: String(r.title).slice(0, 160), copy: r.copy || '', visual: r.visual || '', hashtags: r.hashtags || '', status: 'idea', notes: '' }); n++; }
+    d.close(); await refresh(); toast(`${n} pieza(s) importada(s)${skip ? ` · ${skip} omitida(s) (cliente, fecha o repetidas)` : ''}`); } catch (x) { err.textContent = fail(x); } };
 }
 function importForm() {
   const d = $('#dlg'); const wk = F.prospectos.week || sundayOf(localDate());
@@ -249,19 +309,25 @@ function confirmBox(text) { return new Promise((res) => { const d = $('#dlg'); d
 
 // ---------- eventos ----------
 document.addEventListener('click', async (e) => {
-  const t = e.target.closest('[data-new],[data-edit],[data-del],[data-paid],[data-link],[data-tab],[data-act],[data-copy],[data-win]'); if (!t || !db) return;
+  const t = e.target.closest('[data-new],[data-edit],[data-del],[data-paid],[data-link],[data-tab],[data-act],[data-copy],[data-win],[data-sent],[data-ficha],[data-ccopy]'); if (!t || !db) return;
   try {
     if (t.dataset.new) return openForm(t.dataset.new);
     if (t.dataset.edit) { const [tb, id] = t.dataset.edit.split(':'); return openForm(tb, id); }
-    if (t.dataset.del) { const [tb, id] = t.dataset.del.split(':'); const r = db[tb].find((x) => x.id === id); if (await confirmBox(`¿Borrar «${r.name || r.concept}»?`)) { await store.remove(tb, id); await refresh(); toast('Borrado'); } return; }
+    if (t.dataset.del) { const [tb, id] = t.dataset.del.split(':'); const r = db[tb].find((x) => x.id === id); if (await confirmBox(`¿Borrar «${r.name || r.concept || r.title}»?`)) { await store.remove(tb, id); await refresh(); toast('Borrado'); } return; }
     if (t.dataset.paid) { const r = db.income.find((x) => x.id === t.dataset.paid); await store.save('income', { ...r, status: 'cobrado' }); await refresh(); return toast('Marcado como cobrado'); }
     if (t.dataset.link) { const [p, tl] = t.dataset.link.split('|'); const cur = db.project_tools.filter((l) => l.project_id === p).map((l) => l.tool_id); await store.setLinks(p, cur.includes(tl) ? cur.filter((x) => x !== tl) : [...cur, tl]); return refresh(); }
     if (t.dataset.tab) { F.finanzas.tab = t.dataset.tab; F.finanzas.month = ''; return render(); }
     if (t.dataset.copy) { const r = db.prospects.find((x) => x.id === t.dataset.copy); return copyText(r.first_message, 'Mensaje copiado'); }
+    if (t.dataset.sent) { const r = db.prospects.find((x) => x.id === t.dataset.sent); await store.save('prospects', markSent(r)); await refresh(); return toast('Marcado como enviado · seguimiento en 2 días'); }
+    if (t.dataset.ccopy) { const r = db.content.find((x) => x.id === t.dataset.ccopy); return copyText([r.copy, r.hashtags].filter(Boolean).join('\n\n'), 'Texto copiado'); }
+    if (t.dataset.ficha) { const [w, id] = t.dataset.ficha.split(':'), r = db.prospects.find((x) => x.id === id); return copyText(w === 'b' ? fichaBuscapin(r) : fichaRedactin(r), w === 'b' ? 'Ficha copiada: pégala en Buscapin con las capturas' : 'Ficha copiada: pégala en Redactín'); }
     if (t.dataset.win) { const r = db.prospects.find((x) => x.id === t.dataset.win), cid = newId(); await store.save('clients', { id: cid, name: r.name, country: r.country, city: r.city || '', industry: r.industry || 'otro', status: 'activo', contact: r.contact || '', since: localDate(), mrr_cents: 0, notes: r.why || '' }); await store.save('prospects', { ...r, client_id: cid }); await refresh(); return toast('Ahora es cliente: completa su proyecto'); }
     const a = t.dataset.act;
     if (a === 'pprompt') return copyText(cazapinPrompt(), 'Pedido copiado: pégalo en Cazapin');
     if (a === 'pimport') return importForm();
+    if (a === 'presult') return resultForm();
+    if (a === 'limport') return contentForm();
+    if (a === 'lprompt') { const c = db.clients.find((x) => x.id === F.contenido.client); if (!c) return toast('Elige primero un cliente en el filtro'); return copyText(luchoPrompt(c), 'Pedido copiado: pégalo en Lucho'); }
     if (a === 'out') { D.signOut(); return boot(); }
     if (a === 'json') return downloadFile(`33r-control-${localDate()}.json`, JSON.stringify(db, null, 2), 'application/json');
     if (a === 'csv-projects') return downloadFile(`33r-proyectos-${localDate()}.csv`, toCSV(S.projectStats, [{ label: 'Proyecto', get: (p) => p.name }, { label: 'Cliente', get: (p) => p.client }, { label: 'País', get: (p) => p.country }, { label: 'Ciudad', get: (p) => p.city }, { label: 'Estado', get: (p) => p.status }, { label: 'Herramientas', get: (p) => p.tools.join(' | ') }, { label: 'Precio USD', get: (p) => (p.price_cents / 100).toFixed(2) }, { label: 'Cobrado USD', get: (p) => (p.collected / 100).toFixed(2) }, { label: 'Costos USD', get: (p) => (p.direct / 100).toFixed(2) }, { label: 'Neto USD', get: (p) => (p.net / 100).toFixed(2) }]), 'text/csv');
@@ -272,7 +338,8 @@ document.addEventListener('click', async (e) => {
   } catch (x) { msg = fail(x); render(); }
 });
 document.addEventListener('change', async (e) => {
-  const ps = e.target.closest('[data-pst]'); if (ps) { try { const r = db.prospects.find((x) => x.id === ps.dataset.pst); await store.save('prospects', { ...r, status: ps.value }); await refresh(); } catch (x) { msg = fail(x); render(); } return; }
+  const cs = e.target.closest('[data-cst]'); if (cs) { try { const r = db.content.find((x) => x.id === cs.dataset.cst); await store.save('content', { ...r, status: cs.value }); await refresh(); } catch (x) { msg = fail(x); render(); } return; }
+  const ps = e.target.closest('[data-pst]'); if (ps) { try { const r = db.prospects.find((x) => x.id === ps.dataset.pst); await store.save('prospects', ps.value === 'contactado' && !r.contacted_on ? markSent(r) : { ...r, status: ps.value }); await refresh(); } catch (x) { msg = fail(x); render(); } return; }
   const fl = e.target.closest('[data-f]'); if (fl) { F[view][fl.dataset.f] = fl.value; return render(); }
   if (e.target.matches('[data-fm]')) { F.finanzas.month = e.target.value; return render(); }
   if (e.target.matches('[data-import]')) { try { const data = JSON.parse(await e.target.files[0].text()); if (!data.clients) throw new Error('El archivo no parece un respaldo del panel.'); await store.replaceAll(data); await refresh(); toast('Respaldo importado'); } catch (x) { msg = fail(x); render(); } }

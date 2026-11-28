@@ -116,7 +116,11 @@ create table if not exists ctl_prospects (
   why text,
   offer text,
   first_message text,
-  status text not null default 'nuevo' check (status in ('nuevo','contactado','respondio','propuesta','reunion','ganado','descartado')),
+  status text not null default 'nuevo' check (status in ('nuevo','demo_lista','contactado','respondio','propuesta','reunion','ganado','descartado')),
+  pain text,                                   -- dolor detectado (Buscapin)
+  demo_url text,                               -- enlace de la demo
+  contacted_on date,                           -- día en que se envió la demo
+  followups text,                              -- secuencia de seguimientos (Redactín)
   next_action text,
   next_on date,
   client_id uuid references ctl_clients(id) on delete set null,
@@ -127,3 +131,33 @@ create index if not exists ctl_prospects_week on ctl_prospects(week);
 alter table ctl_prospects enable row level security;
 drop policy if exists "solo admin" on ctl_prospects;
 create policy "solo admin" on ctl_prospects for all using (ctl_is_admin()) with check (ctl_is_admin());
+
+-- ===== AJUSTES v2 (agentes: Buscapin, Redactín, Lucho). Seguro de repetir; también actualiza instalaciones anteriores. =====
+alter table ctl_prospects add column if not exists pain text;
+alter table ctl_prospects add column if not exists demo_url text;
+alter table ctl_prospects add column if not exists contacted_on date;
+alter table ctl_prospects add column if not exists followups text;
+alter table ctl_prospects drop constraint if exists ctl_prospects_status_check;
+alter table ctl_prospects add constraint ctl_prospects_status_check
+  check (status in ('nuevo','demo_lista','contactado','respondio','propuesta','reunion','ganado','descartado'));
+alter table ctl_clients add column if not exists brand text;     -- marca y voz del cliente (para Lucho)
+
+-- CONTENIDO: calendario de redes por cliente (lo prepara Lucho)
+create table if not exists ctl_content (
+  id uuid primary key default gen_random_uuid(),
+  client_id uuid references ctl_clients(id) on delete cascade,
+  publish_on date not null,
+  channel text,
+  format text,
+  title text not null,
+  copy text,
+  visual text,
+  hashtags text,
+  status text not null default 'idea' check (status in ('idea','aprobado','publicado','descartado')),
+  notes text,
+  created_at timestamptz not null default now()
+);
+create index if not exists ctl_content_client on ctl_content(client_id, publish_on);
+alter table ctl_content enable row level security;
+drop policy if exists "solo admin" on ctl_content;
+create policy "solo admin" on ctl_content for all using (ctl_is_admin()) with check (ctl_is_admin());

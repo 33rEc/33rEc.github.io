@@ -120,3 +120,9 @@ Ver la lista al final de la entrega: links y capturas de los proyectos, métrica
 - Datos reales (clientes, precios, costos) se cargan desde la página ya autenticado; **nunca** en el repo.
 - Lógica en `src/scripts/control/calc.js` (test: `node scripts/test-control-calc.mjs`). Montos en centavos; costos de herramientas se prorratean en partes iguales entre proyectos no cerrados; neto = cobrado − costos directos.
 - **Prospectos** (pestaña del panel, tabla `prospects` en `supabase/control.sql`): lista semanal de 25 que prepara Cazapin cada domingo; se pega su tabla Markdown/CSV/JSON, se avanza cada uno (Nuevo → Contactado → Respondió → Propuesta → Reunión → Ganado/Descartado) y «Pasar a cliente» lo convierte. Distinto de `clients` (ya nos contrataron).
+
+### Agentes y flujo (panel de control)
+- **Cazapin** (domingo, 25 prospectos) → **Buscapin** (demo de 3 partes: «Cómo probarla / Lo que ve tu cliente / Lo que ves tú», 5 por día, de mayor a menor puntaje) → **Redactín** (primer mensaje, seguimientos días 2/5/9, objeciones) → cliente ganado → **Lucho** (calendario mensual de redes por cliente).
+- El panel es la fuente de verdad: pestaña **Prospectos** (cola «Para enviar hoy», botones «→ Buscapin» / «→ Redactín», «Pegar resultado de Buscapin / Redactín») y pestaña **Contenido** (tabla `ctl_content`; «Copiar pedido para Lucho» / «Pegar calendario de Lucho»). Cada agente devuelve UN bloque CSV con todos los campos entre comillas.
+- Ningún agente envía ni publica: una persona lo hace. Las demos se publican en `danigoyes95-web.github.io/demos/<slug>/`.
+- Migración de la v2: ejecutar de nuevo `supabase/control.sql` (la sección «AJUSTES v2» agrega columnas y `ctl_content`; es repetible).
