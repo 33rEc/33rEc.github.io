@@ -225,7 +225,7 @@ function parseList(txt) {
   const t = txt.trim(); let rows;
   if (t.startsWith('[')) rows = JSON.parse(t).map((o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [ALIAS[norm(k)] || norm(k), v])));
   else {
-    const lines = t.split(/\r?\n/).filter((l) => l.trim() && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l)); if (lines.length < 2) throw new Error('Pega la cabecera y al menos una fila.');
+    let lines = t.split(/\r?\n/).filter((l) => l.trim() && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l)); const hi = lines.findIndex((l) => /negocio|nombre|empresa/i.test(l)); if (hi > 0) lines = lines.slice(hi); if (lines[0] && lines[0].includes('|')) lines = lines.filter((l) => l.includes('|')); if (lines.length < 2) throw new Error('Pega la cabecera y al menos una fila.');
     const sep = lines[0].includes('\t') ? '\t' : lines[0].includes('|') ? '|' : ',';
     const cells = (l) => (sep === ',' ? l.match(/("([^"]|"")*"|[^,]*)(,|$)/g).map((c) => c.replace(/,$/, '').replace(/^"|"$/g, '').replace(/""/g, '"')) : l.split(sep)).map((c) => c.trim()).filter((c, i, a) => sep !== '|' || !((i === 0 || i === a.length - 1) && c === ''));
     const head = cells(lines[0]).map((h) => ALIAS[norm(h)] || norm(h));
